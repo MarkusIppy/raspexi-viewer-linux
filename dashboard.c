@@ -85,7 +85,7 @@ G_MODULE_EXPORT GtkWidget * load_dashboard(const gchar *filename, gint index)
 	}
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(window),_("Raspexi Viewer"));
+	gtk_window_set_title(GTK_WINDOW(window),_("Raspexi Viewer ("GIT_COMMIT")"));
 	gtk_window_set_decorated(GTK_WINDOW(window),FALSE);
 
 	g_signal_connect (G_OBJECT (window), "configure_event",
