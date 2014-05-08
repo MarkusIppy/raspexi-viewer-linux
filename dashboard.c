@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014
+ * Copyright (C) 2014 <COPYRIGHT>
  *
  * Digital Gauges for Apexi Power FC for RX7 on Raspberry Pi 
  * 
@@ -12,9 +12,9 @@
  */
 
 /*! 
-  \file raspexi/main.c
-  \brief Raspexi Viewer application code
-  \author Guru Cafe
+  \file raspexi/dashboard.c
+  \brief Raspexi Viewer dashboard functions
+  \author <AUTHORS>
  */
 
 #include <args.h>

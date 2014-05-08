@@ -99,7 +99,8 @@ dash1, dash2, dash3, dash4 ==> Dashboard XML file
 
 csvfile ==> CSV output file
 
-_NOTE THAT if we have set csvfile location to `/tmp` it will be remove by system on (re)start_
+*NOTE THAT if we have set csvfile location to `/tmp` it will be remove by
+system on (re)start*
 
 HOW TO RUN
 ----------
@@ -195,7 +196,9 @@ DEVELOPMENT
 	$ ./autogen.sh CPPFLAGS="-UDATA_DIR -DDATA_DIR=\\\"./\\\""
     ```
     
-  Command line option `CPPFLAGS="-UDATA_DIR -DDATA_DIR=\\\"./\\\""` is need to override data directory (ex. `Dashboards`, `Gauges`, ...) of MegaTunix to working directory.
+  Command line option `CPPFLAGS="-UDATA_DIR -DDATA_DIR=\\\"./\\\""`
+  is need to override data directory (ex. `Dashboards`, `Gauges`, ...)
+  of MegaTunix to working directory.
   
 - Build Raspexi
 
