@@ -66,7 +66,7 @@ DIRECTORIES & FILES
 
 INSTALLATION
 ------------
-Extract the archive "raspexi-yyyymmdd.tar.gz" to "/home/pi"
+Extract the archive `raspexi-yyyymmdd.tar.gz` to `/home/pi`
 
 ```
 $ cd /home/pi
@@ -75,7 +75,7 @@ $ tar xvzf raspexi-yyyymmdd.tar.gz
 
 CONFIGURATION
 -------------
-There are a few configuration variables in this release :-
+There are a few configuration variables in `raspexi.cfg` :-
 
 ```
 [default]
@@ -160,41 +160,41 @@ Input                                           -Name to be defined
 DEVELOPMENT
 -----------
 - Download or clone the original MegaTunix source code from :-
-    ```
-	$ git clone https://github.com/djandruczyk/MegaTunix
-    ```
+  ```
+  $ git clone https://github.com/djandruczyk/MegaTunix
+  ```
 - Setting up all dependencies and build environment for MegaTunix
   (See `README.md` in MegaTunix for more detail)
 
 - Download or clone Raspexi source code from :-
 
-	```
-	$ cd MegaTunix
-	$ git clone https://code.google.com/p/raspexi-viewer-linux/ raspexi
-	```
+  ```
+  $ cd MegaTunix
+  $ git clone https://code.google.com/p/raspexi-viewer-linux/ raspexi
+  ```
 
 - Add `raspexi/Makefile` to MegaTunix AutoConf configuration file (`configure.ac`)
   or apply the following patch.
 
-    ```
-    diff --git a/configure.ac b/configure.ac
-    index e868b1b..9bec24f 100644
-    --- a/configure.ac
-    +++ b/configure.ac
-    @@ -311,6 +311,7 @@ MegaTunix32_dbg.iss
-     MegaTunix64_dbg.iss
-     Doxyfile
-     WIN_NOTES.txt
-    +raspexi/Makefile
-     ])
-     AC_OUTPUT
-    ```
+  ```
+  diff --git a/configure.ac b/configure.ac
+  index e868b1b..9bec24f 100644
+  --- a/configure.ac
+  +++ b/configure.ac
+  @@ -311,6 +311,7 @@ MegaTunix32_dbg.iss
+   MegaTunix64_dbg.iss
+   Doxyfile
+   WIN_NOTES.txt
+  +raspexi/Makefile
+   ])
+   AC_OUTPUT
+  ```
 
 - Execute `autogen.sh` to generate build configuration.
 
-    ```
-	$ ./autogen.sh CPPFLAGS="-UDATA_DIR -DDATA_DIR=\\\"./\\\""
-    ```
+  ```
+  $ ./autogen.sh CPPFLAGS="-UDATA_DIR -DDATA_DIR=\\\"./\\\""
+  ```
     
   Command line option `CPPFLAGS="-UDATA_DIR -DDATA_DIR=\\\"./\\\""`
   is need to override data directory (ex. `Dashboards`, `Gauges`, ...)
@@ -202,13 +202,13 @@ DEVELOPMENT
   
 - Build Raspexi
 
-    ```
-	$ cd raspexi
-	$ make
-    ```
+  ```
+  $ cd raspexi
+  $ make
+  ```
     
 - Binary package for deployment
-    ```
-	$ package.sh
-    ```
+  ```
+  $ package.sh
+  ```
   the binary package `raspexi-yyyymmdd.tar.gz` will be created.

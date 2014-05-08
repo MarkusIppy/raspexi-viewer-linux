@@ -5,7 +5,6 @@ GIT_HASH = $(shell git log -n 1 --pretty=format:%H)
 INCLUDES = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/widgets \
-	-I$(top_srcdir)/mtxmatheval \
 	@GTK_CFLAGS@ \
 	@DEPRECATED_CFLAGS@ \
 	@GTKGL_CFLAGS@ \
@@ -27,9 +26,6 @@ raspexi_SOURCES = \
 	helpers.c
 
 raspexi_DEPENDENCIES = @WIN32_RESOURCES@  ../widgets/libmtxgauge.la ../mtxcommon/libmtxcommon.la
-
-resources.o:
-	$(WINDRES) -i resources.rc -o resources.o
 
 ../widgets/libmtxgauge.la: ../mtxcommon/libmtxcommon.la
 	cd ../widgets && make
