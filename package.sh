@@ -18,7 +18,7 @@ echo "Package Raspexi Viewer for deployment..."
 rm -rf dist
 mkdir dist
 mkdir dist/libs
-cp -f .libs/raspexi dist/raspexi
+cp -f .libs/raspexi dist/raspexi 2> /dev/null || { echo "ERROR: Please 'make' before package"; exit 1; }
 cp -rf Dashboards dist/
 cp -rf Gauges dist/
 cp -f README.md dist/
