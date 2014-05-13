@@ -375,6 +375,26 @@ G_MODULE_EXPORT void load_gauge(GtkWidget *dash, xmlNode *node)
 
 }
 
+/*!
+  \brief Toggles random gauge data generation
+  \param widget is the pointer to dashboard widget
+  \param data is unused
+  */
+G_MODULE_EXPORT void toggle_demo(GtkWidget *widget, gpointer data)
+{
+	GtkWidget *dash = gtk_bin_get_child(GTK_BIN(widget));
+
+	ENTER();
+
+	if (!(GBOOLEAN)DATA_GET(global_data,"demo"))
+	{
+		DATA_SET(global_data, "demo", GINT_TO_POINTER(TRUE));
+	} else {
+		DATA_SET(global_data, "demo", GINT_TO_POINTER(FALSE));
+	}
+	EXIT();
+	return;
+}
 
 /*!
   \brief Links the dashboard datasources defined in the XML to actual 
@@ -441,7 +461,7 @@ int random_number(int min_num, int max_num)
 		low_num=max_num+1;// this is done to include max_num in output.
 		hi_num=min_num;
 	}
-	srand(time(NULL));
+	/* srand(time(NULL)); */ // Reseeding on each iteration will result in collisions
 	result = (rand()%(hi_num-low_num))+low_num;
 	return result;
 }
@@ -470,14 +490,20 @@ G_MODULE_EXPORT void update_dash_gauge(gpointer key, gpointer value, gpointer us
 	gchar *datasource = (gchar *)OBJ_GET(gauge,"datasource");
 
 	//current = rtv[i];
-	current = powerfc_get_current_value(datasource);
-	//current = random_number((int)lower, (int)upper);
-
+	
 	mtx_gauge_face_get_attribute(MTX_GAUGE_FACE(gauge), LBOUND, &lower);
 	mtx_gauge_face_get_attribute(MTX_GAUGE_FACE(gauge), UBOUND, &upper);
+	
+	if ((GBOOLEAN)DATA_GET(global_data,"demo")) {
+		current = random_number((int)lower, (int)upper);
+	} else {
+		current = powerfc_get_current_value(datasource);
+	}
+	
+
 	if (current < lower) current = lower;
 	if (current > upper) current = upper;
-	printf("%s ==> %f\n", datasource, current);
+	/*printf("%s ==> %f\n", datasource, current);*/
 
 	mtx_gauge_face_get_value(MTX_GAUGE_FACE (gauge), &previous);
 
@@ -668,13 +694,20 @@ G_MODULE_EXPORT gboolean dash_key_event(GtkWidget *widget, GdkEventKey *event, g
 		case GDK_F:
 			toggle_dash_fullscreen(widget,NULL);
 			retval = TRUE;
+			break;
 		case GDK_T:
 		case GDK_t:
 			dash_toggle_attribute(widget,TATTLETALE);
 			retval = TRUE;
+			break;
 		case GDK_A:
 		case GDK_a:
 			dash_toggle_attribute(widget,ANTIALIAS);
+			retval = TRUE;
+			break;
+		case GDK_d:
+		case GDK_D:
+			toggle_demo(widget,NULL);
 			retval = TRUE;
 			break;
 	}
@@ -1294,7 +1327,6 @@ G_MODULE_EXPORT void toggle_dash_on_top(GtkWidget *widget, gpointer data)
 	}
 	EXIT();
 }
-
 
 /*!
   \brief updates the values of all gauges on all dashboards in use
