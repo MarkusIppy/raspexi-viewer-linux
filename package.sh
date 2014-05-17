@@ -1,7 +1,7 @@
 #!/bin/sh
 ###############################################################################
 #
-# Copyright (C) 2014 <COPYRIGHT>
+# Copyright (C) 2014 Markus Ippy
 #
 # Digital Gauges for Apexi Power FC for RX7 on Raspberry Pi 
 # 
