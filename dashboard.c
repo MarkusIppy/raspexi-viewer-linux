@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2014 Markus Ippy
+ * Copyright (C) 2002-2012 by Dave J. Andruczyk <djandruczyk at yahoo dot com>
  *
- * Digital Gauges for Apexi Power FC for RX7 on Raspberry Pi 
+ * Linux Megasquirt tuning software
  * 
  * 
  * This software comes under the GPL (GNU Public License)
@@ -11,6 +11,17 @@
  * No warranty is made or implied. You use this program at your own risk.
  */
 
+/*!
+  \file src/dashboard.c
+  \ingroup CoreMtx
+  \brief Handles dashboard management.  Currently Mtx only allows two separate
+  dashclusters active at any one time.  This code needs refactoring/improvement
+  \author David Andruczyk
+  */
+/*
+ * Copyright (C) 2014 Markus Ippy
+ *
+ * Digital Gauges for Apexi Power FC for RX7 on Raspberry Pi 
 /*! 
   \file raspexi/dashboard.c
   \brief Raspexi Viewer dashboard functions
