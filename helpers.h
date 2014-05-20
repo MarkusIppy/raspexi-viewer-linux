@@ -1,3 +1,6 @@
+/*
+ * Copyright (C) 2002-2012 by Dave J. Andruczyk <djandruczyk at yahoo dot com>
+ *
  * Linux Megasquirt tuning software
  * 
  * 
