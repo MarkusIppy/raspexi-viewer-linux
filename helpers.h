@@ -1,14 +1,23 @@
+ * Linux Megasquirt tuning software
+ * 
+ * 
+ * This software comes under the GPL (GNU Public License)
+ * You may freely copy,distribute, etc. this as long as all the source code
+ * is made available for FREE.
+ * 
+ * No warranty is made or implied. You use this program at your own risk.
+ */
+
+/*!
+  \file include/helpers.h
+  \ingroup Headers
+  \brief Headers for the global postfunctions common to all firmwares
+  \author David Andruczyk
+  */
 /*
  * Copyright (C) 2014 Markus Ippy
  *
  * Digital Gauges for Apexi Power FC for RX7 on Raspberry Pi 
- * 
- * 
- * This software comes under the GPL (GNU Public License)
- * You may freely copy,distribute etc. this as long as the source code
- * is made available for FREE.
- * 
- * No warranty is made or implied. You use this program at your own risk.
  */
 
 /*! 
