@@ -1,4 +1,23 @@
 /*
+ * Copyright (C) 2002-2012 by Dave J. Andruczyk <djandruczyk at yahoo dot com>
+ *
+ * Linux Megasquirt tuning software
+ * 
+ * 
+ * This software comes under the GPL (GNU Public License)
+ * You may freely copy,distribute etc. this as long as the source code
+ * is made available for FREE.
+ * 
+ * No warranty is made or implied. You use this program at your own risk.
+ */
+
+/*!
+  \file src/dashboard.c
+  \ingroup CoreMtx
+  \brief Handles dashboard management.  Currently Mtx only allows two separate
+  dashclusters active at any one time.  This code needs refactoring/improvement
+  \author David Andruczyk
+ *
  * Copyright (C) 2014 Markus Ippy
  *
  * Digital Gauges for Apexi Power FC for RX7 on Raspberry Pi 
