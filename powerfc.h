@@ -109,8 +109,19 @@ typedef struct {
 
 #define FC_ADV_INFO_LEN		(0x20)
 #define FC_REQ_ADV_INFO		{0xF0, 0x02, 0x0D}
-#define FC_ADV_INFO_MUL		{1, 0.0001, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 212.0/256, 0.4, 0.4, 1, 1, 1, 0.1, 1, 0.1, 0.02, 1, 1.0/256, 1}
-#define FC_ADV_INFO_ADD		{0, 0, 0, 0, 0, 0, -25, -25, -80, 0, 0, 0, -80, -80, 0, 0, 0, 0, 0, 0, 0, 0}
+
+/*
+* preserving original calculations for testing 
+* #define FC_ADV_INFO_MUL		{1, 0.0001, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 212.0/256, 0.4, 0.4, 1, 1, 1, 0.1, 1, 0.1, 0.02, 1, 1.0/256, 1}
+* #define FC_ADV_INFO_ADD		{0, 0, 0, 0, 0, 0, -25, -25, -80, 0, 0, 0, -80, -80, 0, 0, 0, 0, 0, 0, 0, 0}
+*/
+
+/*
+* trying new calculation for Intakepress to display in PSI
+*
+*/
+#define FC_ADV_INFO_MUL		{1, 0.001422, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 212.0/256, 0.4, 0.4, 1, 1, 1, 0.1, 1, 0.1, 0.02, 1, 1.0/256, 1}
+#define FC_ADV_INFO_ADD		{0, -14.69, 0, 0, 0, 0, -25, -25, -80, 0, 0, 0, -80, -80, 0, 0, 0, 0, 0, 0, 0, 0}
 
 gdouble powerfc_get_current_value(gchar *);
 gboolean powerfc_process_serial(gpointer);
