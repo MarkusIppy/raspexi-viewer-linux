@@ -237,15 +237,15 @@ G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 	}
 	else {
 		csvfile = g_fopen(filename, "wb");
-			fprintf(csvfile, "time,Engine Speed(rpm),Absolute Intake Pressure(PSI),"
+			fprintf(csvfile, "time,EngRev,Boost(PSI),"
 				             "Pressure Sensor Voltage(mV),Throttle Voltage(mV),"
 				             "Primary Injector Pulse Width(mSec),Fuel Correction,"
 				             "Leading Ignition Angle(deg),Trailing Ignition Angle(deg),"
-				             "Fuel Temperature(deg.C),Metering Oil Pump Duty(%%),"
+				             "Fuel Temperature(deg.C),OMP Duty(%%),"
 				             "\"Boost Duty(Tp, %%)\",\"Boost Duty(Wg, %%)\","
-				             "Water Temperature(deg.C),Intake Air Temperature(deg.C),"
-				             "Knocking Level,Battery Voltage(V),Vehicle Speed(Km/h),"
-				             "Injector Duty (%%),O2 Sensor Voltage(mV),"
+				             "WtrTemp(deg.C),AirTemp(deg.C),"
+				             "Knock,BatVolt(V),Speed(Km/h),"
+				             "InjDuty (%%),O2 Sensor Voltage(mV),"
 				             "Secondary Injector Pulse Width(mSec)\n");
 	}
 	return csvfile;
