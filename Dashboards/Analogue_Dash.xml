@@ -11,7 +11,7 @@
     <x_offset>353</x_offset>
     <y_offset>4</y_offset>
     <gauge_xml_name>FD3S/FD3S_Boost_Defi_PSI.xml</gauge_xml_name>
-    <datasource>status_adc_cts</datasource>
+    <datasource>Intakepress</datasource>
   </gauge>
   <gauge>
     <width>468</width>
@@ -19,7 +19,7 @@
     <x_offset>1</x_offset>
     <y_offset>220</y_offset>
     <gauge_xml_name>FD3S/FD3S_REV.xml</gauge_xml_name>
-    <datasource>status_adc_esc</datasource>
+    <datasource>RPM</datasource>
   </gauge>
   <gauge>
     <width>463</width>
@@ -27,7 +27,7 @@
     <x_offset>557</x_offset>
     <y_offset>226</y_offset>
     <gauge_xml_name>FD3S/FD3S_Speed.xml</gauge_xml_name>
-    <datasource>status_adc_mat</datasource>
+    <datasource>Speed</datasource>
   </gauge>
   <gauge>
     <width>216</width>
@@ -35,7 +35,7 @@
     <x_offset>675</x_offset>
     <y_offset>4</y_offset>
     <gauge_xml_name>FD3S/FD3S_Water_Temp_C.xml</gauge_xml_name>
-    <datasource>status_adc_map</datasource>
+    <datasource>Watertemp</datasource>
   </gauge>
   <gauge>
     <width>155</width>
@@ -43,7 +43,7 @@
     <x_offset>438</x_offset>
     <y_offset>527</y_offset>
     <gauge_xml_name>Digital\FD3S_Throttle_mV.xml</gauge_xml_name>
-    <datasource>status_adc_diag</datasource>
+    <datasource>Watertemp</datasource>
   </gauge>
   <gauge>
     <width>207</width>
@@ -51,6 +51,7 @@
     <x_offset>145</x_offset>
     <y_offset>12</y_offset>
     <gauge_xml_name>FD3S\FD3S_Knock.xml</gauge_xml_name>
-    <datasource>status_adc_cts</datasource>
+    <datasource>Knock</datasource>
   </gauge>
 </dashboard>
+
