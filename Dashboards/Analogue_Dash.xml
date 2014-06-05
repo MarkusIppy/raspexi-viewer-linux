@@ -42,7 +42,7 @@
     <height>155</height>
     <x_offset>438</x_offset>
     <y_offset>527</y_offset>
-    <gauge_xml_name>Digital\FD3S_Throttle_mV.xml</gauge_xml_name>
+    <gauge_xml_name>FD3S\FD3S_Throttle_mV.xml</gauge_xml_name>
     <datasource>Watertemp</datasource>
   </gauge>
   <gauge>
