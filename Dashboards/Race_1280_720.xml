@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dashboard SYSTEM "mtxdashboard.dtd">
+<dashboard>
+  <dash_geometry>
+    <width>1281</width>
+    <height>710</height>
+  </dash_geometry>
+  <gauge>
+    <width>280</width>
+    <height>280</height>
+    <x_offset>2</x_offset>
+    <y_offset>3</y_offset>
+    <gauge_xml_name>Defi/Defi_PSI.xml</gauge_xml_name>
+    <datasource>Intakepress</datasource>
+  </gauge>
+  <gauge>
+    <width>280</width>
+    <height>280</height>
+    <x_offset>1</x_offset>
+    <y_offset>282</y_offset>
+    <gauge_xml_name>Defi/Knock.xml</gauge_xml_name>
+    <datasource>Knock</datasource>
+  </gauge>
+  <gauge>
+    <width>280</width>
+    <height>280</height>
+    <x_offset>1001</x_offset>
+    <y_offset>284</y_offset>
+    <gauge_xml_name>Defi/Speed.xml</gauge_xml_name>
+    <datasource>Speed</datasource>
+  </gauge>
+  <gauge>
+    <width>700</width>
+    <height>700</height>
+    <x_offset>290</x_offset>
+    <y_offset>10</y_offset>
+    <gauge_xml_name>Defi/Shift_Light.xml</gauge_xml_name>
+    <datasource>RPM</datasource>
+  </gauge>
+  <gauge>
+    <width>280</width>
+    <height>280</height>
+    <x_offset>1000</x_offset>
+    <y_offset>0</y_offset>
+    <gauge_xml_name>Defi/Water_temp.xml</gauge_xml_name>
+    <datasource>Watertemp</datasource>
+  </gauge>
+</dashboard>
