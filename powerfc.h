@@ -82,6 +82,11 @@ extern "C" {
  * -O2 Sensor Voltage (mv) 							-O2volt
  * -Secondary Injector Pulse Width (mSec) 	  		-Secinjpulse
  */
+ 
+/*
+*Structure for Advanceed information Group FD3S : 
+*/
+
 typedef struct {
 	unsigned short RPM;
 	unsigned short Intakepress;
@@ -107,8 +112,29 @@ typedef struct {
 	unsigned char na2;
 } fc_adv_info_t;
 
+
+/*
+*Advanced Information : 
+*/
+
 #define FC_ADV_INFO_LEN		(0x20)
 #define FC_REQ_ADV_INFO		{0xF0, 0x02, 0x0D}
+
+
+
+/*
+*Analoge inputs: 
+*/
+* Will be used for implementing read out differntial inputs 
+* Length of message may vary dependant on cable (4 or 8 inputs ) therefore length 0x06 or 0x0A
+*#define FC_REQ_ANAIN_INFO         {0x00, 0x02, 0xFD}  
+*/
+
+
+
+
+
+
 
 /*
 * preserving original calculations for testing 
