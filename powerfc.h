@@ -125,6 +125,8 @@ typedef struct {
 /*
 *Analoge inputs: 
 */
+
+/*
 * Will be used for implementing read out differntial inputs 
 * Length of message may vary dependant on cable (4 or 8 inputs ) therefore length 0x06 or 0x0A
 *#define FC_REQ_ANAIN_INFO         {0x00, 0x02, 0xFD}  
