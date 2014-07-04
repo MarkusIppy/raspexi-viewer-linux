@@ -123,19 +123,18 @@ typedef struct {
 
 
 /*
-*Analoge inputs: 
+*Later use for analoge inputs ( inital support for 4 input cable only ) 
+*
+*typedef struct {
+ *  unsigned char AN1;
+ *  unsigned char AN2;
+ *  unsigned char AN3;
+ *  unsigned char AN4;
+*} fc_ana_info_t;
+*
+*#define FC_ANA_INFO_LEN		(0x06)
+*#define FC_REQ_ANA_INFO		{0x00, 0x02, 0xFD}
 */
-
-/*
-* Will be used for implementing read out differntial inputs 
-* Length of message may vary dependant on cable (4 or 8 inputs ) therefore length 0x06 or 0x0A
-*#define FC_REQ_ANAIN_INFO         {0x00, 0x02, 0xFD}  
-*/
-
-
-
-
-
 
 
 /*
