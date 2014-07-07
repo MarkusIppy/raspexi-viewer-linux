@@ -112,6 +112,20 @@ typedef struct {
 	unsigned char na2;
 } fc_adv_info_t;
 
+/*
+*Structure for Auxiliary information : 
+*/
+
+typedef struct {
+	unsigned char AUX1;
+	unsigned char AUX2;
+	unsigned char AUX3;
+	unsigned char AUX4;
+	unsigned char AUX5;
+	unsigned char AUX6;
+	unsigned char AUX7;
+	unsigned char AUX8;
+} fc_aux_info_t;
 
 /*
 *Advanced Information : 
@@ -123,18 +137,10 @@ typedef struct {
 
 
 /*
-*Later use for analoge inputs ( inital support for 4 input cable only ) 
-*
-*typedef struct {
- *  unsigned char AN1;
- *  unsigned char AN2;
- *  unsigned char AN3;
- *  unsigned char AN4;
-*} fc_ana_info_t;
-*
-*#define FC_ANA_INFO_LEN		(0x06)
-*#define FC_REQ_ANA_INFO		{0x00, 0x02, 0xFD}
+* Auxiliary Information
 */
+
+#define FC_REQ_AUX_INFO		{0x00, 0x02, 0xFD}
 
 
 /*
@@ -149,11 +155,15 @@ typedef struct {
 */
 #define FC_ADV_INFO_MUL		{1, 0.001422, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 212.0/256, 0.4, 0.4, 1, 1, 1, 0.1, 1, 0.1, 0.02, 1, 1.0/256, 1}
 #define FC_ADV_INFO_ADD		{0, -14.69, 0, 0, 0, 0, -25, -25, -80, 0, 0, 0, -80, -80, 0, 0, 0, 0, 0, 0, 0, 0}
+#define FC_AUX_INFO_MUL		{5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255};
+#define FC_AUX_INFO_ADD		{0, 0, 0, 0, 0, 0, 0, 0};
 
 gdouble powerfc_get_current_value(gchar *);
-gboolean powerfc_process_serial(gpointer);
-FILE *powerfc_open_csvfile(gchar *);
 
+gboolean powerfc_process_advanced(gpointer);
+gboolean powerfc_process_auxiliary(gpointer);
+
+FILE *powerfc_open_csvfile(gchar *);
 #endif
 #ifdef __cplusplus
 } /* closing brace for extern "C" */

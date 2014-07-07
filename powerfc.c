@@ -46,7 +46,8 @@ static gchar *map[] = {"RPM", "Intakepress", "PressureV", "ThrottleV",
 						 "Primaryinp", "Fuelc", "Leadingign", "Trailingign",
 						 "Fueltemp", "Moilp", "Boosttp", "Boostwg", "Watertemp",
 						 "Intaketemp", "Knock", "BatteryV", "Speed", "Iscvduty",
-						 "O2volt", "na1", "Secinjpulse", "na2"};
+						 "O2volt", "na1", "Secinjpulse", "na2", "AUX1", "AUX2",
+						 "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8"};
 						 
 static gdouble rtv[sizeof(map)];
 
@@ -113,7 +114,75 @@ G_MODULE_EXPORT gboolean read_wrapper(gint fd, guint8 * buf, size_t count, gint 
 	\param data is unused
 	\returns TRUE unless app is closing down
 */
-G_MODULE_EXPORT gboolean powerfc_process_serial(gpointer data)
+G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
+{
+	gboolean res = 0;
+	gboolean bad_read = FALSE;
+	gint len = 0;
+	gint total_read = 0;
+	gint total_wanted;
+	gint zerocount = 0;
+	guchar buf[4096];
+	guchar *ptr = buf;
+	gdouble mul[] = FC_AUX_INFO_MUL;
+	gdouble add[] = FC_AUX_INFO_ADD;
+
+	Serial_Params *serial_params = NULL;;
+	serial_params = (Serial_Params *)DATA_GET(global_data,"serial_params");
+
+	guchar request[] = FC_REQ_AUX_INFO;
+	write(serial_params->fd, request, sizeof(request));
+
+	/* This will be adjusted depending upon the model of logging device */
+	total_wanted = 11;
+
+	while ((total_read < total_wanted ) && ((total_wanted-total_read) > 0))
+	{
+		if (total_read < 2) {
+			res = read_wrapper(serial_params->fd,
+					ptr+total_read,
+					total_wanted-total_read,&len);
+			total_read += len;
+		} else {
+			total_wanted = buf[1] + 1;
+			res = read_wrapper(serial_params->fd,
+					ptr+total_read,
+					total_wanted-total_read,&len);
+			total_read += len;
+		}
+		/* Increment bad read counter.... */
+		if (!res) /* I/O Error Device disappearance or other */
+		{
+			bad_read = TRUE;
+			break;
+		}
+		if (len == 0) /* Short read!*/
+			zerocount++;
+		if ((len == 0) && (zerocount > 3))  /* Too many Short reads! */
+		{
+			bad_read = TRUE;
+			break;
+		}
+	}
+	if (bad_read) {
+		printf("ERROR: serial read\n");
+		return FALSE;
+	}
+	else {
+		fc_aux_info_t *info;
+		info = (fc_aux_info_t *)&buf[2];
+		rtv[22] = mul[0] * info->AUX1 + add[0];
+		rtv[23] = mul[1] * info->AUX2 + add[1];
+		rtv[24] = mul[2] * info->AUX3 + add[2];
+		rtv[25] = mul[3] * info->AUX4 + add[3];
+		rtv[26] = mul[4] * info->AUX5 + add[4];
+		rtv[27] = mul[5] * info->AUX6 + add[5];
+		rtv[28] = mul[6] * info->AUX7 + add[6];
+		rtv[29] = mul[7] * info->AUX8 + add[7];
+	}
+	return TRUE;
+}
+G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 {
 	gboolean res = 0;
 	gboolean bad_read = FALSE;
