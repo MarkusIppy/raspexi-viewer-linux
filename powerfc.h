@@ -150,11 +150,11 @@ typedef struct {
 */
 
 /*
-* trying new calculation for Intakepress to display in PSI
+*Calculation to display KG/cm2 for Boost 
 *
 */
-#define FC_ADV_INFO_MUL		{1, 0.001422, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 212.0/256, 0.4, 0.4, 1, 1, 1, 0.1, 1, 0.1, 0.02, 1, 1.0/256, 1}
-#define FC_ADV_INFO_ADD		{0, -14.69, 0, 0, 0, 0, -25, -25, -80, 0, 0, 0, -80, -80, 0, 0, 0, 0, 0, 0, 0, 0}
+#define FC_ADV_INFO_MUL		{1, 0.0001, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 212.0/256, 0.4, 0.4, 1, 1, 1, 0.1, 1, 0.1, 0.02, 1, 1.0/256, 1}
+#define FC_ADV_INFO_ADD		{0, -1.0332, 0, 0, 0, 0, -25, -25, -80, 0, 0, 0, -80, -80, 0, 0, 0, 0, 0, 0, 0, 0}
 #define FC_AUX_INFO_MUL		{5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255};
 #define FC_AUX_INFO_ADD		{0, 0, 0, 0, 0, 0, 0, 0};
 
