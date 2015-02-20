@@ -179,6 +179,8 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 		rtv[27] = mul[5] * info->AUX6 + add[5];
 		rtv[28] = mul[6] * info->AUX7 + add[6];
 		rtv[29] = mul[7] * info->AUX8 + add[7];
+    rtv[30] = rtv[22] - rtv[23];  
+    rtv[31] = rtv[30] * 1.4 + 9;
 	}
 	return TRUE;
 }
@@ -270,7 +272,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 
 			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%3.4f\n",
 					currentTime, rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9], rtv[10], rtv[11], rtv[12], rtv[13], rtv[14],
-					rtv[15], rtv[16], rtv[17], rtv[18], rtv[20]);
+					rtv[15], rtv[16], rtv[17], rtv[18], rtv[20], rtv[31]);
 			fflush(csvfile);
 		}
 	}
@@ -306,7 +308,7 @@ G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 	}
 	else {
 		csvfile = g_fopen(filename, "wb");
-			fprintf(csvfile, "time,EngRev,Boost(PSI),"
+			fprintf(csvfile, "time,EngRev,Boost(kg/cm2),"
 				             "Pressure Sensor Voltage(mV),Throttle Voltage(mV),"
 				             "Primary Injector Pulse Width(mSec),Fuel Correction,"
 				             "Leading Ignition Angle(deg),Trailing Ignition Angle(deg),"
@@ -315,7 +317,8 @@ G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 				             "WtrTemp(deg.C),AirTemp(deg.C),"
 				             "Knock,BatVolt(V),Speed(Km/h),"
 				             "InjDuty (%%),O2 Sensor Voltage(mV),"
-				             "Secondary Injector Pulse Width(mSec)\n");
+				             "Secondary Injector Pulse Width(mSec)\n,"
+                     "A/F ratio AN1-AN2");    
 	}
 	return csvfile;
 }
