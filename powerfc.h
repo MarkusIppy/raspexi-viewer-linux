@@ -60,57 +60,167 @@ extern "C" {
  * short word : InjFS (ms)
  */
 
-/*
- * -Engine Speed (rpm)								-RPM
- * -Absolute Intake Pressure (Kg/cm2)				-Intakepress	
- * -Pressure Sensor Voltage (mv)            		-PressureV		
- * -Throttle Sensor Voltage (mv)                 	-ThrottleV
- * -Primary Injector Pulse Width (mSec) 			-Primaryinp
- * -Fuel correction 								-Fuelc
- * -Leading Ignition Angle (deg) 					-Leadingign
- * -Trailing Ignition Angle (deg)					-Trailingign
- * -Fuel Temperature (deg.C)						-Fueltemp
- * -Metering Oil Pump Duty (%)						-Moilp
- * -Boost Duty (TP.%)								-Boosttp
- * -Boost Duty (Wg,%)								-Boostwg
- * -Water Temperature (deg. C)						-Watertemp
- * -Intake Air Temperature (deg C)					-Intaketemp
- * -Knocking Level 									-Knock
- * -Battery Voltage (V)								-BatteryV
- * -Vehicle Speed (Km/h)							-Speed
- * -ISCV duty (%)									-Iscvduty
- * -O2 Sensor Voltage (mv) 							-O2volt
- * -Secondary Injector Pulse Width (mSec) 	  		-Secinjpulse
- */
+// Model 13B-REW */
+#define CSV_HEADER_1 {"Time," 
+		"Engine Speed (rpm),"								//-RPM
+		"Absolute Intake Pressure (Kg/cm2),"				//-Intakepress	
+		"Pressure Sensor Voltage (mv),"            			//-PressureV		
+		"Throttle Sensor Voltage (mv),"                 	//-ThrottleV
+		"Primary Injector Pulse Width (mSec)," 				//-Primaryinp
+		"Fuel correction," 									//-Fuelc
+		"Leading Ignition Angle (deg)," 					//-Leadingign
+		"Trailing Ignition Angle (deg),"					//-Trailingign
+		"Fuel Temperature (deg.C),"							//-Fueltemp
+		"Metering Oil Pump Duty (%),"						//-Moilp
+		"Boost Duty (TP.%),"								//-Boosttp
+		"Boost Duty (Wg,%),"								//-Boostwg
+		"Water Temperature (deg. C),"						//-Watertemp
+		"Intake Air Temperature (deg C),"					//-Intaketemp
+		"Knocking Level," 									//-Knock
+		"Battery Voltage (V),"								//-BatteryV
+		"Vehicle Speed (Km/h),"								//-Speed
+		"ISCV duty (%),"									//-Iscvduty
+		"O2 Sensor Voltage (V)," 							//-O2volt
+		"Secondary Injector Pulse Width (mSec),"} 	  		//-Secinjpulse
  
+ 
+// For most NISSAN and SUBARU engines
+#define CSV_HEADER_2 {"Time," 
+		"Engine Speed (rpm),"								//-RPM
+		"Engine Load (N??),"								//-EngLoad
+		"Mass Flow Sensor #1 (mv),"            				//-MAF1V
+		"Mass Flow Sensor #2 (mv),"							//-MAF2V
+		"Primary Injector Pulse Width (mSec)," 				//-PrimaryInj_pw
+		"Fuel correction," 									//-Fuelc
+		"Ignition Timing (deg),"		 					//-Leadingign
+		"Ignition Dwell Angle (deg),"						//-Trailingign
+		"Boost Pressure (PSI),"								//-BoostPres
+		"Boost Duty (%),"									//-BoostDuty
+		"Water Temperature (deg. C),"						//-Watertemp
+		"Intake Air Temperature (deg C),"					//-Intaketemp
+		"Knocking Level,"									//-Knock
+		"Battery Voltage (V),"								//-BatteryV
+		"Vehicle Speed (Km/h),"								//-Speed
+		"Mass Air Flow sensor activity ratio (%),"			//-MAFactivity
+		"O2 Sensor #1 Voltage (V),"							//-O2_1
+		"O2 Sensor #2 Voltage (V),"							//-O2_2
+		"Throttle Sensor Voltage (mv),,"}  					//-ThrottleV
+
+
+// For most TOYOTA engines
+#define CSV_HEADER_3 {"Time," 
+		"Engine Speed (rpm),"								//-RPM
+		"Absolute Intake Pressure (Kg/cm2),"				//-Intakepress
+		"Pressure Sensor Voltage (mv),"            			//-PressureV
+		"Throttle Sensor #1 Voltage (mv),"					//-ThrottleV
+		"Primary Injector Pulse Width (mSec)," 				//-Primaryinp
+		"Fuel correction," 									//-Fuelc
+		"Leading Ignition Angle (deg)," 					//-Leadingign
+		"Trailing Ignition Angle (deg),"					//-Trailingign
+		"Boost Pressure (PSI),"								//-BoostPres
+		"Boost Duty (%),"									//-BoostDuty
+		"Water Temperature (deg. C),"						//-Watertemp
+		"Intake Air Temperature (deg C),"					//-Intaketemp
+		"Knocking Level,"									//-Knock
+		"Battery Voltage (V),"								//-BatteryV
+		"Vehicle Speed (Km/h),"								//-Speed
+		"ISCV duty (%),"									//-Iscvduty
+		"O2 Sensor Voltage (V),"							//-O2volt
+		"Suction In Air Temperature (mV),"					//-SuctionAirTemp
+		"Throttle Sensor #2 Voltage(mv),,"} 				//-ThrottleV_2
+
+#define CSV_HEADER_AUX {
+	"AUX1,"
+	"AUX2,"
+	"AUX3,"
+	"AUX4,"
+	"AUX5,"
+	"AUX6,"
+	"AUX7,"
+	"AUX8" }
+
 /*
-*Structure for Advanceed information Group FD3S : 
+*Structure for Advanced information Group FD3S : 
 */
 
 typedef struct {
-	unsigned short RPM;
-	unsigned short Intakepress;
-	unsigned short PressureV;
-	unsigned short ThrottleV;
-	unsigned short Primaryinp;
-	unsigned short Fuelc;
-	unsigned char Leadingign;
-	unsigned char Trailingign;
-	unsigned char Fueltemp;
-	unsigned char Moilp;
-	unsigned char Boosttp;
-	unsigned char Boostwg;
-	unsigned char Watertemp;
-	unsigned char Intaketemp;
-	unsigned char Knock;
-	unsigned char BatteryV;
-	unsigned short Speed;
-	unsigned short Iscvduty;
-	unsigned char O2volt;
-	unsigned char na1;
-	unsigned short Secinjpulse;
-	unsigned char na2;
+	unsigned short RPM;				//0
+	unsigned short Intakepress;		//1
+	unsigned short PressureV;		//2
+	unsigned short ThrottleV;		//3
+	unsigned short Primaryinp;		//4
+	unsigned short Fuelc;			//5
+	unsigned char Leadingign;		//6
+	unsigned char Trailingign;		//7
+	unsigned char Fueltemp;			//8
+	unsigned char Moilp;			//9
+	unsigned char Boosttp;			//10
+	unsigned char Boostwg;			//11
+	unsigned char Watertemp;		//12
+	unsigned char Intaketemp;		//13
+	unsigned char Knock;			//14
+	unsigned char BatteryV;			//15
+	unsigned short Speed;			//16
+	unsigned short Iscvduty;		//17
+	unsigned char O2volt;			//18
+	unsigned char na1;				//19
+	unsigned short Secinjpulse;		//20
+	unsigned char na2;				//21
 } fc_adv_info_t;
+
+/*
+*Structure for Advanced information Group NISSAN and SUBARU :
+*/
+
+typedef struct {
+	unsigned short RPM;				//0
+	unsigned short EngLoad;			//1
+	unsigned short MAF1V;			//2
+	unsigned short MAF2V;			//3
+	unsigned short PrimaryInj_pw;	//4
+	unsigned short Fuelc;			//5
+	unsigned char Leadingign;		//6
+	unsigned char Trailingign;		//7
+	unsigned short BoostPres;		//8
+	unsigned short BoostDuty;		//9
+	unsigned char Watertemp;		//10
+	unsigned char Intaketemp;		//11
+	unsigned char Knock;			//12
+	unsigned char BatteryV;			//13
+	unsigned short Speed;			//14
+	unsigned short MAFactivity;		//15
+	unsigned char O2_1;				//16
+	unsigned char O2_2;				//17
+	unsigned short ThrottleV;		//18
+	unsigned char na1;				//19
+} fc_adv_info_t_2;
+
+/*
+*Structure for Advanced information Group TOYOTA :
+*/
+
+typedef struct {
+	unsigned short RPM;				//0
+	unsigned short Intakepress;		//1
+	unsigned short PressureV;		//2
+	unsigned short ThrottleV;		//3
+	unsigned short PrimaryInj_pw;	//4
+	unsigned short Fuelc;			//5
+	unsigned char Leadingign;		//6
+	unsigned char Trailingign;		//7
+	unsigned short BoostPres;		//8
+	unsigned short BoostDuty;		//9
+	unsigned char Watertemp;		//10
+	unsigned char Intaketemp;		//11
+	unsigned char Knock;			//12
+	unsigned char BatteryV;			//13
+	unsigned short Speed;			//14
+	unsigned short Iscvduty;		//15
+	unsigned char O2volt;			//16
+	unsigned char SuctionAirTemp;	//17
+	unsigned short ThrottleV_2;		//18
+	unsigned char na1;				//19
+} fc_adv_info_t_3;
 
 /*
 *Structure for Auxiliary information : 
@@ -153,10 +263,18 @@ typedef struct {
 *Calculation to display KG/cm2 for Boost 
 *
 */
-#define FC_ADV_INFO_MUL		{1, 0.0001, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 212.0/256, 0.4, 0.4, 1, 1, 1, 0.1, 1, 0.1, 0.02, 1, 1.0/256, 1}
-#define FC_ADV_INFO_ADD		{0, -1.0332, 0, 0, 0, 0, -25, -25, -80, 0, 0, 0, -80, -80, 0, 0, 0, 0, 0, 0, 0, 0}
+// FD3S
+#define FC_ADV_INFO_MUL		{1, 0.0001, 1, 1, 1.0/256, 1.0/256,  1,  1,  1, 212.0/256, 0.4, 0.4,  1,  1, 1, 0.1, 1, 0.1, 0.02, 1, 1.0/256, 1}
+#define FC_ADV_INFO_ADD		{0,-1.0332, 0, 0,       0,       0,-25,-25,-80,         0,   0,   0,-80,-80, 0,   0, 0,   0,    0, 0,       0, 0}
+//Nissan and Subaru
+#define FC_ADV_INFO_MUL_2	{1, 1, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 0.005,  1,  1, 1, 0.1, 1, 0.1, 0.02, 0.02, 1, 1}
+#define FC_ADV_INFO_ADD_2	{0, 0, 0, 0,       0,       0, 0, 0, 0,     0,-80,-80, 0,   0, 0,   0,    0,    0, 0, 0}
+//Toyota
+#define FC_ADV_INFO_MUL_3	{1, 0.0001, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 0.005,  1,  1, 1, 0.1, 1, 0.1, 0.02,  1, 1, 1}
+#define FC_ADV_INFO_ADD_3	{0,-1.0332, 0, 0,       0,       0, 0, 0, 0,     0,-80,-80, 0,   0, 0,   0,    0,-80, 0, 0}
+
 #define FC_AUX_INFO_MUL		{5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255, 5.0/255};
-#define FC_AUX_INFO_ADD		{0, 0, 0, 0, 0, 0, 0, 0};
+#define FC_AUX_INFO_ADD		{      0,       0,       0,       0,       0,       0,       0,       0};
 
 gdouble powerfc_get_current_value(gchar *);
 

@@ -42,14 +42,31 @@
 
 extern gconstpointer *global_data;
 
-static gchar *map[] = {"RPM", "Intakepress", "PressureV", "ThrottleV",
-						 "Primaryinp", "Fuelc", "Leadingign", "Trailingign",
-						 "Fueltemp", "Moilp", "Boosttp", "Boostwg", "Watertemp",
-						 "Intaketemp", "Knock", "BatteryV", "Speed", "Iscvduty",
-						 "O2volt", "na1", "Secinjpulse", "na2", "AUX1", "AUX2",
-						 "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8"};
+// FD3S map
+static gchar *map[] = {"RPM", "Intakepress", "PressureV",
+                       "ThrottleV", "Primaryinp", "Fuelc", "Leadingign", "Trailingign",
+                       "Fueltemp", "Moilp", "Boosttp", "Boostwg", "Watertemp", "Intaketemp", "Knock", "BatteryV",
+                       "Speed", "Iscvduty", "O2volt", "na1", "Secinjpulse",
+                       "na2",
+                       "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8"};
+
+// Nissan and Subaru map
+static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
+                         "MAF2V", "PrimaryInj_pw", "Fuelc", "Leadingign", "Trailingign",
+                         "BoostPres", "BoostDuty", "Watertemp", "Intaketemp", "Knock", "BatteryV",
+                         "Speed", "MAFactivity", "O2_1", "O2_2", "ThrottleV",
+						 "na1",
+						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8" };
+
+// Toyota map
+static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
+                         "ThrottleV", "PrimaryInj_pw", "Fuelc", "Leadingign", "Trailingign",
+                         "BoostPres", "BoostDuty", "Watertemp", "Intaketemp", "Knock", "BatteryV",
+						 "Speed", "Iscvduty", "O2volt", "SuctionAirTemp", "ThrottleV_2",
+						 "na1",
+						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8" };
 						 
-static gdouble rtv[sizeof(map)];
+static gdouble rtv[sizeof(map)]; //Largest size map with 30 items
 
 /*!
 	\brief Wrapper function that does a nonblocking select()/read loop .
@@ -124,8 +141,8 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 	gint zerocount = 0;
 	guchar buf[4096];
 	guchar *ptr = buf;
-	gdouble mul[] = FC_AUX_INFO_MUL;
-	gdouble add[] = FC_AUX_INFO_ADD;
+	//gdouble mul[] = FC_AUX_INFO_MUL;
+	//gdouble add[] = FC_AUX_INFO_ADD;
 
 	Serial_Params *serial_params = NULL;;
 	serial_params = (Serial_Params *)DATA_GET(global_data,"serial_params");
@@ -171,16 +188,14 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 	else {
 		fc_aux_info_t *info;
 		info = (fc_aux_info_t *)&buf[2];
-		rtv[22] = mul[0] * info->AUX1 + add[0];
-		rtv[23] = mul[1] * info->AUX2 + add[1];
-		rtv[24] = mul[2] * info->AUX3 + add[2];
-		rtv[25] = mul[3] * info->AUX4 + add[3];
-		rtv[26] = mul[4] * info->AUX5 + add[4];
-		rtv[27] = mul[5] * info->AUX6 + add[5];
-		rtv[28] = mul[6] * info->AUX7 + add[6];
-		rtv[29] = mul[7] * info->AUX8 + add[7];
-    rtv[30] = rtv[22] - rtv[23];  
-    rtv[31] = rtv[30] * 1.4 + 9;
+		rtv[22] = info->AUX1;
+		rtv[23] = info->AUX2;
+		rtv[24] = info->AUX3;
+		rtv[25] = info->AUX4;
+		rtv[26] = info->AUX5;
+		rtv[27] = info->AUX6;
+		rtv[28] = info->AUX7;
+		rtv[29] = info->AUX8;
 	}
 	return TRUE;
 }
@@ -194,8 +209,31 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 	gint zerocount = 0;
 	guchar buf[4096];
 	guchar *ptr = buf;
-	gdouble mul[] = FC_ADV_INFO_MUL;
-	gdouble add[] = FC_ADV_INFO_ADD;
+
+	gint model;
+	gdouble mul[];
+	gdouble add[];
+	if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Mazda"))
+	{
+		model = 1;
+		mul[] = FC_ADV_INFO_MUL;
+		add[] = FC_ADV_INFO_ADD;
+	}
+	else if ((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Nissan")) ||
+		((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Subaru")))
+	{
+		model = 2;
+		mul[] = FC_ADV_INFO_MUL_2;
+		add[] = FC_ADV_INFO_ADD_2;
+	}
+	else if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Toyota"))
+	{
+		model = 3;
+		mul[] = FC_ADV_INFO_MUL_3;
+		add[] = FC_ADV_INFO_ADD_3;
+	}
+	else
+		return FALSE;
 
 	Serial_Params *serial_params = NULL;;
 	serial_params = (Serial_Params *)DATA_GET(global_data,"serial_params");
@@ -231,30 +269,95 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		return FALSE;
 	}
 	else {
-		fc_adv_info_t *info;
-		info = (fc_adv_info_t *)&buf[2];
-		rtv[0] = mul[0] * info->RPM + add[0];
-		rtv[1] = mul[1] * info->Intakepress + add[1];
-		rtv[2] = mul[2] * info->PressureV + add[2];
-		rtv[3] = mul[3] * info->ThrottleV + add[3];
-		rtv[4] = mul[4] * info->Primaryinp + add[4];
-		rtv[5] = mul[5] * info->Fuelc + add[5];
-		rtv[6] = mul[6] * info->Leadingign + add[6];
-		rtv[7] = mul[7] * info->Trailingign + add[7];
-		rtv[8] = mul[8] * info->Fueltemp + add[8];
-		rtv[9] = mul[9] * info->Moilp + add[9];
-		rtv[10] = mul[10] * info->Boosttp + add[10];
-		rtv[11] = mul[11] * info->Boostwg + add[11];
-		rtv[12] = mul[12] * info->Watertemp + add[12];
-		rtv[13] = mul[13] * info->Intaketemp + add[13];
-		rtv[14] = mul[14] * info->Knock + add[14];
-		rtv[15] = mul[15] * info->BatteryV + add[15];
-		rtv[16] = mul[16] * info->Speed + add[16];
-		rtv[17] = mul[17] * info->Iscvduty + add[17];
-		rtv[18] = mul[18] * info->O2volt + add[18];
-		rtv[19] = mul[19] * info->na1 + add[19];
-		rtv[20] = mul[20] * info->Secinjpulse + add[20];
-		rtv[21] = mul[21] * info->na2 + add[21];
+		if (model == 1)
+		{
+			fc_adv_info_t *info;
+			info = (fc_adv_info_t *)&buf[2];
+			rtv[0]  = mul[0]  * info->RPM + add[0];
+			rtv[1]  = mul[1]  * info->Intakepress + add[1];
+			rtv[2]  = mul[2]  * info->PressureV + add[2];
+			rtv[3]  = mul[3]  * info->ThrottleV + add[3];
+			rtv[4]  = mul[4]  * info->Primaryinp + add[4];
+			rtv[5]  = mul[5]  * info->Fuelc + add[5];
+			rtv[6]  = mul[6]  * info->Leadingign + add[6];
+			rtv[7]  = mul[7]  * info->Trailingign + add[7];
+			rtv[8]  = mul[8]  * info->Fueltemp + add[8];
+			rtv[9]  = mul[9]  * info->Moilp + add[9];
+			rtv[10] = mul[10] * info->Boosttp + add[10];
+			rtv[11] = mul[11] * info->Boostwg + add[11];
+			rtv[12] = mul[12] * info->Watertemp + add[12];
+			rtv[13] = mul[13] * info->Intaketemp + add[13];
+			rtv[14] = mul[14] * info->Knock + add[14];
+			rtv[15] = mul[15] * info->BatteryV + add[15];
+			rtv[16] = mul[16] * info->Speed + add[16];
+			rtv[17] = mul[17] * info->Iscvduty + add[17];
+			rtv[18] = mul[18] * info->O2volt + add[18];
+			rtv[19] = mul[19] * info->na1 + add[19];
+			rtv[20] = mul[20] * info->Secinjpulse + add[20];
+			rtv[21] = mul[21] * info->na2 + add[21];
+		}
+		else if (model == 2)
+		{
+			fc_adv_info_t_2 *info;
+			info = (fc_adv_info_t_2 *)&buf[2];
+			rtv[0] = mul[0] * info->RPM + add[0];
+			rtv[1] = mul[1] * info->EngLoad + add[1];
+			rtv[2] = mul[2] * info->MAF1V + add[2];
+			rtv[3] = mul[3] * info->MAF2V + add[3];
+			rtv[4] = mul[4] * info->PrimaryInj_pw + add[4];
+			rtv[5] = mul[5] * info->Fuelc + add[5];
+			rtv[6] = mul[6] * info->Leadingign + add[6];
+			rtv[7] = mul[7] * info->Trailingign + add[7];
+			rtv[8] = mul[8] * info->BoostPres + add[8];
+			if (rtv[8] >= 0x8000)
+				rtv[8] = (rtv[8] - 0x8000) * 0.01;
+			else
+				rtv[8] = (1.0 / 2560 + 0.001) * rtv[8];
+			rtv[9] = mul[9] * info->BoostDuty + add[9];
+			rtv[10] = mul[10] * info->Watertemp + add[10];
+			rtv[11] = mul[11] * info->Intaketemp + add[11];
+			rtv[12] = mul[12] * info->Knock + add[12];
+			rtv[13] = mul[13] * info->BatteryV + add[13];
+			rtv[14] = mul[14] * info->Speed + add[14];
+			rtv[15] = mul[15] * info->MAFactivity + add[15];
+			rtv[16] = mul[16] * info->O2_1 + add[16];
+			rtv[17] = mul[17] * info->O2_2 + add[17];
+			rtv[18] = mul[18] * info->ThrottleV + add[18];
+			rtv[19] = mul[19] * info->na1 + add[19];
+			rtv[20] = 0;
+			rtv[21] = 0;
+		}
+		else if (model == 3)
+		{
+			fc_adv_info_t_3 *info;
+			info = (fc_adv_info_t_3 *)&buf[2];
+			rtv[0] = mul[0] * info->RPM + add[0];
+			rtv[1] = mul[1] * info->Intakepress + add[1];
+			rtv[2] = mul[2] * info->PressureV + add[2];
+			rtv[3] = mul[3] * info->ThrottleV + add[3];
+			rtv[4] = mul[4] * info->PrimaryInj_pw + add[4];
+			rtv[5] = mul[5] * info->Fuelc + add[5];
+			rtv[6] = mul[6] * info->Leadingign + add[6];
+			rtv[7] = mul[7] * info->Trailingign + add[7];
+			rtv[8] = mul[8] * info->BoostPres + add[8];
+			if (rtv[8] >= 0x8000)
+				rtv[8] = (rtv[8] - 0x8000) * 0.01;
+			else
+				rtv[8] = (1.0 / 2560 + 0.001) * rtv[8];
+			rtv[9] = mul[9] * info->BoostDuty + add[9];
+			rtv[10] = mul[10] * info->Watertemp + add[10];
+			rtv[11] = mul[11] * info->Intaketemp + add[11];
+			rtv[12] = mul[12] * info->Knock + add[12];
+			rtv[13] = mul[13] * info->BatteryV + add[13];
+			rtv[14] = mul[14] * info->Speed + add[14];
+			rtv[15] = mul[15] * info->Iscvduty + add[15];
+			rtv[16] = mul[16] * info->O2volt + add[16];
+			rtv[17] = mul[17] * info->SuctionAirTemp + add[17];
+			rtv[18] = mul[18] * info->ThrottleV_2 + add[18];
+			rtv[19] = mul[19] * info->na1 + add[19];
+			rtv[20] = 0;
+			rtv[21] = 0;
+		}
 
 		FILE *csvfile;
 
@@ -270,9 +373,9 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			char currentTime[84] = "";
 			sprintf(currentTime, "%s:%03d", buffer, milli);
 
-			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%3.4f\n",
+			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f\n",
 					currentTime, rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9], rtv[10], rtv[11], rtv[12], rtv[13], rtv[14],
-					rtv[15], rtv[16], rtv[17], rtv[18], rtv[20], rtv[31]);
+					rtv[15], rtv[16], rtv[17], rtv[18], rtv[20], rtv[22], rtv[23], rtv[24], rtv[25], rtv[26], rtv[27], rtv[28], rtv[29]);
 			fflush(csvfile);
 		}
 	}
@@ -301,6 +404,15 @@ G_MODULE_EXPORT gdouble powerfc_get_current_value(gchar *source)
 
 G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 {
+	gint model = 1;
+	if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Mazda"))
+		model = 1;
+	else if ((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Nissan")) || 
+		    ((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Subaru")))
+		model = 2;
+	else if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Toyota"))
+		model = 3;
+
 	FILE *csvfile = NULL;
 
 	if (g_file_test(filename, G_FILE_TEST_EXISTS)) {
@@ -308,17 +420,12 @@ G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 	}
 	else {
 		csvfile = g_fopen(filename, "wb");
-			fprintf(csvfile, "time,EngRev,Boost(kg/cm2),"
-				             "Pressure Sensor Voltage(mV),Throttle Voltage(mV),"
-				             "Primary Injector Pulse Width(mSec),Fuel Correction,"
-				             "Leading Ignition Angle(deg),Trailing Ignition Angle(deg),"
-				             "Fuel Temperature(deg.C),OMP Duty(%%),"
-				             "\"Boost Duty(Tp, %%)\",\"Boost Duty(Wg, %%)\","
-				             "WtrTemp(deg.C),AirTemp(deg.C),"
-				             "Knock,BatVolt(V),Speed(Km/h),"
-				             "InjDuty (%%),O2 Sensor Voltage(mV),"
-				             "Secondary Injector Pulse Width(mSec)\n,"
-                     "A/F ratio AN1-AN2");    
+		if (model == 1)
+			fprintf(csvfile, CSV_HEADER_1 CSV_HEADER_AUX);
+		else if (model == 2)
+			fprintf(csvfile, CSV_HEADER_2 CSV_HEADER_AUX);
+		else if (model == 3)
+			fprintf(csvfile, CSV_HEADER_3 CSV_HEADER_AUX);
 	}
 	return csvfile;
 }

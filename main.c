@@ -87,6 +87,12 @@ int main (int argc, char **argv)
 			DATA_SET(global_data, "interval", GINT_TO_POINTER(tmpi));
 			printf("interval = %d\n", tmpi);
 		}
+		if (cfg_read_string(cfgfile, "default", "model", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "model", g_strdup(tmpbuf), g_free);
+			printf("model = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
 		if (cfg_read_string(cfgfile, "default", "dash1", &tmpbuf))
 		{
 			DATA_SET_FULL(global_data, "dash1", g_strdup(tmpbuf), g_free);
