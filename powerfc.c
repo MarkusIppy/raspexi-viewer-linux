@@ -210,30 +210,37 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 	guchar buf[4096];
 	guchar *ptr = buf;
 
-	gint model;
-	gdouble mul[];
-	gdouble add[];
-	if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Mazda"))
+	gint model = 0;
+	gdouble mul[] = FC_ADV_INFO_MUL;
+	gdouble add[] = FC_ADV_INFO_ADD;
+	if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Mazda") == 0)
 	{
 		model = 1;
-		mul[] = FC_ADV_INFO_MUL;
-		add[] = FC_ADV_INFO_ADD;
+		gdouble mul_temp[] = FC_ADV_INFO_MUL;
+		gdouble add_temp[] = FC_ADV_INFO_ADD;
+		memcpy(&mul, &mul_temp, sizeof(mul_temp));
+		memcpy(&add, &add_temp, sizeof(add_temp));
 	}
-	else if ((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Nissan")) ||
-		((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Subaru")))
+	else if ((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Nissan") == 0) ||
+		(g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Subaru") == 0))
 	{
 		model = 2;
-		mul[] = FC_ADV_INFO_MUL_2;
-		add[] = FC_ADV_INFO_ADD_2;
+		gdouble mul_temp[] = FC_ADV_INFO_MUL_2;
+		gdouble add_temp[] = FC_ADV_INFO_ADD_2;
+		memcpy(&mul, &mul_temp, sizeof(mul_temp));
+		memcpy(&add, &add_temp, sizeof(add_temp));
 	}
-	else if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Toyota"))
+	else if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Toyota") == 0)
 	{
 		model = 3;
-		mul[] = FC_ADV_INFO_MUL_3;
-		add[] = FC_ADV_INFO_ADD_3;
+		gdouble mul_temp[] = FC_ADV_INFO_MUL_3;
+		gdouble add_temp[] = FC_ADV_INFO_ADD_3;
+		memcpy(&mul, &mul_temp, sizeof(mul_temp));
+		memcpy(&add, &add_temp, sizeof(add_temp));
 	}
-	else
+	else{
 		return FALSE;
+	}
 
 	Serial_Params *serial_params = NULL;;
 	serial_params = (Serial_Params *)DATA_GET(global_data,"serial_params");
@@ -372,8 +379,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 
 			char currentTime[84] = "";
 			sprintf(currentTime, "%s:%03d", buffer, milli);
-
-			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f\n",
+			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f\n",
 					currentTime, rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9], rtv[10], rtv[11], rtv[12], rtv[13], rtv[14],
 					rtv[15], rtv[16], rtv[17], rtv[18], rtv[20], rtv[22], rtv[23], rtv[24], rtv[25], rtv[26], rtv[27], rtv[28], rtv[29]);
 			fflush(csvfile);
@@ -390,27 +396,51 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 G_MODULE_EXPORT gdouble powerfc_get_current_value(gchar *source)
 {
 	gint i;
+	gint model = 1;
+	if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Mazda") == 0)
+		model = 1;
+	else if ((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Nissan") == 0) ||
+		(g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Subaru") == 0))
+		model = 2;
+	else if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Toyota") == 0)
+		model = 3;
 
-	for (i = 0; i < sizeof(map); i++) {
-		if (g_ascii_strcasecmp(source, map[i]) == 0) {
-			break;
-		}
+	if (model == 1){
+		for (i = 0; i < sizeof(map); i++) 
+			if (g_ascii_strcasecmp(source, map[i]) == 0) 
+				break;			
+		if (i == sizeof(map)) 
+			return 0.0;		
 	}
-	if (i == sizeof(map)) {
-		return 0.0;
+
+	else if (model == 2){
+		for (i = 0; i < sizeof(map2); i++) 
+			if (g_ascii_strcasecmp(source, map2[i]) == 0) 
+				break;			
+		if (i == sizeof(map2)) 
+			return 0.0;
 	}
+
+	else if (model == 3){
+		for (i = 0; i < sizeof(map3); i++) 
+			if (g_ascii_strcasecmp(source, map3[i]) == 0) 
+				break;			
+		if (i == sizeof(map3)) 
+			return 0.0;
+	}
+
 	return rtv[i];
 }
 
 G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 {
 	gint model = 1;
-	if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Mazda"))
+	if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Mazda") == 0)
 		model = 1;
-	else if ((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Nissan")) || 
-		    ((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Subaru")))
+	else if ((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Nissan") == 0) || 
+		    (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Subaru") == 0))
 		model = 2;
-	else if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Toyota"))
+	else if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Toyota") == 0)
 		model = 3;
 
 	FILE *csvfile = NULL;
@@ -420,12 +450,17 @@ G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 	}
 	else {
 		csvfile = g_fopen(filename, "wb");
+
 		if (model == 1)
-			fprintf(csvfile, CSV_HEADER_1 CSV_HEADER_AUX);
+			fprintf(csvfile, CSV_HEADER_1
+							 CSV_HEADER_AUX);
 		else if (model == 2)
-			fprintf(csvfile, CSV_HEADER_2 CSV_HEADER_AUX);
+			fprintf(csvfile, CSV_HEADER_2
+							 CSV_HEADER_AUX);
 		else if (model == 3)
-			fprintf(csvfile, CSV_HEADER_3 CSV_HEADER_AUX);
+			fprintf(csvfile, CSV_HEADER_3
+							 CSV_HEADER_AUX);
+		fflush(csvfile);
 	}
 	return csvfile;
 }

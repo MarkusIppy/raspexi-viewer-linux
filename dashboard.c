@@ -505,13 +505,12 @@ G_MODULE_EXPORT void update_dash_gauge(gpointer key, gpointer value, gpointer us
 	
 	mtx_gauge_face_get_attribute(MTX_GAUGE_FACE(gauge), LBOUND, &lower);
 	mtx_gauge_face_get_attribute(MTX_GAUGE_FACE(gauge), UBOUND, &upper);
-	
+
 	if ((GBOOLEAN)DATA_GET(global_data,"demo")) {
 		current = random_number((int)lower, (int)upper);
 	} else {
 		current = powerfc_get_current_value(datasource);
 	}
-	
 
 	if (current < lower) current = lower;
 	if (current > upper) current = upper;
@@ -1358,10 +1357,13 @@ G_MODULE_EXPORT gboolean update_dashboards(gpointer data)
 		dash_mutex = (GMutex *)DATA_GET(global_data,"dash_mutex");
 
 	g_mutex_lock(dash_mutex);
-	if (DATA_GET(global_data,"dash_hash"))
+	if (DATA_GET(global_data, "dash_hash"))
+	{
 		powerfc_process_auxiliary(NULL);
-		powerfc_process_advanced(NULL);
-		g_hash_table_foreach((GHashTable *)DATA_GET(global_data,"dash_hash"),update_dash_gauge,NULL);
+		powerfc_process_advanced(NULL);	
+	}
+	g_hash_table_foreach((GHashTable *)DATA_GET(global_data, "dash_hash"), update_dash_gauge, NULL);
+
 	g_mutex_unlock(dash_mutex);
 	EXIT();
 	return FALSE;

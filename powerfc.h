@@ -60,84 +60,83 @@ extern "C" {
  * short word : InjFS (ms)
  */
 
-// Model 13B-REW */
-#define CSV_HEADER_1 {"Time," 
-		"Engine Speed (rpm),"								//-RPM
-		"Absolute Intake Pressure (Kg/cm2),"				//-Intakepress	
-		"Pressure Sensor Voltage (mv),"            			//-PressureV		
-		"Throttle Sensor Voltage (mv),"                 	//-ThrottleV
-		"Primary Injector Pulse Width (mSec)," 				//-Primaryinp
-		"Fuel correction," 									//-Fuelc
-		"Leading Ignition Angle (deg)," 					//-Leadingign
-		"Trailing Ignition Angle (deg),"					//-Trailingign
-		"Fuel Temperature (deg.C),"							//-Fueltemp
-		"Metering Oil Pump Duty (%),"						//-Moilp
-		"Boost Duty (TP.%),"								//-Boosttp
-		"Boost Duty (Wg,%),"								//-Boostwg
-		"Water Temperature (deg. C),"						//-Watertemp
-		"Intake Air Temperature (deg C),"					//-Intaketemp
-		"Knocking Level," 									//-Knock
-		"Battery Voltage (V),"								//-BatteryV
-		"Vehicle Speed (Km/h),"								//-Speed
-		"ISCV duty (%),"									//-Iscvduty
-		"O2 Sensor Voltage (V)," 							//-O2volt
-		"Secondary Injector Pulse Width (mSec),"} 	  		//-Secinjpulse
+// Model 13B-REW 
+#define CSV_HEADER_1  "Time,"													   \
+		"Engine Speed (rpm),"								/*-RPM				*/ \
+		"Absolute Intake Pressure (Kg/cm2),"				/*-Intakepress		*/ \
+		"Pressure Sensor Voltage (mv),"            			/*-PressureV		*/ \
+		"Throttle Sensor Voltage (mv),"                 	/*-ThrottleV		*/ \
+		"Primary Injector Pulse Width (mSec)," 				/*-Primaryinp		*/ \
+		"Fuel correction," 									/*-Fuelc			*/ \
+		"Leading Ignition Angle (deg)," 					/*-Leadingign		*/ \
+		"Trailing Ignition Angle (deg),"					/*-Trailingign		*/ \
+		"Fuel Temperature (deg.C),"							/*-Fueltemp			*/ \
+		"Metering Oil Pump Duty (%),"						/*-Moilp			*/ \
+		"Boost Duty (TP.%),"								/*-Boosttp			*/ \
+		"Boost Duty (Wg,%),"								/*-Boostwg			*/ \
+		"Water Temperature (deg. C),"						/*-Watertemp		*/ \
+		"Intake Air Temperature (deg C),"					/*-Intaketemp		*/ \
+		"Knocking Level," 									/*-Knock			*/ \
+		"Battery Voltage (V),"								/*-BatteryV			*/ \
+		"Vehicle Speed (Km/h),"								/*-Speed			*/ \
+		"ISCV duty (%),"									/*-Iscvduty			*/ \
+		"O2 Sensor Voltage (V)," 							/*-O2volt			*/ \
+		"Secondary Injector Pulse Width (mSec)," 	  		/*-Secinjpulse		*/	
  
  
 // For most NISSAN and SUBARU engines
-#define CSV_HEADER_2 {"Time," 
-		"Engine Speed (rpm),"								//-RPM
-		"Engine Load (N??),"								//-EngLoad
-		"Mass Flow Sensor #1 (mv),"            				//-MAF1V
-		"Mass Flow Sensor #2 (mv),"							//-MAF2V
-		"Primary Injector Pulse Width (mSec)," 				//-PrimaryInj_pw
-		"Fuel correction," 									//-Fuelc
-		"Ignition Timing (deg),"		 					//-Leadingign
-		"Ignition Dwell Angle (deg),"						//-Trailingign
-		"Boost Pressure (PSI),"								//-BoostPres
-		"Boost Duty (%),"									//-BoostDuty
-		"Water Temperature (deg. C),"						//-Watertemp
-		"Intake Air Temperature (deg C),"					//-Intaketemp
-		"Knocking Level,"									//-Knock
-		"Battery Voltage (V),"								//-BatteryV
-		"Vehicle Speed (Km/h),"								//-Speed
-		"Mass Air Flow sensor activity ratio (%),"			//-MAFactivity
-		"O2 Sensor #1 Voltage (V),"							//-O2_1
-		"O2 Sensor #2 Voltage (V),"							//-O2_2
-		"Throttle Sensor Voltage (mv),,"}  					//-ThrottleV
+#define CSV_HEADER_2  "Time,"													   \
+		"Engine Speed (rpm),"								/*-RPM				*/ \
+		"Engine Load (N),"									/*-EngLoad			*/ \
+		"Mass Flow Sensor #1 (mv),"            				/*-MAF1V			*/ \
+		"Mass Flow Sensor #2 (mv),"							/*-MAF2V			*/ \
+		"Primary Injector Pulse Width (mSec)," 				/*-PrimaryInj_pw	*/ \
+		"Fuel correction," 									/*-Fuelc			*/ \
+		"Ignition Timing (deg),"		 					/*-Leadingign		*/ \
+		"Ignition Dwell Angle (deg),"						/*-Trailingign		*/ \
+		"Boost Pressure (PSI),"								/*-BoostPres		*/ \
+		"Boost Duty (%),"									/*-BoostDuty		*/ \
+		"Water Temperature (deg. C),"						/*-Watertemp		*/ \
+		"Intake Air Temperature (deg C),"					/*-Intaketemp		*/ \
+		"Knocking Level,"									/*-Knock			*/ \
+		"Battery Voltage (V),"								/*-BatteryV			*/ \
+		"Vehicle Speed (Km/h),"								/*-Speed			*/ \
+		"Mass Air Flow sensor activity ratio (%),"			/*-MAFactivity		*/ \
+		"O2 Sensor #1 Voltage (V),"							/*-O2_1				*/ \
+		"O2 Sensor #2 Voltage (V),"							/*-O2_2				*/ \
+		"Throttle Sensor Voltage (mv),,"  					/*-ThrottleV		*/
 
 
 // For most TOYOTA engines
-#define CSV_HEADER_3 {"Time," 
-		"Engine Speed (rpm),"								//-RPM
-		"Absolute Intake Pressure (Kg/cm2),"				//-Intakepress
-		"Pressure Sensor Voltage (mv),"            			//-PressureV
-		"Throttle Sensor #1 Voltage (mv),"					//-ThrottleV
-		"Primary Injector Pulse Width (mSec)," 				//-Primaryinp
-		"Fuel correction," 									//-Fuelc
-		"Leading Ignition Angle (deg)," 					//-Leadingign
-		"Trailing Ignition Angle (deg),"					//-Trailingign
-		"Boost Pressure (PSI),"								//-BoostPres
-		"Boost Duty (%),"									//-BoostDuty
-		"Water Temperature (deg. C),"						//-Watertemp
-		"Intake Air Temperature (deg C),"					//-Intaketemp
-		"Knocking Level,"									//-Knock
-		"Battery Voltage (V),"								//-BatteryV
-		"Vehicle Speed (Km/h),"								//-Speed
-		"ISCV duty (%),"									//-Iscvduty
-		"O2 Sensor Voltage (V),"							//-O2volt
-		"Suction In Air Temperature (mV),"					//-SuctionAirTemp
-		"Throttle Sensor #2 Voltage(mv),,"} 				//-ThrottleV_2
+#define CSV_HEADER_3  "Time,"													   \
+		"Engine Speed (rpm),"								/*-RPM				*/ \
+		"Absolute Intake Pressure (Kg/cm2),"				/*-Intakepress		*/ \
+		"Pressure Sensor Voltage (mv),"            			/*-PressureV		*/ \
+		"Throttle Sensor #1 Voltage (mv),"					/*-ThrottleV		*/ \
+		"Primary Injector Pulse Width (mSec)," 				/*-Primaryinp		*/ \
+		"Fuel correction," 									/*-Fuelc			*/ \
+		"Leading Ignition Angle (deg)," 					/*-Leadingign		*/ \
+		"Trailing Ignition Angle (deg),"					/*-Trailingign		*/ \
+		"Boost Pressure (PSI),"								/*-BoostPres		*/ \
+		"Boost Duty (%),"									/*-BoostDuty		*/ \
+		"Water Temperature (deg. C),"						/*-Watertemp		*/ \
+		"Intake Air Temperature (deg C),"					/*-Intaketemp		*/ \
+		"Knocking Level,"									/*-Knock			*/ \
+		"Battery Voltage (V),"								/*-BatteryV			*/ \
+		"Vehicle Speed (Km/h),"								/*-Speed			*/ \
+		"ISCV duty (%),"									/*-Iscvduty			*/ \
+		"O2 Sensor Voltage (V),"							/*-O2volt			*/ \
+		"Suction In Air Temperature (mV),"					/*-SuctionAirTemp	*/ \
+		"Throttle Sensor #2 Voltage(mv),,"  				/*-ThrottleV_2		*/
 
-#define CSV_HEADER_AUX {
-	"AUX1,"
-	"AUX2,"
-	"AUX3,"
-	"AUX4,"
-	"AUX5,"
-	"AUX6,"
-	"AUX7,"
-	"AUX8" }
+#define CSV_HEADER_AUX 	"AUX1,"	\
+						"AUX2,"	\
+						"AUX3,"	\
+						"AUX4,"	\
+						"AUX5,"	\
+						"AUX6,"	\
+						"AUX7,"	\
+						"AUX8"
 
 /*
 *Structure for Advanced information Group FD3S : 
