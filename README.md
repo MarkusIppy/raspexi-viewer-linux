@@ -95,12 +95,15 @@ baud ==> Serial port baud rate
 
 interval ==> Data refresh interval
 
+model ==> Mazda, Nissan, Subaru, Toyota
+
 dash1, dash2, dash3, dash4 ==> Dashboard XML file
 
 csvfile ==> CSV output file
 
 *NOTE THAT if we have set csvfile location to `/tmp` it will be remove by
 system on (re)start*
+*NOTE THAT the 'model' configuration value is in testing and is not fully supported yet (9/March/2015)*
 
 HOW TO RUN
 ----------
@@ -114,6 +117,8 @@ $ ./run.sh
 GAUGES DATASOURCE
 -----------------
 The following are inputs and theirs name can use in Dashboard:
+(NOTE: the current version is in testing for support for multiple vehicles (9/March/2015), the datasources below are for Mazda only.
+Please refer to powerfc.h file for data sources for other vehicles, these MUST match the datasource given in the dashboard XML file)
 
 Input                                           -Name to be defined
 
