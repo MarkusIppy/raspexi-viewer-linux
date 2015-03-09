@@ -90,7 +90,7 @@ extern "C" {
 		"Engine Load (N),"									/*-EngLoad			*/ \
 		"Mass Flow Sensor #1 (mv),"            				/*-MAF1V			*/ \
 		"Mass Flow Sensor #2 (mv),"							/*-MAF2V			*/ \
-		"Primary Injector Pulse Width (mSec)," 				/*-PrimaryInj_pw	*/ \
+		"Primary Injector Pulse Width (mSec)," 				/*-Primaryinp		*/ \
 		"Fuel correction," 									/*-Fuelc			*/ \
 		"Ignition Timing (deg),"		 					/*-Leadingign		*/ \
 		"Ignition Dwell Angle (deg),"						/*-Trailingign		*/ \
@@ -102,8 +102,8 @@ extern "C" {
 		"Battery Voltage (V),"								/*-BatteryV			*/ \
 		"Vehicle Speed (Km/h),"								/*-Speed			*/ \
 		"Mass Air Flow sensor activity ratio (%),"			/*-MAFactivity		*/ \
-		"O2 Sensor #1 Voltage (V),"							/*-O2_1				*/ \
-		"O2 Sensor #2 Voltage (V),"							/*-O2_2				*/ \
+		"O2 Sensor #1 Voltage (V),"							/*-O2volt			*/ \
+		"O2 Sensor #2 Voltage (V),"							/*-O2volt_2			*/ \
 		"Throttle Sensor Voltage (mv),,"  					/*-ThrottleV		*/
 
 
@@ -176,7 +176,7 @@ typedef struct {
 	unsigned short EngLoad;			//1
 	unsigned short MAF1V;			//2
 	unsigned short MAF2V;			//3
-	unsigned short PrimaryInj_pw;	//4
+	unsigned short Primaryinp;		//4
 	unsigned short Fuelc;			//5
 	unsigned char Leadingign;		//6
 	unsigned char Trailingign;		//7
@@ -188,8 +188,8 @@ typedef struct {
 	unsigned char BatteryV;			//13
 	unsigned short Speed;			//14
 	unsigned short MAFactivity;		//15
-	unsigned char O2_1;				//16
-	unsigned char O2_2;				//17
+	unsigned char O2volt;			//16
+	unsigned char O2volt_2;			//17
 	unsigned short ThrottleV;		//18
 	unsigned char na1;				//19
 } fc_adv_info_t_2;
@@ -203,7 +203,7 @@ typedef struct {
 	unsigned short Intakepress;		//1
 	unsigned short PressureV;		//2
 	unsigned short ThrottleV;		//3
-	unsigned short PrimaryInj_pw;	//4
+	unsigned short Primaryinp;		//4
 	unsigned short Fuelc;			//5
 	unsigned char Leadingign;		//6
 	unsigned char Trailingign;		//7
@@ -235,6 +235,13 @@ typedef struct {
 	unsigned char AUX7;
 	unsigned char AUX8;
 } fc_aux_info_t;
+
+
+/*
+* Maximum number of elements in the above structs
+*/
+#define FC_ADV_INFO_MAX_ELEMENTS 21
+#define FC_AUX_INFO_MAX_ELEMENTS 8
 
 /*
 *Advanced Information : 
