@@ -47,26 +47,26 @@ static gchar *map[] = {"RPM", "Intakepress", "PressureV",
                        "ThrottleV", "Primaryinp", "Fuelc", "Leadingign", "Trailingign",
                        "Fueltemp", "Moilp", "Boosttp", "Boostwg", "Watertemp", "Intaketemp", "Knock", "BatteryV",
                        "Speed", "Iscvduty", "O2volt", "na1", "Secinjpulse",
-                       "na2",
+					   "na2", 
                        "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8"};
 
 // Nissan and Subaru map
 static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
-                         "MAF2V", "PrimaryInj_pw", "Fuelc", "Leadingign", "Trailingign",
+                         "MAF2V", "Primaryinp", "Fuelc", "Leadingign", "Trailingign",
                          "BoostPres", "BoostDuty", "Watertemp", "Intaketemp", "Knock", "BatteryV",
-                         "Speed", "MAFactivity", "O2_1", "O2_2", "ThrottleV",
-						 "na1",
+                         "Speed", "MAFactivity", "O2volt", "O2volt_2", "ThrottleV",
+						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8" };
 
 // Toyota map
 static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
-                         "ThrottleV", "PrimaryInj_pw", "Fuelc", "Leadingign", "Trailingign",
+                         "ThrottleV", "Primaryinp", "Fuelc", "Leadingign", "Trailingign",
                          "BoostPres", "BoostDuty", "Watertemp", "Intaketemp", "Knock", "BatteryV",
 						 "Speed", "Iscvduty", "O2volt", "SuctionAirTemp", "ThrottleV_2",
-						 "na1",
+						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8" };
 						 
-static gdouble rtv[sizeof(map)]; //Largest size map with 30 items
+static gdouble rtv[ FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + 1 ]; // Plus one is for the last unavailable item (e.g. na2, na1)
 
 /*!
 	\brief Wrapper function that does a nonblocking select()/read loop .
@@ -211,8 +211,9 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 	guchar *ptr = buf;
 
 	gint model = 0;
-	gdouble mul[] = FC_ADV_INFO_MUL;
+	gdouble mul[] = FC_ADV_INFO_MUL; //These are the largest arrays so no need for g_malloc
 	gdouble add[] = FC_ADV_INFO_ADD;
+
 	if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Mazda") == 0)
 	{
 		model = 1;
@@ -311,7 +312,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[1] = mul[1] * info->EngLoad + add[1];
 			rtv[2] = mul[2] * info->MAF1V + add[2];
 			rtv[3] = mul[3] * info->MAF2V + add[3];
-			rtv[4] = mul[4] * info->PrimaryInj_pw + add[4];
+			rtv[4] = mul[4] * info->Primaryinp + add[4];
 			rtv[5] = mul[5] * info->Fuelc + add[5];
 			rtv[6] = mul[6] * info->Leadingign + add[6];
 			rtv[7] = mul[7] * info->Trailingign + add[7];
@@ -327,8 +328,8 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[13] = mul[13] * info->BatteryV + add[13];
 			rtv[14] = mul[14] * info->Speed + add[14];
 			rtv[15] = mul[15] * info->MAFactivity + add[15];
-			rtv[16] = mul[16] * info->O2_1 + add[16];
-			rtv[17] = mul[17] * info->O2_2 + add[17];
+			rtv[16] = mul[16] * info->O2volt + add[16];
+			rtv[17] = mul[17] * info->O2volt_2 + add[17];
 			rtv[18] = mul[18] * info->ThrottleV + add[18];
 			rtv[19] = mul[19] * info->na1 + add[19];
 			rtv[20] = 0;
@@ -342,7 +343,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[1] = mul[1] * info->Intakepress + add[1];
 			rtv[2] = mul[2] * info->PressureV + add[2];
 			rtv[3] = mul[3] * info->ThrottleV + add[3];
-			rtv[4] = mul[4] * info->PrimaryInj_pw + add[4];
+			rtv[4] = mul[4] * info->Primaryinp + add[4];
 			rtv[5] = mul[5] * info->Fuelc + add[5];
 			rtv[6] = mul[6] * info->Leadingign + add[6];
 			rtv[7] = mul[7] * info->Trailingign + add[7];
@@ -395,38 +396,36 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 */
 G_MODULE_EXPORT gdouble powerfc_get_current_value(gchar *source)
 {
-	gint i;
+	gint i = 0;
 	gint model = 1;
-	if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Mazda") == 0)
+	gint map_N_elements = FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + 1;
+	gchar *model_str = (const gchar *)DATA_GET(global_data, "model");
+
+	if (g_strcmp0(model_str, "Mazda") == 0)
 		model = 1;
-	else if ((g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Nissan") == 0) ||
-		(g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Subaru") == 0))
+	else if ((g_strcmp0(model_str, "Nissan") == 0) ||
+			(g_strcmp0(model_str, "Subaru") == 0))
 		model = 2;
-	else if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Toyota") == 0)
+	else if (g_strcmp0(model_str, "Toyota") == 0)
 		model = 3;
-
-	if (model == 1){
-		for (i = 0; i < sizeof(map); i++) 
-			if (g_ascii_strcasecmp(source, map[i]) == 0) 
-				break;			
-		if (i == sizeof(map)) 
-			return 0.0;		
+	
+	for (i = 0; i < map_N_elements; i++)
+	{
+		if (model == 1){
+			if (g_ascii_strcasecmp(source, map[i]) == 0) break; 
+		}
+		else if (model == 2){
+			if (g_ascii_strcasecmp(source, map2[i]) == 0) break; 
+		}
+		else if (model == 3){
+			if (g_ascii_strcasecmp(source, map3[i]) == 0) break; 
+		}
 	}
 
-	else if (model == 2){
-		for (i = 0; i < sizeof(map2); i++) 
-			if (g_ascii_strcasecmp(source, map2[i]) == 0) 
-				break;			
-		if (i == sizeof(map2)) 
-			return 0.0;
-	}
-
-	else if (model == 3){
-		for (i = 0; i < sizeof(map3); i++) 
-			if (g_ascii_strcasecmp(source, map3[i]) == 0) 
-				break;			
-		if (i == sizeof(map3)) 
-			return 0.0;
+	if (i == map_N_elements)
+	{
+		printf("'%s' is not supported for '%s'\n", source, model_str);
+		return 0.0;
 	}
 
 	return rtv[i];

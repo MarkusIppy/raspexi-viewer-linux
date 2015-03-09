@@ -117,8 +117,8 @@ $ ./run.sh
 GAUGES DATASOURCE
 -----------------
 The following are inputs and theirs name can use in Dashboard:
-(NOTE: the current version is in testing for support for multiple vehicles (9/March/2015), the datasources below are for Mazda only.
-Please refer to powerfc.h file for data sources for other vehicles, these MUST match the datasource given in the dashboard XML file)
+(NOTE: the current version is in testing for support for multiple vehicles (March/2015), the datasources below are for Mazda only.
+Please refer to powerfc.h file for data sources for other vehicles, these should match the datasource given in the dashboard XML file)
 
 Input                                           -Name to be defined
 
