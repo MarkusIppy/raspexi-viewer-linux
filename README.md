@@ -209,11 +209,11 @@ DEVELOPMENT
 
   ```
   $ cd raspexi
-  $ make
+  $ ./compile.sh
   ```
     
 - Binary package for deployment
   ```
-  $ package.sh
+  $ ./package.sh
   ```
   the binary package `raspexi-yyyymmdd.tar.gz` will be created.
