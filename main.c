@@ -121,6 +121,8 @@ int main (int argc, char **argv)
 		{
 			FILE *csvfile = NULL;
 			csvfile = powerfc_open_csvfile(tmpbuf);
+			if (csvfile == NULL)
+				return -1;
 			DATA_SET(global_data, "csvfile", csvfile);
 			printf("csvfile = %s\n", tmpbuf);
 			cleanup(tmpbuf);

@@ -446,20 +446,28 @@ G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 
 	if (g_file_test(filename, G_FILE_TEST_EXISTS)) {
 		csvfile = g_fopen(filename, "ab+");
+
+		if (csvfile == NULL)
+			printf("Error opening log file '%s'\n", filename);
 	}
 	else {
 		csvfile = g_fopen(filename, "wb");
 
-		if (model == 1)
-			fprintf(csvfile, CSV_HEADER_1
-							 CSV_HEADER_AUX);
-		else if (model == 2)
-			fprintf(csvfile, CSV_HEADER_2
-							 CSV_HEADER_AUX);
-		else if (model == 3)
-			fprintf(csvfile, CSV_HEADER_3
-							 CSV_HEADER_AUX);
-		fflush(csvfile);
+		if (csvfile == NULL)
+			printf("Error opening log file '%s'\n", filename);
+		else{
+			if (model == 1)
+				fprintf(csvfile, CSV_HEADER_1
+				CSV_HEADER_AUX);
+			else if (model == 2)
+				fprintf(csvfile, CSV_HEADER_2
+				CSV_HEADER_AUX);
+			else if (model == 3)
+				fprintf(csvfile, CSV_HEADER_3
+				CSV_HEADER_AUX);
+			fflush(csvfile);
+		}
 	}
+
 	return csvfile;
 }
