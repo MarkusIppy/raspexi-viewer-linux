@@ -79,47 +79,47 @@ Gauge Datasources
 -----------------
 The following _Descriptions_ are for information which the Power FC will return for a given model. The _Datasource Name_ can be used in the dashboard XML files to define what information a particular gauge will display:
 
-*NOTE: The current version is in testing for support for vehicles other than Mazda (March/2015) * 
+*NOTE: The current version is in testing for support for vehicles other than Mazda (March/2015)* 
 
 Description										|Datasource Name		|Mazda			|Nissan			|Subaru			|Toyota
 ------------------------------------------------|:---------------------:|:-------------:|:-------------:|:-------------:|:-------------:
-_Engine Speed (rpm)							_	|__RPM				__	|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__		
-_Absolute Intake Pressure (Kg/cm2)			_	|__Intakepress		__	|<big>__✓__		|				|				|<big>__✓*__
-_Pressure Sensor Voltage (mv)				_	|__PressureV		__	|<big>__✓__		|				|				|<big>__✓*__
-_Engine Load (N)							_	|__EngLoad			__	|				|<big>__✓*__	|<big>__✓*__	|
-_Mass Flow Sensor #1 (mv)					_	|__MAF1V			__	|				|<big>__✓*__	|<big>__✓*__	|
-_Mass Flow Sensor #2 (mv)					_	|__MAF2V			__	|				|<big>__✓*__	|<big>__✓*__	|
-_Throttle Sensor Voltage (mv)				_	|__ThrottleV		__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Throttle Sensor #2 Voltage(mv)				_	|__ThrottleV_2		__	|				|				|				|<big>__✓*__
-_Primary Injector Pulse Width (mSec)        _  	|__Primaryinp		__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Fuel correction                            _  	|__Fuelc			__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Leading Ignition Angle (deg)               _  	|__Leadingign		__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Trailing Ignition Angle (deg)              _  	|__Trailingign		__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Fuel Temperature (deg.C)                   _  	|__Fueltemp			__	|<big>__✓__		|				|				|
-_Metering Oil Pump Duty (%)                 _   |__Moilp			__	|<big>__✓__		|				|				|
-_Boost Duty (TP.%)                          _   |__Boosttp			__	|<big>__✓__		|				|				|				|<font color="red">These are</font>
-_Boost Duty (Wg,%)                          _   |__Boostwg			__	|<big>__✓__		|				|				|				|<font color="red">to be combined</font>
-_Boost Pressure (PSI)						_	|__BoostPres		__	|				|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<font color="red">in a future</font>
-_Boost Duty (%)								_	|__BoostDuty		__	|				|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<font color="red">release.</font>
-_Water Temperature (deg. C)                 _   |__Watertemp		__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Intake Air Temperature (deg C)             _   |__Intaketemp		__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Knocking Level                             _   |__Knock			__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Battery Voltage (V)                        _   |__BatteryV			__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Vehicle Speed (Km/h)                       _   |__Speed			__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_ISCV duty (%)                              _   |__Iscvduty			__	|<big>__✓__		|				|				|<big>__✓*__
-_Mass Air Flow sensor activity ratio (%)	_	|__MAFactivity		__	|				|<big>__✓*__	|<big>__✓*__	|		
-_O2 Sensor Voltage (mv)                     _  	|__O2volt			__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_O2 Sensor #2 Voltage (mV),"				_	|__O2volt_2			__	|				|<big>__✓*__	|<big>__✓*__	|		
-_Secondary Injector Pulse Width (mSec)      _  	|__Secinjpulse		__	|<big>__✓__		|				|				|
-_Suction In Air Temperature (mV)			_	|__SuctionAirTemp	__	|				|				|				|<big>__✓*__
-_Analog Auxilary Input #1                   _   |__AUX1				__	|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #2                   _   |__AUX2				__	|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #3                   _   |__AUX3				__	|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #4                   _	|__AUX4				__	|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #5                   _  	|__AUX5				__	|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #6                   _	|__AUX6				__	|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #7                   _  	|__AUX7				__	|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #8                   _	|__AUX8				__	|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Engine Speed (rpm)_							|`__RPM__`				|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__		
+_Absolute Intake Pressure (Kg/cm2)_				|`__Intakepress__`		|<big>__✓__		|				|				|<big>__✓*__
+_Pressure Sensor Voltage (mv)_					|`__PressureV__`		|<big>__✓__		|				|				|<big>__✓*__
+_Engine Load (N)_								|`__EngLoad__`			|				|<big>__✓*__	|<big>__✓*__	|
+_Mass Flow Sensor #1 (mv)_						|`__MAF1V__`			|				|<big>__✓*__	|<big>__✓*__	|
+_Mass Flow Sensor #2 (mv)_						|`__MAF2V__`			|				|<big>__✓*__	|<big>__✓*__	|
+_Throttle Sensor Voltage (mv)_					|`__ThrottleV__`		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Throttle Sensor #2 Voltage(mv)_				|`__ThrottleV_2__`		|				|				|				|<big>__✓*__
+_Primary Injector Pulse Width (mSec)_          	|`__Primaryinp__`		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Fuel correction_                              	|`__Fuelc__`			|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Leading Ignition Angle (deg)_                 	|`__Leadingign__`		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Trailing Ignition Angle (deg)_                	|`__Trailingign__`		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Fuel Temperature (deg.C)_                     	|`__Fueltemp__`			|<big>__✓__		|				|				|
+_Metering Oil Pump Duty (%)_                    |`__Moilp__`			|<big>__✓__		|				|				|
+_Boost Duty (TP.%)_                             |`__Boosttp__`			|<big>__✓__		|				|				|				|<font color="red">These are</font>
+_Boost Duty (Wg,%)_                             |`__Boostwg__`			|<big>__✓__		|				|				|				|<font color="red">to be combined</font>
+_Boost Pressure (PSI)_							|`__BoostPres__`		|				|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<font color="red">in a future</font>
+_Boost Duty (%)_								|`__BoostDuty__`		|				|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<font color="red">release.</font>
+_Water Temperature (deg. C)_                    |`__Watertemp__`		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Intake Air Temperature (deg C)_                |`__Intaketemp__`		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Knocking Level_                                |`__Knock__`			|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Battery Voltage (V)_                           |`__BatteryV__`			|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Vehicle Speed (Km/h)_                          |`__Speed__`			|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_ISCV duty (%)_                                 |`__Iscvduty__`			|<big>__✓__		|				|				|<big>__✓*__
+_Mass Air Flow sensor activity ratio (%)_		|`__MAFactivity__`		|				|<big>__✓*__	|<big>__✓*__	|		
+_O2 Sensor Voltage (mv)_                       	|`__O2volt__`			|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_O2 Sensor #2 Voltage (mV)_						|`__O2volt_2__`			|				|<big>__✓*__	|<big>__✓*__	|		
+_Secondary Injector Pulse Width (mSec)_        	|`__Secinjpulse__`		|<big>__✓__		|				|				|
+_Suction In Air Temperature (mV)_				|`__SuctionAirTemp__`	|				|				|				|<big>__✓*__
+_Analog Auxilary Input #1_                      |`__AUX1__`				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxilary Input #2_                      |`__AUX2__`				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxilary Input #3_                      |`__AUX3__`				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxilary Input #4_                   	|`__AUX4__`				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxilary Input #5_                     	|`__AUX5__`				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxilary Input #6_                   	|`__AUX6__`				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxilary Input #7_                     	|`__AUX7__`				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxilary Input #8_                   	|`__AUX8__`				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 <big>__*__</big> Implemented but untested
 
 
