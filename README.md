@@ -1,6 +1,6 @@
 #<big>__Raspexi__</big>		<img align="right" src="https://www.dropbox.com/s/uhp53ih4mcmsfmi/raspexi-logo_v2.png?dl=1" width="407" height="101" />
 
-### _A'PEXi Power FC Interface for Raspberry Pi _
+### _A'PEXi Power FC Interface for Raspberry Pi_
 
 
 Summary
@@ -16,8 +16,7 @@ Installation
 ------------
 #### Pre-Requisite
 
-Rasberry Pi with Raspbian OS. Tested versions:
-
+Rasberry Pi with Raspbian OS. Tested versions:<br>
 * 2013-05-25-wheezy-raspbian
 * 2013-09-25-wheezy-raspbian
 * 2014-01-07-wheezy-raspbian
@@ -82,7 +81,7 @@ The following _Descriptions_ are for information which the Power FC will return 
 
 *NOTE: The current version is in testing for support for vehicles other than Mazda (March/2015) * 
 
-<p>Description</p>								|<p>Datasource Name</p>	|<p>Mazda</p>	|<p>Nissan</p>	|<p>Subaru</p>	|<p>Toyota</p>
+Description										|Datasource Name		|Mazda			|Nissan			|Subaru			|Toyota
 ------------------------------------------------|:---------------------:|:-------------:|:-------------:|:-------------:|:-------------:
 _Engine Speed (rpm)							_	|__RPM				__	|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__		
 _Absolute Intake Pressure (Kg/cm2)			_	|__Intakepress		__	|<big>__✓__		|				|				|<big>__✓*__
