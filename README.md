@@ -8,13 +8,8 @@ Summary
 
 Digital Gauge Display for A'PEXi Power FC which runs on Raspberry Pi. Raspexi is capable of communicating with the Power FC to retrieve diagnostic information and display the information in the form of aesthetic guages and dashboards. Raspexi has been tested for Mazda Power FC's and is currently in beta testing for Nissan, Subaru and Toyota Power FC's.
 
-The Gauges and Dashboards used in this software are adapted from:
-
-* <a href="https://github.com/djandruczyk/MegaTunix">__MegaTunix__</a> by _David J. Andruczyk_
-
-The A'PEXi Serial interface is adapted from:
-
-* <a href="http://kaele.com/~kashima/car/pfcadp/FCLoggerFD3S.xls">__FCLogger__</a> by _Hitoshi Kashima_
+The Gauges and Dashboards used in this software are adapted from <a href="https://github.com/djandruczyk/MegaTunix">__MegaTunix__</a> by _David J. Andruczyk_<br>
+The A'PEXi Serial interface is adapted from <a href="http://kaele.com/~kashima/car/pfcadp/FCLoggerFD3S.xls">__FCLogger__</a> by _Hitoshi Kashima_
 
 
 Installation
@@ -127,6 +122,17 @@ _Analog Auxilary Input #6                   _	|__AUX6				__	|<big>__✓__		|<big
 _Analog Auxilary Input #7                   _  	|__AUX7				__	|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 _Analog Auxilary Input #8                   _	|__AUX8				__	|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 <big>__*__</big> Implemented but untested
+
+
+Custom Gauges and Dashboards
+----------------------------
+You can create your very own custom gauges and dashboards using __*MegaTunix*__ which you can download [__compiled here__](http://sourceforge.net/projects/megatunix/) or the [__source here__](https://github.com/djandruczyk/MegaTunix).
+
+To create your own __Gauges__ you can use the __`MtxGaugeDesigner`__.<br>
+To create your own __Dashboards__ (which can include custom gauges) you can use the __`MtxDashDesigner`__.
+
+Once you have saved the custom Gauges and Dashboards in the XML file format you will need to make sure that the XML field element `<datasource>` contains the appropriate _'Datasource Name'_ from the table above for each `<gauge>` in the dashboard XML file.
+
 
 Development
 -----------
