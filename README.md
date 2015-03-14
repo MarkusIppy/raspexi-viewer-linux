@@ -1,10 +1,10 @@
-Apexi Power FC Interface for RX-7 FD3S (Raspexi Viewer)
+Apexi Power FC Interface for Raspberry Pi (Raspexi Viewer)
 =======================================================
 
 Summary
 -------
 
-Digital Gauge Display for Mazda RX-7 FD3S and Apexi Power FC
+Digital Gauge Display for Apexi Power FC which runs on Raspberry Pi
 
 This program is based on the source code of Gauges and Dashboard adapted from:
 
@@ -14,7 +14,7 @@ Apexi Serial interface adapted from:
 
 Hitoshi Kashima http://kaele.com/~kashima/car/pfcadp/FCLoggerFD3S.xls
 
-HISTORY
+History
 -------
 
 2014/05/07 r4
@@ -33,7 +33,7 @@ HISTORY
 2014/03/31 r1
 - Initial release
 
-PREREQUISITE
+Pre-Requisite
 ------------
 Rasberry Pi with Raspbian OS (Tested)
 - 2013-05-25-wheezy-raspbian
@@ -41,7 +41,7 @@ Rasberry Pi with Raspbian OS (Tested)
 - 2014-01-07-wheezy-raspbian
 
 
-DIRECTORIES & FILES
+Directories & Files
 -------------------
 ```
 ├── Dashboards                          ==> Dashboards directory
@@ -64,7 +64,7 @@ DIRECTORIES & FILES
 └── run.sh                              ==> Run script
 ```
 
-INSTALLATION
+Installation
 ------------
 Extract the archive `raspexi-yyyymmdd.tar.gz` to `/home/pi`
 
@@ -73,39 +73,41 @@ $ cd /home/pi
 $ tar xvzf raspexi-yyyymmdd.tar.gz
 ```
 
-CONFIGURATION
+Configuration
 -------------
 There are a few configuration variables in `raspexi.cfg` :-
 
 ```
 [default]
 port = /dev/ttyUSB0
-baud = 19200,8,e,1
-interval = 200
-dash1 = FD3S_Raspexi.xml
-dash2 = FD3S_Raspexi_2.xml
-dash3 = FD3S_Raspexi_3.xml
-dash4 = FD3S_Raspexi_4.xml
-csvfile = /tmp/raspexi.csv
+baud = 57600,8,n,1
+interval = 35
+model = Mazda
+dash1 = Analogue_Dash_1280_720.xml
+dash2 = Commander_1280_720.xml
+dash3 = Digital_Dash_1280_720.xml
+dash4 = Race_1280_720.xml
+csvfile = /home/pi/raspexi/log/raspexi.csv
 ```
 
-port ==> Serial port device name
+* port ==> Serial port device name
 
-baud ==> Serial port baud rate
+* baud ==> Serial port baud rate
 
-interval ==> Data refresh interval
+* interval ==> Data refresh interval
 
-model ==> Mazda, Nissan, Subaru, Toyota
+* model ==> Mazda, Nissan, Subaru, Toyota
 
-dash1, dash2, dash3, dash4 ==> Dashboard XML file
+* dash1, dash2, dash3, dash4 ==> Dashboard XML file
 
-csvfile ==> CSV output file
+* csvfile ==> CSV output file
 
-*NOTE THAT if we have set csvfile location to `/tmp` it will be remove by
+*NOTE: If we have set csvfile location to `/tmp` it will be remove by
 system on (re)start*
-*NOTE THAT the 'model' configuration value is in testing and is not fully supported yet (9/March/2015)*
 
-HOW TO RUN
+*NOTE: The 'model' configuration value is in testing and is not fully supported yet (9/March/2015)*
+
+How To Run
 ----------
 You can run this release with the following command :-
 
@@ -114,55 +116,46 @@ $ cd /home/pi/raspexi
 $ ./run.sh
 ```
 
-GAUGES DATASOURCE
+Gauges Datasource
 -----------------
 The following are inputs and theirs name can use in Dashboard:
-(NOTE: the current version is in testing for support for multiple vehicles (March/2015), the datasources below are for Mazda only.
-Please refer to powerfc.h file for data sources for other vehicles, these should match the datasource given in the dashboard XML file)
 
-Input                                           -Name to be defined
+*(NOTE: the current version is in testing for support for multiple vehicles (March/2015), the datasources below are for Mazda only.
+Please refer to powerfc.h file for data sources for other vehicles, these should match the datasource given in the dashboard XML file)*
 
--Engine Speed (rpm)                             -RPM
+Value											|Datasource Name	|Mazda	|Nissan	|Subaru	|Toyota
+------------------------------------------------|-------------------|-------|-------|-------|------
+Engine Speed (rpm)								|RPM				|✓		|✓		|✓		|✓		
+Absolute Intake Pressure (Kg/cm2)				|Intakepress		|✓		|		|		|✓
+Pressure Sensor Voltage (mv)					|PressureV			|✓		|		|		|✓
+Engine Load (N)									|EngLoad			|		|✓		|✓		|
+Mass Flow Sensor #1 (mv)						|MAF1V				|		|✓		|✓		|
+Mass Flow Sensor #2 (mv)						|MAF2V				|		|✓		|✓		|
+Throttle Sensor Voltage (mv)					|ThrottleV			|✓		|✓		|✓		|✓
+Throttle Sensor #2 Voltage(mv)					|ThrottleV_2		|		|		|		|✓
+Primary Injector Pulse Width (mSec)            	|Primaryinp			|✓		|✓		|✓		|✓
+Fuel correction                                	|Fuelc				|✓		|✓		|✓		|✓
+Leading Ignition Angle (deg)                   	|Leadingign			|✓		|✓		|✓		|✓
+Trailing Ignition Angle (deg)                  	|Trailingign		|✓		|✓		|✓		|✓
+Fuel Temperature (deg.C)                       	|Fueltemp			|✓		|		|		|
+Metering Oil Pump Duty (%)                     	|Moilp				|✓		|		|		|
+Boost Duty (TP.%)                              	|Boosttp			|✓		|		|		|	|These are
+Boost Duty (Wg,%)                              	|Boostwg			|✓		|		|		|	|to be combined
+Boost Pressure (PSI)							|BoostPres			|		|✓		|✓		|✓	|in a future
+Boost Duty (%)									|BoostDuty			|		|✓		|✓		|✓	|release.
+Water Temperature (deg. C)                     	|Watertemp			|✓		|✓		|✓		|✓
+Intake Air Temperature (deg C)                 	|Intaketemp			|✓		|✓		|✓		|✓
+Knocking Level                                 	|Knock				|✓		|✓		|✓		|✓
+Battery Voltage (V)                            	|BatteryV			|✓		|✓		|✓		|✓
+Vehicle Speed (Km/h)                           	|Speed				|✓		|✓		|✓		|✓
+ISCV duty (%)                                  	|Iscvduty			|✓		|		|		|✓
+Mass Air Flow sensor activity ratio (%)			|MAFactivity		|		|✓		|✓		|		
+O2 Sensor Voltage (mv)                         	|O2volt				|✓		|✓		|✓		|✓
+O2 Sensor #2 Voltage (mV),"						|O2volt_2			|		|✓		|✓		|		
+Secondary Injector Pulse Width (mSec)          	|Secinjpulse		|✓		|		|		|
+Suction In Air Temperature (mV)					|SuctionAirTemp		|		|		|		|✓
 
--Absolute Intake Pressure (Kg/cm2)              -Intakepress   
-
--Pressure Sensor Voltage (mv)                   -PressureV   
-
--Throttle Sensor Voltage (mv)                   -ThrottleV
-
--Primary Injector Pulse Width (mSec)            -Primaryinp
-
--Fuel correction                                -Fuelc
-
--Leading Ignition Angle (deg)                   -Leadingign
-
--Trailing Ignition Angle (deg)                  -Trailingign
-
--Fuel Temperature (deg.C)                       -Fueltemp
-
--Metering Oil Pump Duty (%)                     -Moilp
-
--Boost Duty (TP.%)                              -Boosttp
-
--Boost Duty (Wg,%)                              -Boostwg
-
--Water Temperature (deg. C)                     -Watertemp
-
--Intake Air Temperature (deg C)                 -Intaketemp
-
--Knocking Level                                 -Knock
-
--Battery Voltage (V)                            -BatteryV
-
--Vehicle Speed (Km/h)                           -Speed
-
--ISCV duty (%)                                  -Iscvduty
-
--O2 Sensor Voltage (mv)                         -O2volt
-
--Secondary Injector Pulse Width (mSec)          -Secinjpulse
-
-DEVELOPMENT
+Development
 -----------
 - Download or clone the original MegaTunix source code from :-
   ```
