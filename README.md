@@ -1,7 +1,8 @@
-#<big>__Raspexi__</big>		
 <img align="right" src="https://www.dropbox.com/s/uhp53ih4mcmsfmi/raspexi-logo_v2.png?dl=1" width="407" height="101" />
-
+#<big>__Raspexi__<br></br></big>
 <big>_A'PEXi Power FC Interface for Raspberry Pi_</big>
+
+
 
 
 Summary
