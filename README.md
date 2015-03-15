@@ -46,7 +46,7 @@ dash1 = Analogue_Dash_1280_720.xml
 dash2 = Commander_1280_720.xml
 dash3 = Digital_Dash_1280_720.xml
 dash4 = Race_1280_720.xml
-analog_eq1 = 1.2 * (AUX1 - AUX2) + 3.5
+analog_eq1 = 1.4 * (AUX1 - AUX2) + 9.0
 analog_eq2 = 0.5*AUX3+2.5
 csvfile = /home/pi/raspexi/log/raspexi.csv
 ```
@@ -139,7 +139,7 @@ It may not be convenient to view __`AUX1`__, __`AUX2`__, etc, in a gauge as is. 
 
 Two examples are as follows:
 
-* For _'y'_ = __`Analog1`__, _'m'_ = `1.4`, _'x'_ = __`AUX1 - AUX2`__ and _'b'_ = `9.0`. The resulting line in `raspexi.cfg` could be `analog_eq1 = 1.2 * (AUX1 - AUX2) + 3.5`.
+* For _'y'_ = __`Analog1`__, _'m'_ = `1.4`, _'x'_ = __`AUX1 - AUX2`__ and _'b'_ = `9.0`. The resulting line in `raspexi.cfg` could be `analog_eq1 = 1.4 * (AUX1 - AUX2) + 9.0`.
 
 * For _'y'_ = __`Analog2`__, _'m'_ = `0.5`, _'x'_ = __`AUX3`__ and _'b'_ = `2.5`. The resulting line in `raspexi.cfg` could be `analog_eq2 = 0.5*AUX3+2.5`.
 
