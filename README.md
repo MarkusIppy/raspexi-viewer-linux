@@ -61,7 +61,7 @@ csvfile = /home/pi/raspexi/log/raspexi.csv
 
 * dash1, dash2, dash3, dash4 ==> Dashboard XML file
 
-* analog_eq1, analog_eq2, analog_eq3, analog_eq4 ==> Analog equations for auxilary input relations. (See section _'Analog Auxilary Input Relationship Equations'_ for more details)
+* analog_eq1, analog_eq2, analog_eq3, analog_eq4 ==> Analog equations for auxiliary input relations. (See section _'Analog Auxiliary Input Relationship Equations'_ for more details)
 
 * csvfile ==> CSV log output file
 
@@ -118,14 +118,14 @@ _O2 Sensor Voltage (mv)_                       	|__`O2volt`__			|<big>__✓__		|
 _O2 Sensor #2 Voltage (mV)_						|__`O2volt_2`__			|				|<big>__✓*__	|<big>__✓*__	|		
 _Secondary Injector Pulse Width (mSec)_        	|__`Secinjpulse`__		|<big>__✓__		|				|				|
 _Suction In Air Temperature (mV)_				|__`SuctionAirTemp`__	|				|				|				|<big>__✓*__
-_Analog Auxilary Input #1_                      |__`AUX1`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #2_                      |__`AUX2`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #3_                      |__`AUX3`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #4_                   	|__`AUX4`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #5_                     	|__`AUX5`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #6_                   	|__`AUX6`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #7_                     	|__`AUX7`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-_Analog Auxilary Input #8_                   	|__`AUX8`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxiliary Input #1_                     |__`AUX1`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxiliary Input #2_                     |__`AUX2`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxiliary Input #3_                     |__`AUX3`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxiliary Input #4_                   	|__`AUX4`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxiliary Input #5_                    	|__`AUX5`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxiliary Input #6_                  	|__`AUX6`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxiliary Input #7_                    	|__`AUX7`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Analog Auxiliary Input #8_                   	|__`AUX8`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 _Result of Analog Equation #1_                 	|__`Analog1`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 _Result of Analog Equation #2_                 	|__`Analog2`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 _Result of Analog Equation #3_                 	|__`Analog3`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
@@ -133,9 +133,9 @@ _Result of Analog Equation #4_                 	|__`Analog4`__			|<big>__✓__		
 <big>__*__</big> Implemented but untested
 
 
-Analog Auxilary Input Relationship Equations
+Analog Auxiliary Input Relationship Equations
 ----------------------------
-It may not be convenient to view __`AUX1`__, __`AUX2`__, etc, in a gauge as is. Therefore we have implemented a simple linear equation parser for the `raspexi.cfg` file. The linear equations can be represented in the form _'y=m*x+b'_. Here, the result _'y'_ is stored in either __`Analog1`__, __`Analog2`__, __`Analog3`__ or __`Analog4`__ depending on the definition in `raspexi.cfg`, _'m'_ is a multiplier, _'x'_ is an auxilary input (__`AUX1`__, __`AUX2`__, etc) and _'b'_ is an adder.
+It may not be convenient to view __`AUX1`__, __`AUX2`__, etc, in a gauge as is. Therefore we have implemented a simple linear equation parser for the `raspexi.cfg` file. The linear equations can be represented in the form _'y=m*x+b'_. Here, the result _'y'_ is stored in either __`Analog1`__, __`Analog2`__, __`Analog3`__ or __`Analog4`__ depending on the definition in `raspexi.cfg`, _'m'_ is a multiplier, _'x'_ is an auxiliary input (__`AUX1`__, __`AUX2`__, etc) and _'b'_ is an adder.
 
 Two examples are as follows:
 
@@ -216,8 +216,8 @@ History
 -------
 Revision	|Date (d/m/y)	|Notes
 :----------:|:-------------:|------
-__R6__		|15/03/2015		|<ul><li>Added support for Nissan, Subaru and Toyota (by JacobD10)</li><li>Added CSV log file error handling (by JacobD10)</li><li>Added XML dashboard file incorrect '_datasource_' error handling (by JacobD10)</li><li>Added linear equations to define the auxilary relationships from the config file (by JacobD10)</li></ul>
-__R5__		|07/07/2014		|<ul><li>Implementation of Auxillary inputs AUX1-AUX8 (by SonicRaT)</li></ul>
+__R6__		|15/03/2015		|<ul><li>Added support for Nissan, Subaru and Toyota (by JacobD10)</li><li>Added CSV log file error handling (by JacobD10)</li><li>Added XML dashboard file incorrect '_datasource_' error handling (by JacobD10)</li><li>Added linear equations to define the auxiliary relationships from the config file (by JacobD10)</li></ul>
+__R5__		|07/07/2014		|<ul><li>Implementation of auxiliary inputs AUX1-AUX8 (by SonicRaT)</li></ul>
 __R4__		|07/05/2014		|<ul><li>Revising and refactoring for public release (Google Code)</li></ul>
 __R3__		|18/04/2014 	|<ul><li>Implement multiple dash board (up to 4), can be switch by key 1/2/3/4</li><li>Full screen on start</li><li>Data save to CSV file</li></ul>
 __R2__		|05/04/2014		|<ul><li>Implement PowerFC RS-232 protocol (based on fclogger.py)</li><li>Add configuration file (raspexi.cfg)</li><li>Fix issue Gauges data location</li></ul>
