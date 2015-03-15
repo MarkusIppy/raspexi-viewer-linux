@@ -130,6 +130,8 @@ _Result of Analog Equation #1_                 	|__`Analog1`__			|<big>__✓__		
 _Result of Analog Equation #2_                 	|__`Analog2`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 _Result of Analog Equation #3_                 	|__`Analog3`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 _Result of Analog Equation #4_                 	|__`Analog4`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+__Coming soon ...__   			              	|
+_Instantaneous vehicle power (kW)_				|__`Power`__			|<big>__ __		|<big>__ __		|<big>__ __		|<big>__ __
 <big>__*__</big> Implemented but untested
 
 
