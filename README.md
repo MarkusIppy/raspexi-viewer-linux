@@ -132,6 +132,9 @@ _Result of Analog Equation #3_                 	|__`Analog3`__			|<big>__✓__		
 _Result of Analog Equation #4_                 	|__`Analog4`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 __Coming soon ...__   			              	|
 _Instantaneous vehicle power (kW)_				|__`Power`__			|<big>			|<big>			|<big>			|<big>
+_Vehicle Acceleration (100km/h/s)_				|__`Accel`__			|<big>			|<big>			|<big>			|<big>
+_Force exerted in Newtons (N)_					|__`ForceN`__			|<big>			|<big>			|<big>			|<big>
+_Force exerted in G-force (G)_					|__`ForceG`__			|<big>			|<big>			|<big>			|<big>
 <big>__*__</big> Implemented but untested
 
 
