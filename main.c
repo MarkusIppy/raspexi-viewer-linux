@@ -70,6 +70,8 @@ int main (int argc, char **argv)
 	ConfigFile *cfgfile;
 	cfgfile = cfg_open_file("raspexi.cfg");
 	if (cfgfile) {
+
+		// Serial config info
 		if (cfg_read_string(cfgfile, "default", "port", &tmpbuf))
 		{
 			DATA_SET_FULL(global_data, "port", g_strdup(tmpbuf), g_free);
@@ -87,12 +89,16 @@ int main (int argc, char **argv)
 			DATA_SET(global_data, "interval", GINT_TO_POINTER(tmpi));
 			printf("interval = %d\n", tmpi);
 		}
+
+		// Vehicle config info
 		if (cfg_read_string(cfgfile, "default", "model", &tmpbuf))
 		{
 			DATA_SET_FULL(global_data, "model", g_strdup(tmpbuf), g_free);
 			printf("model = %s\n", tmpbuf);
 			cleanup(tmpbuf);
 		}
+
+		// Dashboard config info
 		if (cfg_read_string(cfgfile, "default", "dash1", &tmpbuf))
 		{
 			DATA_SET_FULL(global_data, "dash1", g_strdup(tmpbuf), g_free);
@@ -117,6 +123,41 @@ int main (int argc, char **argv)
 			printf("dash4 = %s\n", tmpbuf);
 			cleanup(tmpbuf);
 		}
+
+		//Analog/Auxilary config info
+		if (cfg_read_string(cfgfile, "default", "analog_eq1", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "analog_eq1", g_strdup(tmpbuf), g_free);
+			printf("analog_eq1 = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+		else { DATA_SET_FULL(global_data, "analog_eq1", g_strdup("0 1 0 0"), g_free); }
+
+		if (cfg_read_string(cfgfile, "default", "analog_eq2", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "analog_eq2", g_strdup(tmpbuf), g_free);
+			printf("analog_eq2 = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+		else { DATA_SET_FULL(global_data, "analog_eq2", g_strdup("0 1 0 0"), g_free); }
+
+		if (cfg_read_string(cfgfile, "default", "analog_eq3", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "analog_eq3", g_strdup(tmpbuf), g_free);
+			printf("analog_eq3 = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+		else { DATA_SET_FULL(global_data, "analog_eq3", g_strdup("0 1 0 0"), g_free); }
+
+		if (cfg_read_string(cfgfile, "default", "analog_eq4", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "analog_eq4", g_strdup(tmpbuf), g_free);
+			printf("analog_eq4 = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+		else { DATA_SET_FULL(global_data, "analog_eq4", g_strdup("0 1 0 0"), g_free); }
+
+		//Log file config info
 		if (cfg_read_string(cfgfile, "default", "csvfile", &tmpbuf))
 		{
 			FILE *csvfile = NULL;
@@ -127,6 +168,10 @@ int main (int argc, char **argv)
 			printf("csvfile = %s\n", tmpbuf);
 			cleanup(tmpbuf);
 		}
+	}
+	else{
+		printf("Cannot open configuration file.\n");
+		return -1;
 	}
 
 	open_serial((gchar *)DATA_GET(global_data,"port"), FALSE);

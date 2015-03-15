@@ -138,6 +138,11 @@ extern "C" {
 						"AUX7,"	\
 						"AUX8"
 
+#define CSV_HEADER_ANALOG 	"Analog1,"	\
+							"Analog2,"	\
+							"Analog3,"	\
+							"Analog4,"
+
 /*
 *Structure for Advanced information Group FD3S : 
 */
@@ -236,12 +241,21 @@ typedef struct {
 	unsigned char AUX8;
 } fc_aux_info_t;
 
+typedef struct {
+	unsigned char Analog1;
+	unsigned char Analog2;
+	unsigned char Analog3;
+	unsigned char Analog4;
+} analog_info_t;
+
 
 /*
 * Maximum number of elements in the above structs
 */
-#define FC_ADV_INFO_MAX_ELEMENTS 21
-#define FC_AUX_INFO_MAX_ELEMENTS 8
+#define FC_ADV_INFO_MAX_ELEMENTS	21
+#define FC_AUX_INFO_MAX_ELEMENTS	8
+#define ANALOG_INFO_MAX_ELEMENTS	4
+#define MAP_ELEMENTS				FC_ADV_INFO_MAX_ELEMENTS + 1 + FC_AUX_INFO_MAX_ELEMENTS + ANALOG_INFO_MAX_ELEMENTS
 
 /*
 *Advanced Information : 

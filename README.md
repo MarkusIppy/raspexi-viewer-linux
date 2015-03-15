@@ -46,6 +46,8 @@ dash1 = Analogue_Dash_1280_720.xml
 dash2 = Commander_1280_720.xml
 dash3 = Digital_Dash_1280_720.xml
 dash4 = Race_1280_720.xml
+analog_eq1 = 1.2 * (AUX1 - AUX2) + 3.5
+analog_eq2 = 0.5*AUX3+2.5
 csvfile = /home/pi/raspexi/log/raspexi.csv
 ```
 
@@ -59,12 +61,14 @@ csvfile = /home/pi/raspexi/log/raspexi.csv
 
 * dash1, dash2, dash3, dash4 ==> Dashboard XML file
 
+* analog_eq1, analog_eq2, analog_eq3, analog_eq4 ==> Analog equations for auxilary input relations. (See section _'Analog Auxilary Input Relationship Equations'_ for more details)
+
 * csvfile ==> CSV log output file
 
-*NOTE: If the 'csvfile' location is set to the `/tmp` directory then it will be removed by
+*Note: If the 'csvfile' location is set to the `/tmp` directory then it will be removed by
 the system on (re)start*
 
-*NOTE: The 'model' setting is in testing and has only been confirmed for Mazda (March/2015)*
+*Note: The 'model' setting is in testing and has only been confirmed for Mazda (March/2015)*
 
 
 How To Run
@@ -81,7 +85,7 @@ Gauge Datasources
 -----------------
 The following _Descriptions_ are for information which the Power FC will return for a given model. The _Datasource Name_ can be used in the dashboard XML files to define what information a particular gauge will display:
 
-*NOTE: The current version is in testing for support for vehicles other than Mazda (March/2015)* 
+*Note: The current version is in testing for support for vehicles other than Mazda (March/2015)* 
 
 Description										|Datasource Name		|Mazda			|Nissan			|Subaru			|Toyota
 ------------------------------------------------|:---------------------:|:-------------:|:-------------:|:-------------:|:-------------:
@@ -122,8 +126,24 @@ _Analog Auxilary Input #5_                     	|__`AUX5`__				|<big>__✓__		|<
 _Analog Auxilary Input #6_                   	|__`AUX6`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 _Analog Auxilary Input #7_                     	|__`AUX7`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 _Analog Auxilary Input #8_                   	|__`AUX8`__				|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Result of Analog Equation #1_                 	|__`Analog1`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Result of Analog Equation #2_                 	|__`Analog2`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Result of Analog Equation #3_                 	|__`Analog3`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
+_Result of Analog Equation #4_                 	|__`Analog4`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 <big>__*__</big> Implemented but untested
 
+
+Analog Auxilary Input Relationship Equations
+----------------------------
+It may not be convenient to view __`AUX1`__, __`AUX2`__, etc, in a gauge as is. Therefore we have implemented a simple linear equation parser for the `raspexi.cfg` file. The linear equations can be represented in the form _'y=m*x+b'_. Here, the result _'y'_ is stored in either __`Analog1`__, __`Analog2`__, __`Analog3`__ or __`Analog4`__ depending on the definition in `raspexi.cfg`, _'m'_ is a multiplier, _'x'_ is an auxilary input (__`AUX1`__, __`AUX2`__, etc) and _'b'_ is an adder.
+
+Two examples are as follows:
+
+* For _'y'_ = __`Analog1`__, _'m'_ = `1.2`, _'x'_ = __`AUX1 - AUX2`__ and _'b'_ = `3.5`. The resulting line in `raspexi.cfg` could be `analog_eq1 = 1.2 * (AUX1 - AUX2) + 3.5`.
+
+* For _'y'_ = __`Analog2`__, _'m'_ = `0.5`, _'x'_ = __`AUX3`__ and _'b'_ = `2.5`. The resulting line in `raspexi.cfg` could be `analog_eq2 = 0.5*AUX3+2.5`.
+
+*Note: The multiplication, subtraction and addition cannot be changed and spaces in the equation are ignored.*
 
 Custom Gauges and Dashboards
 ----------------------------

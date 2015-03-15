@@ -48,7 +48,8 @@ static gchar *map[] = {"RPM", "Intakepress", "PressureV",
                        "Fueltemp", "Moilp", "Boosttp", "Boostwg", "Watertemp", "Intaketemp", "Knock", "BatteryV",
                        "Speed", "Iscvduty", "O2volt", "na1", "Secinjpulse",
 					   "na2", 
-                       "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8"};
+                       "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
+					   "Analog1", "Analog2", "Analog3", "Analog4" };
 
 // Nissan and Subaru map
 static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
@@ -56,7 +57,8 @@ static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
                          "BoostPres", "BoostDuty", "Watertemp", "Intaketemp", "Knock", "BatteryV",
                          "Speed", "MAFactivity", "O2volt", "O2volt_2", "ThrottleV",
 						 "na1", "", "",
-						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8" };
+						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
+						 "Analog1", "Analog2", "Analog3", "Analog4" };
 
 // Toyota map
 static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
@@ -64,9 +66,10 @@ static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
                          "BoostPres", "BoostDuty", "Watertemp", "Intaketemp", "Knock", "BatteryV",
 						 "Speed", "Iscvduty", "O2volt", "SuctionAirTemp", "ThrottleV_2",
 						 "na1", "", "",
-						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8" };
+						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
+						 "Analog1", "Analog2", "Analog3", "Analog4" };
 						 
-static gdouble rtv[ FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + 1 ]; // Plus one is for the last unavailable item (e.g. na2, na1)
+static gdouble rtv[MAP_ELEMENTS]; // Plus one is for the last unavailable item (e.g. na2, na1)
 
 /*!
 	\brief Wrapper function that does a nonblocking select()/read loop .
@@ -196,6 +199,32 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 		rtv[27] = info->AUX6;
 		rtv[28] = info->AUX7;
 		rtv[29] = info->AUX8;
+
+
+		//Upon receiving the Auxilary analog values perform the calculations as implemented in the config file
+		gdouble val1 = 0.0, val2 = 0.0, val3 = 0.0, val4 = 0.0;
+
+		if ((const gchar *)DATA_GET(global_data, "analog_eq1") != NULL)
+		{
+			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq1"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
+			rtv[30] = val1 * (rtv[(int)val2] - (n == 3 ? 0 : rtv[(int)val3])) + (n == 3 ? val3 : val4);
+		}
+		if ((const gchar *)DATA_GET(global_data, "analog_eq2") != NULL)
+		{
+			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq2"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
+			rtv[31] = val1 * (rtv[(int)val2] - (n == 3 ? 0 : rtv[(int)val3])) + (n == 3 ? val3 : val4);
+		}
+		if ((const gchar *)DATA_GET(global_data, "analog_eq3") != NULL)
+		{
+			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq3"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
+			rtv[32] = val1 * (rtv[(int)val2] - (n == 3 ? 0 : rtv[(int)val3])) + (n == 3 ? val3 : val4);
+		}
+		if ((const gchar *)DATA_GET(global_data, "analog_eq4") != NULL)
+		{
+			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq4"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
+			rtv[33] = val1 * (rtv[(int)val2] - (n == 3 ? 0 : rtv[(int)val3])) + (n == 3 ? val3 : val4);
+		}
+
 	}
 	return TRUE;
 }
@@ -214,7 +243,12 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 	gdouble mul[] = FC_ADV_INFO_MUL; //These are the largest arrays so no need for g_malloc
 	gdouble add[] = FC_ADV_INFO_ADD;
 
-	if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Mazda") == 0)
+	if ((const gchar *)DATA_GET(global_data, "model") == NULL)
+	{
+		printf("ERROR: No model (vehicle) specified in .cfg file.\n");
+		return FALSE;
+	}
+	else if (g_strcmp0((const gchar *)DATA_GET(global_data, "model"), "Mazda") == 0)
 	{
 		model = 1;
 		gdouble mul_temp[] = FC_ADV_INFO_MUL;
@@ -238,9 +272,6 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		gdouble add_temp[] = FC_ADV_INFO_ADD_3;
 		memcpy(&mul, &mul_temp, sizeof(mul_temp));
 		memcpy(&add, &add_temp, sizeof(add_temp));
-	}
-	else{
-		return FALSE;
 	}
 
 	Serial_Params *serial_params = NULL;;
@@ -380,9 +411,12 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 
 			char currentTime[84] = "";
 			sprintf(currentTime, "%s:%03d", buffer, milli);
-			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f\n",
-					currentTime, rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9], rtv[10], rtv[11], rtv[12], rtv[13], rtv[14],
-					rtv[15], rtv[16], rtv[17], rtv[18], rtv[20], rtv[22], rtv[23], rtv[24], rtv[25], rtv[26], rtv[27], rtv[28], rtv[29]);
+			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%f,%f,%f,%f\n",
+					currentTime,
+					rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9], //Power FC advanced info
+					rtv[10], rtv[11], rtv[12], rtv[13], rtv[14], rtv[15], rtv[16], rtv[17], rtv[18], rtv[20], //Power FC advanced info
+					rtv[22], rtv[23], rtv[24], rtv[25], rtv[26], rtv[27], rtv[28], rtv[29], //Power FC auxilary info
+					rtv[30], rtv[31], rtv[32], rtv[33]); // Analog equation results
 			fflush(csvfile);
 		}
 	}
@@ -398,7 +432,6 @@ G_MODULE_EXPORT gdouble powerfc_get_current_value(gchar *source)
 {
 	gint i = 0;
 	gint model = 1;
-	gint map_N_elements = FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + 1;
 	gchar *model_str = (const gchar *)DATA_GET(global_data, "model");
 
 	if (g_strcmp0(model_str, "Mazda") == 0)
@@ -409,7 +442,7 @@ G_MODULE_EXPORT gdouble powerfc_get_current_value(gchar *source)
 	else if (g_strcmp0(model_str, "Toyota") == 0)
 		model = 3;
 	
-	for (i = 0; i < map_N_elements; i++)
+	for (i = 0; i < MAP_ELEMENTS; i++)
 	{
 		if (model == 1){
 			if (g_ascii_strcasecmp(source, map[i]) == 0) break; 
@@ -422,7 +455,7 @@ G_MODULE_EXPORT gdouble powerfc_get_current_value(gchar *source)
 		}
 	}
 
-	if (i == map_N_elements)
+	if (i == MAP_ELEMENTS)
 	{
 		printf("'%s' is not supported for '%s'\n", source, model_str);
 		return 0.0;
@@ -458,13 +491,16 @@ G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 		else{
 			if (model == 1)
 				fprintf(csvfile, CSV_HEADER_1
-				CSV_HEADER_AUX);
+				CSV_HEADER_AUX
+				CSV_HEADER_ANALOG);
 			else if (model == 2)
 				fprintf(csvfile, CSV_HEADER_2
-				CSV_HEADER_AUX);
+				CSV_HEADER_AUX
+				CSV_HEADER_ANALOG);
 			else if (model == 3)
 				fprintf(csvfile, CSV_HEADER_3
-				CSV_HEADER_AUX);
+				CSV_HEADER_AUX
+				CSV_HEADER_ANALOG);
 			fflush(csvfile);
 		}
 	}
