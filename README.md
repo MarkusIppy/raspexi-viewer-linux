@@ -216,7 +216,7 @@ History
 -------
 Revision	|Date (d/m/y)	|Notes
 :----------:|:-------------:|------
-__R6__		|15/03/2015		|<ul><li>Added support for Nissan, Subaru and Toyota (by JacobD10)</li><li>Added CSV log file error handling (by JacobD10)</li><li>Added XML dashboard file incorrect '_datasource_' error handling (by JacobD10)</li><li>Added linear equations to define the auxilary relationships from the config file</li></ul>
+__R6__		|15/03/2015		|<ul><li>Added support for Nissan, Subaru and Toyota (by JacobD10)</li><li>Added CSV log file error handling (by JacobD10)</li><li>Added XML dashboard file incorrect '_datasource_' error handling (by JacobD10)</li><li>Added linear equations to define the auxilary relationships from the config file (by JacobD10)</li></ul>
 __R5__		|07/07/2014		|<ul><li>Implementation of Auxillary inputs AUX1-AUX8 (by SonicRaT)</li></ul>
 __R4__		|07/05/2014		|<ul><li>Revising and refactoring for public release (Google Code)</li></ul>
 __R3__		|18/04/2014 	|<ul><li>Implement multiple dash board (up to 4), can be switch by key 1/2/3/4</li><li>Full screen on start</li><li>Data save to CSV file</li></ul>
