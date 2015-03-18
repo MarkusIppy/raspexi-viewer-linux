@@ -72,8 +72,8 @@ extern "C" {
 		"Trailing Ignition Angle (deg),"					/*-Trailingign		*/ \
 		"Fuel Temperature (deg.C),"							/*-Fueltemp			*/ \
 		"Metering Oil Pump Duty (%),"						/*-Moilp			*/ \
-		"Boost Duty (TP.%),"								/*-Boosttp			*/ \
-		"Boost Duty (Wg,%),"								/*-Boostwg			*/ \
+		"Boost Duty (TP %),"								/*-Boosttp			*/ \
+		"Boost Duty (Wg %),"								/*-Boostwg			*/ \
 		"Water Temperature (deg. C),"						/*-Watertemp		*/ \
 		"Intake Air Temperature (deg C),"					/*-Intaketemp		*/ \
 		"Knocking Level," 									/*-Knock			*/ \
@@ -136,7 +136,7 @@ extern "C" {
 						"AUX5,"	\
 						"AUX6,"	\
 						"AUX7,"	\
-						"AUX8"
+						"AUX8,"
 
 #define CSV_HEADER_ANALOG 	"Analog1,"	\
 							"Analog2,"	\
