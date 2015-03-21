@@ -144,8 +144,8 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 	gint zerocount = 0;
 	guchar buf[4096];
 	guchar *ptr = buf;
-	//gdouble mul[] = FC_AUX_INFO_MUL;
-	//gdouble add[] = FC_AUX_INFO_ADD;
+	gdouble mul[] = FC_AUX_INFO_MUL;
+	gdouble add[] = FC_AUX_INFO_ADD;
 
 	Serial_Params *serial_params = NULL;;
 	serial_params = (Serial_Params *)DATA_GET(global_data,"serial_params");
@@ -191,14 +191,14 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 	else {
 		fc_aux_info_t *info;
 		info = (fc_aux_info_t *)&buf[2];
-		rtv[22] = info->AUX1;
-		rtv[23] = info->AUX2;
-		rtv[24] = info->AUX3;
-		rtv[25] = info->AUX4;
-		rtv[26] = info->AUX5;
-		rtv[27] = info->AUX6;
-		rtv[28] = info->AUX7;
-		rtv[29] = info->AUX8;
+		rtv[22] = mul[0] * info->AUX1 + add[0];
+		rtv[23] = mul[1] * info->AUX2 + add[1];
+		rtv[24] = mul[2] * info->AUX3 + add[2];
+		rtv[25] = mul[3] * info->AUX4 + add[3];
+		rtv[26] = mul[4] * info->AUX5 + add[4];
+		rtv[27] = mul[5] * info->AUX6 + add[5];
+		rtv[28] = mul[6] * info->AUX7 + add[6];
+		rtv[29] = mul[7] * info->AUX8 + add[7];
 
 
 		//Upon receiving the Auxilary analog values perform the calculations as implemented in the config file
