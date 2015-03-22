@@ -166,22 +166,13 @@ Development
   ```
   $ git clone https://github.com/djandruczyk/MegaTunix
   ```
-2. Set up all dependencies and build __MegaTunix__.
-   Run the following line now to install MegaTunix dependencies (it may take a while to install these (>10mins)):
-   ```
-   $ sudo apt-get install pkg-config libtool intltool libgtkglext1-dev g++ gcc flex bison glade libglade2-dev make git-core gdb automake1.9
-   ```
-   A good step by step installation guide for MegaTunix can be found <a href="http://www.msextra.com/forums/viewtopic.php?t=23548">__here__</a>.
-   
-   In most cases the following will work to download and compile MegaTunix:
+2. Run the following to download __MegaTunix__ and install its dependencies (it may take a while to download and install these (>10mins)):
    ```
    $ cd ~/
+   $ sudo apt-get install pkg-config libtool intltool libgtkgl2.0-dev libgtkglext1-dev g++ gcc flex bison glade libglade2-dev make git-core gdb automake1.9
    $ git clone git://github.com/djandruczyk/MegaTunix.git MegaTunix
-   $ cd ~/MegaTunix
-   $ ./autogen.sh
-   $ make
    ```
-   If you would like to install MegaTunix so that you can create your own dashboards and gauges on the Raspberry Pi then run `sudo make install` and `sudo ldconfig`.
+   A good step by step installation guide for MegaTunix can be found <a href="http://www.msextra.com/forums/viewtopic.php?t=23548">__here__</a>.
   (See [`README.md`](https://github.com/djandruczyk/MegaTunix/blob/master/README.md) in MegaTunix for more detail)
 
 3. Download or clone __Raspexi__ source code with:
@@ -218,10 +209,12 @@ Development
   is need to override data directory (ex. `/Dashboards`, `/Gauges`, ...)
   of MegaTunix to working directory.
   
+   If you would like to install MegaTunix so that you can create your own dashboards and gauges on the Raspberry Pi then run `sudo make install` and `sudo ldconfig`.
+  
 6. Build Raspexi
 
   ```
-  $ cd raspexi
+  $ cd ~/MegaTunix/raspexi
   $ sudo chmod +x compile.sh
   $ ./compile.sh
   ```
@@ -237,7 +230,7 @@ History
 -------
 Revision	|Date (d/m/y)	|Notes
 :----------:|:-------------:|------
-__R6__		|15/03/2015		|<ul><li>Added support for Nissan, Subaru and Toyota (by JacobD10)</li><li>Added CSV log file error handling (by JacobD10)</li><li>Added XML dashboard file incorrect '_datasource_' error handling (by JacobD10)</li><li>Added linear equations to define the auxiliary relationships from the config file (by JacobD10)</li></ul>
+__R6__		|15/03/2015		|<ul><li>Added support for Nissan, Subaru and Toyota (by JacobD)</li><li>Added CSV log file error handling (by JacobD)</li><li>Added XML dashboard file incorrect '_datasource_' error handling (by JacobD)</li><li>Added linear equations to define the auxiliary relationships from the config file (by JacobD)</li></ul>
 __R5__		|07/07/2014		|<ul><li>Implementation of auxiliary inputs AUX1-AUX8 (by SonicRaT)</li></ul>
 __R4__		|07/05/2014		|<ul><li>Revising and refactoring for public release (Google Code)</li></ul>
 __R3__		|18/04/2014 	|<ul><li>Implement multiple dash board (up to 4), can be switch by key 1/2/3/4</li><li>Full screen on start</li><li>Data save to CSV file</li></ul>
