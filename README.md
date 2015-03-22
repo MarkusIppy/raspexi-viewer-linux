@@ -207,6 +207,7 @@ Development
 
   ```
   $ cd raspexi
+  $ sudo chmod +x compile.sh
   $ ./compile.sh
   ```
     
