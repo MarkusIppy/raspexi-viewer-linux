@@ -166,22 +166,32 @@ Development
   ```
   $ git clone https://github.com/djandruczyk/MegaTunix
   ```
-2. Set up all dependencies and build MegaTunix.
+2. Set up all dependencies and build __MegaTunix__.
    Run the following line now to install MegaTunix dependencies (it may take a while to install these (>10mins)):
    ```
    $ sudo apt-get install pkg-config libtool intltool libgtkglext1-dev g++ gcc flex bison glade libglade2-dev make git-core gdb automake1.9
    ```
    A good step by step installation guide for MegaTunix can be found <a href="http://www.msextra.com/forums/viewtopic.php?t=23548">__here__</a>.
+   
+   In most cases the following will work to download and compile MegaTunix:
+   ```
+   $ cd ~/
+   $ git clone git://github.com/djandruczyk/MegaTunix.git MegaTunix
+   $ cd ~/MegaTunix
+   $ ./autogen.sh
+   $ make
+   ```
+   If you would like to install MegaTunix so that you can create your own dashboards and gauges on the Raspberry Pi then run `sudo make install` and `sudo ldconfig`.
   (See [`README.md`](https://github.com/djandruczyk/MegaTunix/blob/master/README.md) in MegaTunix for more detail)
 
-3. Download or clone Raspexi source code from:
+3. Download or clone __Raspexi__ source code with:
 
   ```
-  $ cd MegaTunix
+  $ cd ~/MegaTunix
   $ git clone https://github.com/MarkusIppy/raspexi-viewer-linux raspexi
   ```
 
-4. Add `raspexi/Makefile` to MegaTunix AutoConf configuration file (`configure.ac`)
+4. Add the exact line `raspexi/Makefile` to MegaTunix AutoConf configuration file (`configure.ac`)
   or apply the following patch.
 
   ```
