@@ -166,15 +166,15 @@ Development
   ```
   $ git clone https://github.com/djandruczyk/MegaTunix
   ```
-2. Set up all dependencies and build MegaTunix 
-   If you run this line now you will probably save a lot of time looking for dependencies:
+2. Set up all dependencies and build MegaTunix.
+   Run the following line now to install MegaTunix dependencies (it may take a while to install these (>10mins)):
    ```
    $ sudo apt-get install pkg-config libtool intltool libgtkglext1-dev g++ gcc flex bison glade libglade2-dev make git-core gdb automake1.9
    ```
    A good step by step installation guide for MegaTunix can be found <a href="http://www.msextra.com/forums/viewtopic.php?t=23548">__here__</a>.
   (See [`README.md`](https://github.com/djandruczyk/MegaTunix/blob/master/README.md) in MegaTunix for more detail)
 
-3. Download or clone Raspexi source code from :-
+3. Download or clone Raspexi source code from:
 
   ```
   $ cd MegaTunix
