@@ -74,7 +74,7 @@ static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
 
 static gdouble rtv[MAP_ELEMENTS]; // Plus one is for the last unavailable item (e.g. na2, na1)
 
-static gint previousTime_uSec = 0.0;
+static gdouble previousTime_Sec = 0.0;
 
 /*!
 	\brief Wrapper function that does a nonblocking select()/read loop .
@@ -149,8 +149,8 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 	gint zerocount = 0;
 	guchar buf[4096];
 	guchar *ptr = buf;
-	//gdouble mul[] = FC_AUX_INFO_MUL;
-	//gdouble add[] = FC_AUX_INFO_ADD;
+	gdouble mul[] = FC_AUX_INFO_MUL;
+	gdouble add[] = FC_AUX_INFO_ADD;
 
 	Serial_Params *serial_params = NULL;;
 	serial_params = (Serial_Params *)DATA_GET(global_data,"serial_params");
@@ -196,14 +196,14 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 	else {
 		fc_aux_info_t *info;
 		info = (fc_aux_info_t *)&buf[2];
-		rtv[22] = info->AUX1;
-		rtv[23] = info->AUX2;
-		rtv[24] = info->AUX3;
-		rtv[25] = info->AUX4;
-		rtv[26] = info->AUX5;
-		rtv[27] = info->AUX6;
-		rtv[28] = info->AUX7;
-		rtv[29] = info->AUX8;
+		rtv[22] = mul[0] * info->AUX1 + add[0];
+		rtv[23] = mul[1] * info->AUX2 + add[1];
+		rtv[24] = mul[2] * info->AUX3 + add[2];
+		rtv[25] = mul[3] * info->AUX4 + add[3];
+		rtv[26] = mul[4] * info->AUX5 + add[4];
+		rtv[27] = mul[5] * info->AUX6 + add[5];
+		rtv[28] = mul[6] * info->AUX7 + add[6];
+		rtv[29] = mul[7] * info->AUX8 + add[7];
 
 
 		//Upon receiving the Auxilary analog values perform the calculations as implemented in the config file
@@ -212,22 +212,22 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 		if ((const gchar *)DATA_GET(global_data, "analog_eq1") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq1"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[30] = val1 * (rtv[(int)val2 + 21] - (n == 3 ? 0 : rtv[(int)val3 + 21])) + (n == 3 ? val3 : val4);
+			rtv[30] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq2") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq2"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[31] = val1 * (rtv[(int)val2 + 21] - (n == 3 ? 0 : rtv[(int)val3 + 21])) + (n == 3 ? val3 : val4);
+			rtv[31] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq3") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq3"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[32] = val1 * (rtv[(int)val2 + 21] - (n == 3 ? 0 : rtv[(int)val3 + 21])) + (n == 3 ? val3 : val4);
+			rtv[32] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq4") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq4"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[33] = val1 * (rtv[(int)val2 + 21] - (n == 3 ? 0 : rtv[(int)val3 + 21])) + (n == 3 ? val3 : val4);
+			rtv[33] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
 		}
 
 	}
@@ -319,12 +319,12 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			info = (fc_adv_info_t *)&buf[2];
 			struct timeval curTime;
 			gettimeofday(&curTime, NULL);
-			gint currentTime_uSec = curTime.tv_usec;
+			gdouble currentTime_Sec = curTime.tv_usec / 1000000.0;
 			gint Mass = (gint)DATA_GET(global_data, "vehicle_mass");
 
 			//Calculate the extra info components first as they require 'previous' values
 			//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
-			rtv[34] = Mass * ((mul[16] * info->Speed + add[16] - rtv[16]) / 3.6) / (currentTime_uSec - previousTime_uSec) * ((mul[16] * info->Speed + add[16]) / 3.6);
+			rtv[34] = Mass * ((mul[16] * info->Speed + add[16] - rtv[16]) / 3.6) / (currentTime_Sec - previousTime_Sec) * ((mul[16] * info->Speed + add[16]) / 3.6);
 
 			rtv[0]  = mul[0]  * info->RPM + add[0];
 			rtv[1]  = mul[1]  * info->Intakepress + add[1];
@@ -355,12 +355,12 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			info = (fc_adv_info_t_2 *)&buf[2];
 			struct timeval curTime;
 			gettimeofday(&curTime, NULL);
-			gint currentTime_uSec = curTime.tv_usec;
+			gdouble currentTime_Sec = curTime.tv_usec / 1000000.0;
 			gint Mass = (gint)DATA_GET(global_data, "vehicle_mass");
 
 			//Calculate the extra info components first as they require 'previous' values
 			//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
-			rtv[34] = Mass * ((mul[14] * info->Speed + add[14] - rtv[16]) / 3.6) / (currentTime_uSec - previousTime_uSec) * ((mul[14] * info->Speed + add[14]) / 3.6);
+			rtv[34] = Mass * ((mul[14] * info->Speed + add[14] - rtv[16]) / 3.6) / (currentTime_Sec - previousTime_Sec) * ((mul[14] * info->Speed + add[14]) / 3.6);
 
 			rtv[0] = mul[0] * info->RPM + add[0];
 			rtv[1] = mul[1] * info->EngLoad + add[1];
@@ -395,12 +395,12 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			info = (fc_adv_info_t_3 *)&buf[2];
 			struct timeval curTime;
 			gettimeofday(&curTime, NULL);
-			gint currentTime_uSec = curTime.tv_usec;
+			gdouble currentTime_Sec = curTime.tv_usec / 1000000.0;
 			gint Mass = (gint)DATA_GET(global_data, "vehicle_mass");
 
 			//Calculate the extra info components first as they require 'previous' values
 			//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
-			rtv[34] = Mass * ((mul[14] * info->Speed + add[14] - rtv[16]) / 3.6) / (currentTime_uSec - previousTime_uSec) * ((mul[14] * info->Speed + add[14]) / 3.6);
+			rtv[34] = Mass * ((mul[14] * info->Speed + add[14] - rtv[16]) / 3.6) / (currentTime_Sec - previousTime_Sec) * ((mul[14] * info->Speed + add[14]) / 3.6);
 
 			rtv[0] = mul[0] * info->RPM + add[0];
 			rtv[1] = mul[1] * info->Intakepress + add[1];
@@ -437,9 +437,11 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			struct timeval curTime;
 			gettimeofday(&curTime, NULL);
 			
-			previousTime_uSec = curTime.tv_usec;
+			previousTime_Sec = curTime.tv_usec;
 
-			int milli = previousTime_uSec / 1000;
+			int milli = previousTime_Sec / 1000;
+
+			previousTime_Sec = previousTime_Sec / 1000000.0;
 
 			char buffer [80];
 			strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", localtime(&curTime.tv_sec));
@@ -529,17 +531,20 @@ G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 				fprintf(csvfile, CSV_HEADER_1
 				CSV_HEADER_AUX
 				CSV_HEADER_ANALOG
-				CSV_HEADER_EXTRA);
+				CSV_HEADER_EXTRA
+				"\n");
 			else if (model == 2)
 				fprintf(csvfile, CSV_HEADER_2
 				CSV_HEADER_AUX
 				CSV_HEADER_ANALOG
-				CSV_HEADER_EXTRA);
+				CSV_HEADER_EXTRA
+				"\n");
 			else if (model == 3)
 				fprintf(csvfile, CSV_HEADER_3
 				CSV_HEADER_AUX
 				CSV_HEADER_ANALOG
-				CSV_HEADER_EXTRA);
+				CSV_HEADER_EXTRA
+				"\n");
 			fflush(csvfile);
 		}
 	}

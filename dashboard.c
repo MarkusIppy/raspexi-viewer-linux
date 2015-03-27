@@ -750,6 +750,7 @@ void toggle_visible(gint i)
 			dashname = g_strconcat("Dashboards/", (const gchar *)DATA_GET(global_data,"dash4"), NULL);
 		break;
 	}
+	DATA_SET(global_data, "active_dash_ID", GINT_TO_POINTER(i));
 	tmpwidget = lookup_widget(dashname);
 
 	ENTER();
@@ -1135,7 +1136,17 @@ G_MODULE_EXPORT gboolean dash_button_event(GtkWidget *widget, GdkEventButton *ev
 		EXIT();
 		return TRUE;
 	}
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1))
+	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1) && (GBOOLEAN)DATA_GET(global_data, "dash_fullscreen"))
+	{
+		// Display next dash in series
+		gint active_dash_ID = (gint)DATA_GET(global_data, "active_dash_ID");
+		if (active_dash_ID <= 3)
+			toggle_visible(active_dash_ID+1);
+		else
+			toggle_visible(1);
+		//printf("%s\n", (const gchar *)DATA_GET(global_data, "active_dash"));
+	}
+	else if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1))
 	{
 		gint edge = -1;
 		/*printf("dash button event\n"); */

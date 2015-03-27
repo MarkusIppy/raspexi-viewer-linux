@@ -192,6 +192,7 @@ int main (int argc, char **argv)
 	register_widget(filename, dash);
 	toggle_dash_fullscreen(dash,NULL);
 	DATA_SET_FULL(global_data, "active_dash", g_strdup(filename), g_free);
+	DATA_SET(global_data, "active_dash_ID", GINT_TO_POINTER(1));
 
 	filename = g_strconcat("Dashboards/", (const gchar *)DATA_GET(global_data,"dash2"), NULL);
 	printf("Loading dash... (%s)\n", filename);
