@@ -97,6 +97,11 @@ int main (int argc, char **argv)
 			printf("model = %s\n", tmpbuf);
 			cleanup(tmpbuf);
 		}
+		if (cfg_read_int(cfgfile, "default", "vehicle_mass", &tmpi))
+		{
+			DATA_SET(global_data, "vehicle_mass", GINT_TO_POINTER(tmpi));
+			printf("vehicle_mass = %d\n", tmpi);
+		}
 
 		// Dashboard config info
 		if (cfg_read_string(cfgfile, "default", "dash1", &tmpbuf))

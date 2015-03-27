@@ -49,7 +49,8 @@ static gchar *map[] = {"RPM", "Intakepress", "PressureV",
                        "Speed", "Iscvduty", "O2volt", "na1", "Secinjpulse",
 					   "na2", 
                        "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
-					   "Analog1", "Analog2", "Analog3", "Analog4" };
+					   "Analog1", "Analog2", "Analog3", "Analog4",
+					   "Power"};
 
 // Nissan and Subaru map
 static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
@@ -58,7 +59,8 @@ static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
                          "Speed", "MAFactivity", "O2volt", "O2volt_2", "ThrottleV",
 						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
-						 "Analog1", "Analog2", "Analog3", "Analog4" };
+						 "Analog1", "Analog2", "Analog3", "Analog4",
+						 "Power" };
 
 // Toyota map
 static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
@@ -67,9 +69,12 @@ static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
 						 "Speed", "Iscvduty", "O2volt", "SuctionAirTemp", "ThrottleV_2",
 						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
-						 "Analog1", "Analog2", "Analog3", "Analog4" };
-						 
+						 "Analog1", "Analog2", "Analog3", "Analog4",
+						 "Power" };
+
 static gdouble rtv[MAP_ELEMENTS]; // Plus one is for the last unavailable item (e.g. na2, na1)
+
+static gint previousTime_uSec = 0.0;
 
 /*!
 	\brief Wrapper function that does a nonblocking select()/read loop .
@@ -207,22 +212,22 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 		if ((const gchar *)DATA_GET(global_data, "analog_eq1") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq1"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[30] = val1 * (rtv[(int)val2] - (n == 3 ? 0 : rtv[(int)val3])) + (n == 3 ? val3 : val4);
+			rtv[30] = val1 * (rtv[(int)val2 + 21] - (n == 3 ? 0 : rtv[(int)val3 + 21])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq2") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq2"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[31] = val1 * (rtv[(int)val2] - (n == 3 ? 0 : rtv[(int)val3])) + (n == 3 ? val3 : val4);
+			rtv[31] = val1 * (rtv[(int)val2 + 21] - (n == 3 ? 0 : rtv[(int)val3 + 21])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq3") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq3"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[32] = val1 * (rtv[(int)val2] - (n == 3 ? 0 : rtv[(int)val3])) + (n == 3 ? val3 : val4);
+			rtv[32] = val1 * (rtv[(int)val2 + 21] - (n == 3 ? 0 : rtv[(int)val3 + 21])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq4") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq4"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[33] = val1 * (rtv[(int)val2] - (n == 3 ? 0 : rtv[(int)val3])) + (n == 3 ? val3 : val4);
+			rtv[33] = val1 * (rtv[(int)val2 + 21] - (n == 3 ? 0 : rtv[(int)val3 + 21])) + (n == 3 ? val3 : val4);
 		}
 
 	}
@@ -312,6 +317,15 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		{
 			fc_adv_info_t *info;
 			info = (fc_adv_info_t *)&buf[2];
+			struct timeval curTime;
+			gettimeofday(&curTime, NULL);
+			gint currentTime_uSec = curTime.tv_usec;
+			gint Mass = (gint)DATA_GET(global_data, "vehicle_mass");
+
+			//Calculate the extra info components first as they require 'previous' values
+			//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
+			rtv[34] = Mass * ((mul[16] * info->Speed + add[16] - rtv[16]) / 3.6) / (currentTime_uSec - previousTime_uSec) * ((mul[16] * info->Speed + add[16]) / 3.6);
+
 			rtv[0]  = mul[0]  * info->RPM + add[0];
 			rtv[1]  = mul[1]  * info->Intakepress + add[1];
 			rtv[2]  = mul[2]  * info->PressureV + add[2];
@@ -339,6 +353,15 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		{
 			fc_adv_info_t_2 *info;
 			info = (fc_adv_info_t_2 *)&buf[2];
+			struct timeval curTime;
+			gettimeofday(&curTime, NULL);
+			gint currentTime_uSec = curTime.tv_usec;
+			gint Mass = (gint)DATA_GET(global_data, "vehicle_mass");
+
+			//Calculate the extra info components first as they require 'previous' values
+			//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
+			rtv[34] = Mass * ((mul[14] * info->Speed + add[14] - rtv[16]) / 3.6) / (currentTime_uSec - previousTime_uSec) * ((mul[14] * info->Speed + add[14]) / 3.6);
+
 			rtv[0] = mul[0] * info->RPM + add[0];
 			rtv[1] = mul[1] * info->EngLoad + add[1];
 			rtv[2] = mul[2] * info->MAF1V + add[2];
@@ -370,6 +393,15 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		{
 			fc_adv_info_t_3 *info;
 			info = (fc_adv_info_t_3 *)&buf[2];
+			struct timeval curTime;
+			gettimeofday(&curTime, NULL);
+			gint currentTime_uSec = curTime.tv_usec;
+			gint Mass = (gint)DATA_GET(global_data, "vehicle_mass");
+
+			//Calculate the extra info components first as they require 'previous' values
+			//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
+			rtv[34] = Mass * ((mul[14] * info->Speed + add[14] - rtv[16]) / 3.6) / (currentTime_uSec - previousTime_uSec) * ((mul[14] * info->Speed + add[14]) / 3.6);
+
 			rtv[0] = mul[0] * info->RPM + add[0];
 			rtv[1] = mul[1] * info->Intakepress + add[1];
 			rtv[2] = mul[2] * info->PressureV + add[2];
@@ -404,7 +436,10 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		if (csvfile != NULL) {
 			struct timeval curTime;
 			gettimeofday(&curTime, NULL);
-			int milli = curTime.tv_usec / 1000;
+			
+			previousTime_uSec = curTime.tv_usec;
+
+			int milli = previousTime_uSec / 1000;
 
 			char buffer [80];
 			strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", localtime(&curTime.tv_sec));
@@ -416,7 +451,8 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 					rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9], //Power FC advanced info
 					rtv[10], rtv[11], rtv[12], rtv[13], rtv[14], rtv[15], rtv[16], rtv[17], rtv[18], rtv[20], //Power FC advanced info
 					rtv[22], rtv[23], rtv[24], rtv[25], rtv[26], rtv[27], rtv[28], rtv[29], //Power FC auxilary info
-					rtv[30], rtv[31], rtv[32], rtv[33]); // Analog equation results
+					rtv[30], rtv[31], rtv[32], rtv[33],  // Analog equation results
+					rtv[34]); // Extra info
 			fflush(csvfile);
 		}
 	}
@@ -492,15 +528,18 @@ G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 			if (model == 1)
 				fprintf(csvfile, CSV_HEADER_1
 				CSV_HEADER_AUX
-				CSV_HEADER_ANALOG);
+				CSV_HEADER_ANALOG
+				CSV_HEADER_EXTRA);
 			else if (model == 2)
 				fprintf(csvfile, CSV_HEADER_2
 				CSV_HEADER_AUX
-				CSV_HEADER_ANALOG);
+				CSV_HEADER_ANALOG
+				CSV_HEADER_EXTRA);
 			else if (model == 3)
 				fprintf(csvfile, CSV_HEADER_3
 				CSV_HEADER_AUX
-				CSV_HEADER_ANALOG);
+				CSV_HEADER_ANALOG
+				CSV_HEADER_EXTRA);
 			fflush(csvfile);
 		}
 	}
