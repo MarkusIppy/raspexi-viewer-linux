@@ -74,7 +74,10 @@ static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
 
 static gdouble rtv[MAP_ELEMENTS]; // Plus one is for the last unavailable item (e.g. na2, na1)
 
-static gdouble previousTime_Sec = 0.0;
+// Global values for power calculation
+static gdouble previousTime_Sec[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+static gdouble previousSpeed_kph[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+static gint power_buf_currentIndex = 0;
 
 /*!
 	\brief Wrapper function that does a nonblocking select()/read loop .
@@ -139,6 +142,28 @@ G_MODULE_EXPORT gboolean read_wrapper(gint fd, guint8 * buf, size_t count, gint 
 	\param data is unused
 	\returns TRUE unless app is closing down
 */
+
+G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
+{
+	gint Mass = (gint)DATA_GET(global_data, "vehicle_mass");
+	gint previous_Index = 0;
+
+	if (power_buf_currentIndex != 19)
+		previous_Index = power_buf_currentIndex + 1;
+
+	//Calculate the extra info 
+	//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
+	gdouble speedDiff_average = 0.0;
+	for (int i = 0; i <= 19; i++)
+	{
+		if (i == 19)
+			speedDiff_average += previousSpeed_kph[0] - previousSpeed_kph[i];
+		else if (i != power_buf_currentIndex)
+			speedDiff_average += previousSpeed_kph[i+1] - previousSpeed_kph[i];
+	}
+	rtv[34] = Mass * (speedDiff_average / 3.6) / (previousTime_Sec[power_buf_currentIndex] - previousTime_Sec[previous_Index]) * (previousSpeed_kph[power_buf_currentIndex] / 3.6);
+
+}
 G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 {
 	gboolean res = 0;
@@ -317,14 +342,6 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		{
 			fc_adv_info_t *info;
 			info = (fc_adv_info_t *)&buf[2];
-			struct timeval curTime;
-			gettimeofday(&curTime, NULL);
-			gdouble currentTime_Sec = curTime.tv_usec / 1000000.0;
-			gint Mass = (gint)DATA_GET(global_data, "vehicle_mass");
-
-			//Calculate the extra info components first as they require 'previous' values
-			//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
-			rtv[34] = Mass * ((mul[16] * info->Speed + add[16] - rtv[16]) / 3.6) / (currentTime_Sec - previousTime_Sec) * ((mul[16] * info->Speed + add[16]) / 3.6);
 
 			rtv[0]  = mul[0]  * info->RPM + add[0];
 			rtv[1]  = mul[1]  * info->Intakepress + add[1];
@@ -343,6 +360,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[14] = mul[14] * info->Knock + add[14];
 			rtv[15] = mul[15] * info->BatteryV + add[15];
 			rtv[16] = mul[16] * info->Speed + add[16];
+			previousSpeed_kph[power_buf_currentIndex] = rtv[16];
 			rtv[17] = mul[17] * info->Iscvduty + add[17];
 			rtv[18] = mul[18] * info->O2volt + add[18];
 			rtv[19] = mul[19] * info->na1 + add[19];
@@ -353,14 +371,6 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		{
 			fc_adv_info_t_2 *info;
 			info = (fc_adv_info_t_2 *)&buf[2];
-			struct timeval curTime;
-			gettimeofday(&curTime, NULL);
-			gdouble currentTime_Sec = curTime.tv_usec / 1000000.0;
-			gint Mass = (gint)DATA_GET(global_data, "vehicle_mass");
-
-			//Calculate the extra info components first as they require 'previous' values
-			//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
-			rtv[34] = Mass * ((mul[14] * info->Speed + add[14] - rtv[16]) / 3.6) / (currentTime_Sec - previousTime_Sec) * ((mul[14] * info->Speed + add[14]) / 3.6);
 
 			rtv[0] = mul[0] * info->RPM + add[0];
 			rtv[1] = mul[1] * info->EngLoad + add[1];
@@ -381,6 +391,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[12] = mul[12] * info->Knock + add[12];
 			rtv[13] = mul[13] * info->BatteryV + add[13];
 			rtv[14] = mul[14] * info->Speed + add[14];
+			previousSpeed_kph[power_buf_currentIndex] = rtv[14];
 			rtv[15] = mul[15] * info->MAFactivity + add[15];
 			rtv[16] = mul[16] * info->O2volt + add[16];
 			rtv[17] = mul[17] * info->O2volt_2 + add[17];
@@ -393,14 +404,6 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		{
 			fc_adv_info_t_3 *info;
 			info = (fc_adv_info_t_3 *)&buf[2];
-			struct timeval curTime;
-			gettimeofday(&curTime, NULL);
-			gdouble currentTime_Sec = curTime.tv_usec / 1000000.0;
-			gint Mass = (gint)DATA_GET(global_data, "vehicle_mass");
-
-			//Calculate the extra info components first as they require 'previous' values
-			//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
-			rtv[34] = Mass * ((mul[14] * info->Speed + add[14] - rtv[16]) / 3.6) / (currentTime_Sec - previousTime_Sec) * ((mul[14] * info->Speed + add[14]) / 3.6);
 
 			rtv[0] = mul[0] * info->RPM + add[0];
 			rtv[1] = mul[1] * info->Intakepress + add[1];
@@ -421,6 +424,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[12] = mul[12] * info->Knock + add[12];
 			rtv[13] = mul[13] * info->BatteryV + add[13];
 			rtv[14] = mul[14] * info->Speed + add[14];
+			previousSpeed_kph[power_buf_currentIndex] = rtv[14];
 			rtv[15] = mul[15] * info->Iscvduty + add[15];
 			rtv[16] = mul[16] * info->O2volt + add[16];
 			rtv[17] = mul[17] * info->SuctionAirTemp + add[17];
@@ -437,11 +441,15 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			struct timeval curTime;
 			gettimeofday(&curTime, NULL);
 			
-			previousTime_Sec = curTime.tv_usec;
+			gdouble currentTime_uSec = curTime.tv_usec;
+			int milli = currentTime_uSec / 1000;
+						
+			if (power_buf_currentIndex < 19)
+				power_buf_currentIndex++;
+			else
+				power_buf_currentIndex = 0;
 
-			int milli = previousTime_Sec / 1000;
-
-			previousTime_Sec = previousTime_Sec / 1000000.0;
+			previousTime_Sec[power_buf_currentIndex] = curTime.tv_sec + currentTime_uSec / 1000000.0;
 
 			char buffer [80];
 			strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", localtime(&curTime.tv_sec));

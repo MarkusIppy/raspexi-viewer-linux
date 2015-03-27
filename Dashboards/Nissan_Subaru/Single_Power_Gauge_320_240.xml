@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dashboard SYSTEM "mtxdashboard.dtd">
+<dashboard>
+  <dash_geometry>
+    <width>320</width>
+    <height>240</height>
+  </dash_geometry>
+  <gauge>
+    <width>230</width>
+    <height>230</height>
+    <x_offset>45</x_offset>
+    <y_offset>5</y_offset>
+    <gauge_xml_name>Nissan-NonStandard/Power-Gauge.xml</gauge_xml_name>
+    <datasource>Power</datasource>
+  </gauge>
+</dashboard>

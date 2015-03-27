@@ -302,6 +302,7 @@ gdouble powerfc_get_current_value(gchar *);
 
 gboolean powerfc_process_advanced(gpointer);
 gboolean powerfc_process_auxiliary(gpointer);
+gboolean powerfc_process_extra(gpointer);
 
 FILE *powerfc_open_csvfile(gchar *);
 #endif

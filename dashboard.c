@@ -1370,8 +1370,9 @@ G_MODULE_EXPORT gboolean update_dashboards(gpointer data)
 	g_mutex_lock(dash_mutex);
 	if (DATA_GET(global_data, "dash_hash"))
 	{
+		powerfc_process_extra(NULL);
 		powerfc_process_auxiliary(NULL);
-		powerfc_process_advanced(NULL);	
+		powerfc_process_advanced(NULL);
 	}
 	g_hash_table_foreach((GHashTable *)DATA_GET(global_data, "dash_hash"), update_dash_gauge, NULL);
 

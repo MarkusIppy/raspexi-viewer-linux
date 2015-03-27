@@ -3,8 +3,8 @@
 <gauge>
   <bg_color_day>
     <red>0</red>
-    <green>9252</green>
-    <blue>10023</blue>
+    <green>9176</green>
+    <blue>10118</blue>
   </bg_color_day>
   <bg_color_nite>
     <red>0</red>
@@ -52,73 +52,52 @@
     <blue>39110</blue>
   </gradient_end_color_nite>
   <needle_length>0.8500000</needle_length>
-  <needle_tip_width>0.0099999</needle_tip_width>
-  <needle_tail_width>0.0199999</needle_tail_width>
-  <needle_width>0.0500000</needle_width>
+  <needle_tip_width>0</needle_tip_width>
+  <needle_tail_width>0.0149999</needle_tail_width>
+  <needle_width>0.0399998</needle_width>
   <needle_tail>0.0500000</needle_tail>
   <show_tattletale>0</show_tattletale>
   <tattletale_alpha>0.5</tattletale_alpha>
   <precision>0</precision>
-  <width>808</width>
-  <height>808</height>
-  <main_start_angle>135</main_start_angle>
-  <main_sweep_angle>270</main_sweep_angle>
+  <width>765</width>
+  <height>765</height>
+  <main_start_angle>60</main_start_angle>
+  <main_sweep_angle>240</main_sweep_angle>
   <rotation>1</rotation>
-  <lbound>0</lbound>
-  <ubound>9000</ubound>
-  <value_font>Nissan</value_font>
-  <value_font_scale>0.2000000</value_font_scale>
-  <value_str_xpos>0.2000000</value_str_xpos>
-  <value_str_ypos>0.6000000</value_str_ypos>
+  <lbound>-300</lbound>
+  <ubound>300</ubound>
+  <value_font>Monospace</value_font>
+  <value_font_scale>0.25</value_font_scale>
+  <value_str_xpos>0.6999999</value_str_xpos>
+  <value_str_ypos>0.1080000</value_str_ypos>
   <value_justification>223</value_justification>
   <antialias>1</antialias>
   <show_value>1</show_value>
   <alert_range>
     <layer>0</layer>
-    <lowpoint>6000.000000</lowpoint>
-    <highpoint>7000.000000</highpoint>
-    <lwidth>0.600000</lwidth>
-    <inset>0.270000</inset>
-    <x_offset>-0.000000</x_offset>
+    <lowpoint>15.000000</lowpoint>
+    <highpoint>20.000000</highpoint>
+    <lwidth>0.100000</lwidth>
+    <inset>1.000000</inset>
+    <x_offset>0.000000</x_offset>
     <y_offset>0.000000</y_offset>
     <color_day>
-      <red>0</red>
-      <green>65535</green>
+      <red>65535</red>
+      <green>0</green>
       <blue>0</blue>
     </color_day>
     <color_nite>
-      <red>0</red>
-      <green>51400</green>
+      <red>65535</red>
+      <green>0</green>
       <blue>0</blue>
     </color_nite>
   </alert_range>
-  <alert_range>
+  <color_range>
     <layer>0</layer>
-    <lowpoint>7000.000000</lowpoint>
-    <highpoint>7500.000000</highpoint>
-    <lwidth>0.600000</lwidth>
-    <inset>0.270000</inset>
-    <x_offset>-0.000000</x_offset>
-    <y_offset>0.000000</y_offset>
-    <color_day>
-      <red>0</red>
-      <green>0</green>
-      <blue>65535</blue>
-    </color_day>
-    <color_nite>
-      <red>0</red>
-      <green>0</green>
-      <blue>51400</blue>
-    </color_nite>
-  </alert_range>
-  <alert_range>
-    <layer>0</layer>
-    <lowpoint>7500.000000</lowpoint>
-    <highpoint>9000.000000</highpoint>
-    <lwidth>0.600000</lwidth>
-    <inset>0.270000</inset>
-    <x_offset>-0.000000</x_offset>
-    <y_offset>0.000000</y_offset>
+    <lowpoint>250.000000</lowpoint>
+    <highpoint>300.000000</highpoint>
+    <lwidth>0.080000</lwidth>
+    <inset>0.800000</inset>
     <color_day>
       <red>65535</red>
       <green>0</green>
@@ -129,11 +108,11 @@
       <green>0</green>
       <blue>0</blue>
     </color_nite>
-  </alert_range>
+  </color_range>
   <color_range>
     <layer>0</layer>
-    <lowpoint>7500.000000</lowpoint>
-    <highpoint>9000.000000</highpoint>
+    <lowpoint>-300.000000</lowpoint>
+    <highpoint>-250.000000</highpoint>
     <lwidth>0.080000</lwidth>
     <inset>0.800000</inset>
     <color_day>
@@ -150,9 +129,9 @@
   <text_block>
     <layer>0</layer>
     <font>Magneto</font>
-    <text>Tacho</text>
-    <font_scale>0.200000</font_scale>
-    <x_pos>0.000000</x_pos>
+    <text>Power</text>
+    <font_scale>0.215000</font_scale>
+    <x_pos>0.400000</x_pos>
     <y_pos>-0.300000</y_pos>
     <color_day>
       <red>65535</red>
@@ -168,10 +147,10 @@
   <text_block>
     <layer>0</layer>
     <font>Nissan</font>
-    <text>rpm</text>
-    <font_scale>0.090000</font_scale>
-    <x_pos>0.300000</x_pos>
-    <y_pos>0.570000</y_pos>
+    <text>kW</text>
+    <font_scale>0.100000</font_scale>
+    <x_pos>0.800000</x_pos>
+    <y_pos>0.080000</y_pos>
     <color_day>
       <red>0</red>
       <green>58853</green>
@@ -187,9 +166,9 @@
     <layer>0</layer>
     <font>Nissan</font>
     <text>SKYLINE</text>
-    <font_scale>0.150000</font_scale>
-    <x_pos>0.000000</x_pos>
-    <y_pos>0.720000</y_pos>
+    <font_scale>0.100000</font_scale>
+    <x_pos>-0.350000</x_pos>
+    <y_pos>0.000000</y_pos>
     <color_day>
       <red>0</red>
       <green>58853</green>
@@ -201,11 +180,47 @@
       <blue>65535</blue>
     </color_nite>
   </text_block>
+  <text_block>
+    <layer>0</layer>
+    <font>PhatBoy Slim</font>
+    <text>+</text>
+    <font_scale>0.275000</font_scale>
+    <x_pos>-0.250000</x_pos>
+    <y_pos>-0.250000</y_pos>
+    <color_day>
+      <red>65535</red>
+      <green>65535</green>
+      <blue>65535</blue>
+    </color_day>
+    <color_nite>
+      <red>44975</red>
+      <green>38550</green>
+      <blue>64250</blue>
+    </color_nite>
+  </text_block>
+  <text_block>
+    <layer>0</layer>
+    <font>PhatBoy Slim</font>
+    <text>-</text>
+    <font_scale>0.400000</font_scale>
+    <x_pos>-0.250000</x_pos>
+    <y_pos>0.250000</y_pos>
+    <color_day>
+      <red>65535</red>
+      <green>65535</green>
+      <blue>65535</blue>
+    </color_day>
+    <color_nite>
+      <red>44975</red>
+      <green>38550</green>
+      <blue>64250</blue>
+    </color_nite>
+  </text_block>
   <tick_group>
-    <layer>1</layer>
-    <font>Nissan</font>
-    <font_scale>0.190000</font_scale>
-    <text>0,1,2,3,4,5,6,7,8,9</text>
+    <layer>0</layer>
+    <font>PhatBoy Slim</font>
+    <font_scale>0.120000</font_scale>
+    <text>300,200,100,0,100,200,300</text>
     <text_inset>0.255000</text_inset>
     <text_color_day>
       <red>65535</red>
@@ -217,7 +232,7 @@
       <green>38550</green>
       <blue>51400</blue>
     </text_color_nite>
-    <num_maj_ticks>10</num_maj_ticks>
+    <num_maj_ticks>7</num_maj_ticks>
     <maj_tick_color_day>
       <red>65535</red>
       <green>65535</green>
@@ -245,8 +260,8 @@
     <min_tick_inset>0.175000</min_tick_inset>
     <min_tick_length>0.050000</min_tick_length>
     <min_tick_width>0.065000</min_tick_width>
-    <start_angle>135.000000</start_angle>
-    <sweep_angle>270.000000</sweep_angle>
+    <start_angle>60.000000</start_angle>
+    <sweep_angle>240.000000</sweep_angle>
   </tick_group>
   <polygon>
     <color_day>
@@ -259,7 +274,7 @@
       <green>12309</green>
       <blue>23977</blue>
     </color_nite>
-    <layer>1</layer>
+    <layer>0</layer>
     <filled>0</filled>
     <line_width>0.021000</line_width>
     <line_style>0</line_style>
@@ -269,52 +284,5 @@
       <y>0.000000</y>
       <radius>0.900000</radius>
     </Circle>
-  </polygon>
-  <polygon>
-    <color_day>
-      <red>5140</red>
-      <green>14392</green>
-      <blue>15163</blue>
-    </color_day>
-    <color_nite>
-      <red>10280</red>
-      <green>10280</green>
-      <blue>10280</blue>
-    </color_nite>
-    <layer>0</layer>
-    <filled>1</filled>
-    <line_width>0.000000</line_width>
-    <line_style>0</line_style>
-    <join_style>0</join_style>
-    <Circle>
-      <x>-0.000000</x>
-      <y>0.000000</y>
-      <radius>0.570000</radius>
-    </Circle>
-  </polygon>
-  <polygon>
-    <color_day>
-      <red>0</red>
-      <green>9252</green>
-      <blue>10023</blue>
-    </color_day>
-    <color_nite>
-      <red>0</red>
-      <green>0</green>
-      <blue>0</blue>
-    </color_nite>
-    <layer>0</layer>
-    <filled>1</filled>
-    <line_width>0.000000</line_width>
-    <line_style>0</line_style>
-    <join_style>0</join_style>
-    <Arc>
-      <x>0.000000</x>
-      <y>0.900000</y>
-      <width>0.550000</width>
-      <height>0.600000</height>
-      <start_angle>210.000000</start_angle>
-      <sweep_angle>120.000000</sweep_angle>
-    </Arc>
   </polygon>
 </gauge>
