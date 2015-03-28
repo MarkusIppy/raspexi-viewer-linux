@@ -45,6 +45,7 @@ port = /dev/ttyUSB0
 baud = 57600,8,n,1
 interval = 35
 model = Mazda
+vehicle_mass = 1300
 dash1 = Analogue_Dash_1280_720.xml
 dash2 = Commander_1280_720.xml
 dash3 = Digital_Dash_1280_720.xml
@@ -61,6 +62,8 @@ csvfile = /home/pi/raspexi/log/raspexi.csv
 * interval ==> Data refresh interval
 
 * model ==> Mazda, Nissan, Subaru, Toyota
+
+* vehicle_mass ==> Mass of the vehicle in kilograms (required for __`Power`__ datasource)
 
 * dash1, dash2, dash3, dash4 ==> Dashboard XML file
 
