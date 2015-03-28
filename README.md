@@ -224,8 +224,16 @@ Development
   $ sudo chmod +x compile.sh
   $ ./compile.sh
   ```
+  
+7. Install associated fonts from Raspexi's GaugeFonts directory
+  
+  ```
+  $ cd ~/MegaTunix/raspexi
+  $ sudo chmod +x install_fonts.sh
+  $ ./install_fonts.sh
+  ```
     
-7. To build a binary package for deployment:
+8. To build a binary package for deployment:
   ```
   $ ./package.sh
   ```
