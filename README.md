@@ -89,6 +89,7 @@ The following _Descriptions_ are for information which the Power FC will return 
 
 Description										|Datasource Name		|Mazda			|Nissan			|Subaru			|Toyota
 ------------------------------------------------|:---------------------:|:-------------:|:-------------:|:-------------:|:-------------:
+__NEW !__ _Instantaneous vehicle power (kW)_	|__`Power`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 _Engine Speed (rpm)_							|__`RPM`__				|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__		
 _Absolute Intake Pressure (Kg/cm2)_				|__`Intakepress`__		|<big>__✓__		|				|				|<big>__✓*__
 _Pressure Sensor Voltage (mv)_					|__`PressureV`__		|<big>__✓__		|				|				|<big>__✓*__
@@ -131,7 +132,6 @@ _Result of Analog Equation #2_                 	|__`Analog2`__			|<big>__✓__		
 _Result of Analog Equation #3_                 	|__`Analog3`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 _Result of Analog Equation #4_                 	|__`Analog4`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 __Coming soon ...__   			              	|
-_Instantaneous vehicle power (kW)_				|__`Power`__			|<big>			|<big>			|<big>			|<big>
 _Vehicle Acceleration (100km/h/s)_				|__`Accel`__			|<big>			|<big>			|<big>			|<big>
 _Force exerted in Newtons (N)_					|__`ForceN`__			|<big>			|<big>			|<big>			|<big>
 _Force exerted in G-force (G)_					|__`ForceG`__			|<big>			|<big>			|<big>			|<big>
