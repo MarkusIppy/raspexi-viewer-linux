@@ -19,9 +19,12 @@ Installation
 #### Pre-Requisite
 
 Rasberry Pi with Raspbian OS. Tested versions:<br>
-* 2013-05-25-wheezy-raspbian
-* 2013-09-25-wheezy-raspbian
+* 2015-02-18-wheezy-raspbian
 * 2014-01-07-wheezy-raspbian
+* 2013-09-25-wheezy-raspbian
+* 2013-05-25-wheezy-raspbian
+
+Works on Raspberry Pi 1 and 2.
 
 #### Install
 Extract the archive `raspexi-yyyymmdd.tar.gz` to `/home/pi`:
