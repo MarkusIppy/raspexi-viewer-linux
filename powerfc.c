@@ -145,7 +145,7 @@ G_MODULE_EXPORT gboolean read_wrapper(gint fd, guint8 * buf, size_t count, gint 
 
 G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
 {
-	gint Mass = (gint)DATA_GET(global_data, "vehicle_mass");
+	gdouble Mass = (gdouble) (gint)DATA_GET(global_data, "vehicle_mass");
 	gint previous_Index = 0;
 
 	if (power_buf_currentIndex != 19)
@@ -156,13 +156,15 @@ G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
 	gdouble speedDiff_average = 0.0;
 	for (int i = 0; i <= 19; i++)
 	{
-		if (i == 19)
+		if ((i == 19) && (i != power_buf_currentIndex))
 			speedDiff_average += previousSpeed_kph[0] - previousSpeed_kph[i];
 		else if (i != power_buf_currentIndex)
 			speedDiff_average += previousSpeed_kph[i+1] - previousSpeed_kph[i];
 	}
-	rtv[34] = Mass * (speedDiff_average / 3.6) / (previousTime_Sec[power_buf_currentIndex] - previousTime_Sec[previous_Index]) * (previousSpeed_kph[power_buf_currentIndex] / 3.6);
 
+	rtv[34] = Mass * (speedDiff_average / 3.6) / (previousTime_Sec[power_buf_currentIndex] - previousTime_Sec[previous_Index]) * (previousSpeed_kph[power_buf_currentIndex] / 3.6) / 1000.0;
+	
+	return TRUE;
 }
 G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 {
@@ -338,6 +340,20 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		return FALSE;
 	}
 	else {
+		//Calculate current time for the upcoming read for the power buffer
+		struct timeval curTime;
+		gettimeofday(&curTime, NULL);
+
+		gdouble currentTime_uSec = curTime.tv_usec;
+		int milli = currentTime_uSec / 1000;
+
+		if (power_buf_currentIndex < 19)
+			power_buf_currentIndex++;
+		else
+			power_buf_currentIndex = 0;
+
+		previousTime_Sec[power_buf_currentIndex] = curTime.tv_sec + currentTime_uSec / 1000000.0;
+
 		if (model == 1)
 		{
 			fc_adv_info_t *info;
@@ -437,26 +453,13 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		FILE *csvfile;
 
 		csvfile = (FILE *)DATA_GET(global_data,"csvfile");
-		if (csvfile != NULL) {
-			struct timeval curTime;
-			gettimeofday(&curTime, NULL);
-			
-			gdouble currentTime_uSec = curTime.tv_usec;
-			int milli = currentTime_uSec / 1000;
-						
-			if (power_buf_currentIndex < 19)
-				power_buf_currentIndex++;
-			else
-				power_buf_currentIndex = 0;
-
-			previousTime_Sec[power_buf_currentIndex] = curTime.tv_sec + currentTime_uSec / 1000000.0;
-
+		if (csvfile != NULL) {	
 			char buffer [80];
 			strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", localtime(&curTime.tv_sec));
 
 			char currentTime[84] = "";
 			sprintf(currentTime, "%s:%03d", buffer, milli);
-			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%f,%f,%f,%f\n",
+			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%f,%f,%f,%f,%f\n",
 					currentTime,
 					rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9], //Power FC advanced info
 					rtv[10], rtv[11], rtv[12], rtv[13], rtv[14], rtv[15], rtv[16], rtv[17], rtv[18], rtv[20], //Power FC advanced info
