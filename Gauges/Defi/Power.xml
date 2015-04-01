@@ -56,41 +56,22 @@
   <needle_tail_width>0.0240000</needle_tail_width>
   <needle_width>0.0329997</needle_width>
   <needle_tail>-0.003000</needle_tail>
-  <show_tattletale>0</show_tattletale>
+  <show_tattletale>1</show_tattletale>
   <tattletale_alpha>0.5</tattletale_alpha>
-  <precision>1</precision>
-  <width>323</width>
-  <height>323</height>
+  <precision>0</precision>
+  <width>442</width>
+  <height>442</height>
   <main_start_angle>90</main_start_angle>
   <main_sweep_angle>270</main_sweep_angle>
   <rotation>1</rotation>
-  <lbound>-15</lbound>
-  <ubound>30</ubound>
+  <lbound>0</lbound>
+  <ubound>300</ubound>
   <value_font>arial Bold</value_font>
   <value_font_scale>0.1539998</value_font_scale>
-  <value_str_xpos>0.3438485</value_str_xpos>
+  <value_str_xpos>0.3438484</value_str_xpos>
   <value_str_ypos>0.6025236</value_str_ypos>
   <antialias>1</antialias>
   <show_value>1</show_value>
-  <alert_range>
-    <layer>0</layer>
-    <lowpoint>11.600000</lowpoint>
-    <highpoint>30.000000</highpoint>
-    <lwidth>0.152000</lwidth>
-    <inset>0.001000</inset>
-    <x_offset>0.588235</x_offset>
-    <y_offset>0.488688</y_offset>
-    <color_day>
-      <red>65535</red>
-      <green>0</green>
-      <blue>0</blue>
-    </color_day>
-    <color_nite>
-      <red>65535</red>
-      <green>0</green>
-      <blue>0</blue>
-    </color_nite>
-  </alert_range>
   <text_block>
     <layer>0</layer>
     <font>Arial Rounded MT Bold, Bold Oblique</font>
@@ -112,10 +93,10 @@
   <text_block>
     <layer>0</layer>
     <font>Agency FB Bold Oblique</font>
-    <text>BOOST</text>
-    <font_scale>0.140000</font_scale>
-    <x_pos>0.625000</x_pos>
-    <y_pos>0.152000</y_pos>
+    <text>Power</text>
+    <font_scale>0.113000</font_scale>
+    <x_pos>0.632000</x_pos>
+    <y_pos>0.144144</y_pos>
     <color_day>
       <red>65535</red>
       <green>65535</green>
@@ -130,7 +111,7 @@
   <text_block>
     <layer>0</layer>
     <font>Sans Bold</font>
-    <text>PSI</text>
+    <text></text>
     <font_scale>0.100000</font_scale>
     <x_pos>-0.444795</x_pos>
     <y_pos>-0.116719</y_pos>
@@ -184,7 +165,7 @@
   <text_block>
     <layer>0</layer>
     <font>Sans Bold Oblique</font>
-    <text>inHg</text>
+    <text>KW</text>
     <font_scale>0.119000</font_scale>
     <x_pos>0.004000</x_pos>
     <y_pos>0.381000</y_pos>
@@ -202,9 +183,9 @@
   <tick_group>
     <layer>0</layer>
     <font>Agency FB Bold Oblique</font>
-    <font_scale>0.175000</font_scale>
-    <text>15,10,5</text>
-    <text_inset>0.241000</text_inset>
+    <font_scale>0.116000</font_scale>
+    <text>0,50,75,100,125,150,175,200,225,250,275,300,325.350</text>
+    <text_inset>0.195000</text_inset>
     <text_color_day>
       <red>65535</red>
       <green>65535</green>
@@ -215,7 +196,7 @@
       <green>63222</green>
       <blue>2313</blue>
     </text_color_nite>
-    <num_maj_ticks>4</num_maj_ticks>
+    <num_maj_ticks>12</num_maj_ticks>
     <maj_tick_color_day>
       <red>65535</red>
       <green>65535</green>
@@ -226,10 +207,10 @@
       <green>63222</green>
       <blue>2313</blue>
     </maj_tick_color_nite>
-    <maj_tick_inset>0.102000</maj_tick_inset>
+    <maj_tick_inset>0.092000</maj_tick_inset>
     <maj_tick_length>0.100000</maj_tick_length>
     <maj_tick_width>0.200000</maj_tick_width>
-    <num_min_ticks>0</num_min_ticks>
+    <num_min_ticks>8</num_min_ticks>
     <min_tick_color_day>
       <red>65535</red>
       <green>65535</green>
@@ -244,101 +225,7 @@
     <min_tick_length>0.063000</min_tick_length>
     <min_tick_width>0.129000</min_tick_width>
     <start_angle>90.000000</start_angle>
-    <sweep_angle>90.000000</sweep_angle>
-  </tick_group>
-  <tick_group>
-    <layer>0</layer>
-    <font>Agency FB Bold Oblique</font>
-    <font_scale>0.181000</font_scale>
-    <text>0,5,10,15,20,25,30</text>
-    <text_inset>0.241000</text_inset>
-    <text_color_day>
-      <red>65535</red>
-      <green>65535</green>
-      <blue>65535</blue>
-    </text_color_day>
-    <text_color_nite>
-      <red>2827</red>
-      <green>63222</green>
-      <blue>2313</blue>
-    </text_color_nite>
-    <num_maj_ticks>7</num_maj_ticks>
-    <maj_tick_color_day>
-      <red>65535</red>
-      <green>65535</green>
-      <blue>65535</blue>
-    </maj_tick_color_day>
-    <maj_tick_color_nite>
-      <red>2827</red>
-      <green>63222</green>
-      <blue>2313</blue>
-    </maj_tick_color_nite>
-    <maj_tick_inset>0.102000</maj_tick_inset>
-    <maj_tick_length>0.100000</maj_tick_length>
-    <maj_tick_width>0.200000</maj_tick_width>
-    <num_min_ticks>4</num_min_ticks>
-    <min_tick_color_day>
-      <red>65535</red>
-      <green>65535</green>
-      <blue>65535</blue>
-    </min_tick_color_day>
-    <min_tick_color_nite>
-      <red>2827</red>
-      <green>63222</green>
-      <blue>2313</blue>
-    </min_tick_color_nite>
-    <min_tick_inset>0.102000</min_tick_inset>
-    <min_tick_length>0.050000</min_tick_length>
-    <min_tick_width>0.065000</min_tick_width>
-    <start_angle>180.000000</start_angle>
-    <sweep_angle>180.000000</sweep_angle>
-  </tick_group>
-  <tick_group>
-    <layer>0</layer>
-    <font>Sans</font>
-    <font_scale>0.135000</font_scale>
-    <text></text>
-    <text_inset>0.255000</text_inset>
-    <text_color_day>
-      <red>65535</red>
-      <green>65535</green>
-      <blue>65535</blue>
-    </text_color_day>
-    <text_color_nite>
-      <red>2827</red>
-      <green>63222</green>
-      <blue>2313</blue>
-    </text_color_nite>
-    <num_maj_ticks>16</num_maj_ticks>
-    <maj_tick_color_day>
-      <red>65535</red>
-      <green>65535</green>
-      <blue>65535</blue>
-    </maj_tick_color_day>
-    <maj_tick_color_nite>
-      <red>2827</red>
-      <green>63222</green>
-      <blue>2313</blue>
-    </maj_tick_color_nite>
-    <maj_tick_inset>0.102000</maj_tick_inset>
-    <maj_tick_length>0.056000</maj_tick_length>
-    <maj_tick_width>0.083000</maj_tick_width>
-    <num_min_ticks>0</num_min_ticks>
-    <min_tick_color_day>
-      <red>65535</red>
-      <green>65535</green>
-      <blue>65535</blue>
-    </min_tick_color_day>
-    <min_tick_color_nite>
-      <red>0</red>
-      <green>0</green>
-      <blue>0</blue>
-    </min_tick_color_nite>
-    <min_tick_inset>0.175000</min_tick_inset>
-    <min_tick_length>0.050000</min_tick_length>
-    <min_tick_width>0.065000</min_tick_width>
-    <start_angle>90.000000</start_angle>
-    <sweep_angle>90.000000</sweep_angle>
+    <sweep_angle>270.000000</sweep_angle>
   </tick_group>
   <polygon>
     <color_day>

@@ -56,41 +56,22 @@
   <needle_tail_width>0.0240000</needle_tail_width>
   <needle_width>0.0329997</needle_width>
   <needle_tail>-0.003000</needle_tail>
-  <show_tattletale>0</show_tattletale>
+  <show_tattletale>1</show_tattletale>
   <tattletale_alpha>0.5</tattletale_alpha>
-  <precision>1</precision>
+  <precision>0</precision>
   <width>233</width>
   <height>233</height>
   <main_start_angle>90</main_start_angle>
   <main_sweep_angle>270</main_sweep_angle>
   <rotation>1</rotation>
-  <lbound>20</lbound>
-  <ubound>120</ubound>
-  <value_font>arial Bold</value_font>
-  <value_font_scale>0.1539998</value_font_scale>
+  <lbound>0</lbound>
+  <ubound>500</ubound>
+  <value_font>DS-Digital Bold</value_font>
+  <value_font_scale>0.1539999</value_font_scale>
   <value_str_xpos>0.3438484</value_str_xpos>
   <value_str_ypos>0.6025236</value_str_ypos>
   <antialias>1</antialias>
-  <show_value>0</show_value>
-  <alert_range>
-    <layer>0</layer>
-    <lowpoint>110.000000</lowpoint>
-    <highpoint>120.000000</highpoint>
-    <lwidth>0.152000</lwidth>
-    <inset>0.001000</inset>
-    <x_offset>0.588235</x_offset>
-    <y_offset>0.488688</y_offset>
-    <color_day>
-      <red>65535</red>
-      <green>0</green>
-      <blue>0</blue>
-    </color_day>
-    <color_nite>
-      <red>65535</red>
-      <green>0</green>
-      <blue>0</blue>
-    </color_nite>
-  </alert_range>
+  <show_value>1</show_value>
   <text_block>
     <layer>0</layer>
     <font>Arial Rounded MT Bold, Bold Oblique</font>
@@ -112,10 +93,10 @@
   <text_block>
     <layer>0</layer>
     <font>Agency FB Bold Oblique</font>
-    <text>Water Temp</text>
+    <text>TORQUE</text>
     <font_scale>0.113000</font_scale>
-    <x_pos>0.528000</x_pos>
-    <y_pos>0.145000</y_pos>
+    <x_pos>0.565000</x_pos>
+    <y_pos>0.144144</y_pos>
     <color_day>
       <red>65535</red>
       <green>65535</green>
@@ -184,7 +165,7 @@
   <text_block>
     <layer>0</layer>
     <font>Sans Bold Oblique</font>
-    <text>C</text>
+    <text>NM</text>
     <font_scale>0.119000</font_scale>
     <x_pos>0.004000</x_pos>
     <y_pos>0.381000</y_pos>
@@ -202,9 +183,9 @@
   <tick_group>
     <layer>0</layer>
     <font>Agency FB Bold Oblique</font>
-    <font_scale>0.175000</font_scale>
-    <text>20,30,40,50,60,70,80,90,100,120</text>
-    <text_inset>0.241000</text_inset>
+    <font_scale>0.151000</font_scale>
+    <text>0,100,150,200,250,300,350,400,450,500</text>
+    <text_inset>0.211000</text_inset>
     <text_color_day>
       <red>65535</red>
       <green>65535</green>
@@ -226,7 +207,7 @@
       <green>63222</green>
       <blue>2313</blue>
     </maj_tick_color_nite>
-    <maj_tick_inset>0.102000</maj_tick_inset>
+    <maj_tick_inset>0.092000</maj_tick_inset>
     <maj_tick_length>0.100000</maj_tick_length>
     <maj_tick_width>0.200000</maj_tick_width>
     <num_min_ticks>8</num_min_ticks>
