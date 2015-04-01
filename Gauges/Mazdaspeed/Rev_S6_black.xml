@@ -59,8 +59,8 @@
   <show_tattletale>0</show_tattletale>
   <tattletale_alpha>0.5</tattletale_alpha>
   <precision>0</precision>
-  <width>288</width>
-  <height>288</height>
+  <width>233</width>
+  <height>233</height>
   <main_start_angle>90</main_start_angle>
   <main_sweep_angle>270</main_sweep_angle>
   <rotation>1</rotation>
@@ -110,7 +110,7 @@
   </color_range>
   <text_block>
     <layer>0</layer>
-    <font>Adobe Caslon Pro Bold, Bold Italic</font>
+    <font>SF Automaton Extended Oblique</font>
     <text>MAZDASPEED</text>
     <font_scale>0.122000</font_scale>
     <x_pos>0.000000</x_pos>
