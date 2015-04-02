@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dashboard SYSTEM "mtxdashboard.dtd">
+<dashboard>
+  <dash_geometry>
+    <width>800</width>
+    <height>600</height>
+  </dash_geometry>
+  <gauge>
+    <width>400</width>
+    <height>400</height>
+    <x_offset>0</x_offset>
+    <y_offset>0</y_offset>
+    <gauge_xml_name>Generic\Speedo.xml</gauge_xml_name>
+    <datasource>Speed</datasource>
+  </gauge>
+  <gauge>
+    <width>400</width>
+    <height>400</height>
+    <x_offset>400</x_offset>
+    <y_offset>0</y_offset>
+    <gauge_xml_name>Generic\REV.xml</gauge_xml_name>
+    <datasource>RPM</datasource>
+  </gauge>
+  <gauge>
+    <width>200</width>
+    <height>200</height>
+    <x_offset>0</x_offset>
+    <y_offset>400</y_offset>
+    <gauge_xml_name>Innovate\Water_Temp_Digital.xml</gauge_xml_name>
+    <datasource>Watertemp</datasource>
+  </gauge>
+  <gauge>
+    <width>200</width>
+    <height>200</height>
+    <x_offset>200</x_offset>
+    <y_offset>400</y_offset>
+    <gauge_xml_name>Innovate\Knock_Digital.xml</gauge_xml_name>
+    <datasource>Knock</datasource>
+  </gauge>
+  <gauge>
+    <width>200</width>
+    <height>200</height>
+    <x_offset>400</x_offset>
+    <y_offset>400</y_offset>
+    <gauge_xml_name>Innovate\AFR_Digital.xml</gauge_xml_name>
+    <datasource>Analog1</datasource>
+  </gauge>
+</dashboard>
