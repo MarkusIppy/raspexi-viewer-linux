@@ -59,14 +59,14 @@
   <show_tattletale>0</show_tattletale>
   <tattletale_alpha>0.5</tattletale_alpha>
   <precision>0</precision>
-  <width>270</width>
-  <height>270</height>
+  <width>222</width>
+  <height>222</height>
   <main_start_angle>90</main_start_angle>
   <main_sweep_angle>270</main_sweep_angle>
   <rotation>1</rotation>
   <lbound>0</lbound>
   <ubound>600</ubound>
-  <value_font>DS-Digital Bold</value_font>
+  <value_font>DS-Digital</value_font>
   <value_font_scale>0.3799999</value_font_scale>
   <value_str_xpos>0</value_str_xpos>
   <value_str_ypos>0.0217390</value_str_ypos>

@@ -66,7 +66,7 @@
   <rotation>1</rotation>
   <lbound>-1</lbound>
   <ubound>3</ubound>
-  <value_font>DS-Digital Bold</value_font>
+  <value_font>DS-Digital</value_font>
   <value_font_scale>0.3799999</value_font_scale>
   <value_str_xpos>0</value_str_xpos>
   <value_str_ypos>0.0217390</value_str_ypos>
