@@ -141,6 +141,7 @@ __Coming soon ...__   			              	|
 _Vehicle Acceleration (100km/h/s)_				|__`Accel`__			|<big>			|<big>			|<big>			|<big>
 _Force exerted in Newtons (N)_					|__`ForceN`__			|<big>			|<big>			|<big>			|<big>
 _Force exerted in G-force (G)_					|__`ForceG`__			|<big>			|<big>			|<big>			|<big>
+_Current gear number indicator (#)_				|__`Gear`__				|<big>			|<big>			|<big>			|<big>
 <big>__*__</big> Implemented but untested
 
 
