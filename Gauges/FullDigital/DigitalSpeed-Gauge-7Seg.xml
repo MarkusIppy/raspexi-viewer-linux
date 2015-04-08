@@ -59,43 +59,43 @@
   <show_tattletale>0</show_tattletale>
   <tattletale_alpha>0.5</tattletale_alpha>
   <precision>0</precision>
-  <width>699</width>
-  <height>699</height>
+  <width>746</width>
+  <height>746</height>
   <main_start_angle>0</main_start_angle>
   <main_sweep_angle>0</main_sweep_angle>
   <rotation>1</rotation>
-  <lbound>-500</lbound>
-  <ubound>500</ubound>
+  <lbound>0</lbound>
+  <ubound>400</ubound>
   <value_font>Segment7</value_font>
-  <value_font_scale>0.5</value_font_scale>
-  <value_str_xpos>0.6000000</value_str_xpos>
-  <value_str_ypos>0.2000000</value_str_ypos>
+  <value_font_scale>0.6999999</value_font_scale>
+  <value_str_xpos>0.621</value_str_xpos>
+  <value_str_ypos>0.2740000</value_str_ypos>
   <value_justification>223</value_justification>
   <antialias>1</antialias>
   <show_value>1</show_value>
   <alert_range>
     <layer>0</layer>
-    <lowpoint>100.000000</lowpoint>
-    <highpoint>150.000000</highpoint>
+    <lowpoint>115.000000</lowpoint>
+    <highpoint>120.000000</highpoint>
     <lwidth>1.000000</lwidth>
     <inset>0.500000</inset>
     <x_offset>-0.000000</x_offset>
     <y_offset>0.000000</y_offset>
     <color_day>
-      <red>0</red>
-      <green>65535</green>
+      <red>37</red>
+      <green>32768</green>
       <blue>0</blue>
     </color_day>
     <color_nite>
       <red>0</red>
-      <green>65535</green>
+      <green>32896</green>
       <blue>0</blue>
     </color_nite>
   </alert_range>
   <alert_range>
     <layer>0</layer>
-    <lowpoint>150.000000</lowpoint>
-    <highpoint>7500.000000</highpoint>
+    <lowpoint>120.000000</lowpoint>
+    <highpoint>130.000000</highpoint>
     <lwidth>1.000000</lwidth>
     <inset>0.500000</inset>
     <x_offset>-0.000000</x_offset>
@@ -103,40 +103,40 @@
     <color_day>
       <red>0</red>
       <green>0</green>
-      <blue>65535</blue>
+      <blue>32896</blue>
     </color_day>
     <color_nite>
       <red>0</red>
       <green>0</green>
-      <blue>65535</blue>
+      <blue>32896</blue>
     </color_nite>
   </alert_range>
   <alert_range>
     <layer>0</layer>
-    <lowpoint>-500.000000</lowpoint>
-    <highpoint>-100.000000</highpoint>
+    <lowpoint>130.000000</lowpoint>
+    <highpoint>200.000000</highpoint>
     <lwidth>1.000000</lwidth>
     <inset>0.500000</inset>
     <x_offset>0.000000</x_offset>
     <y_offset>0.000000</y_offset>
     <color_day>
-      <red>65535</red>
-      <green>65535</green>
+      <red>32896</red>
+      <green>0</green>
       <blue>0</blue>
     </color_day>
     <color_nite>
-      <red>65535</red>
-      <green>65535</green>
+      <red>32896</red>
+      <green>0</green>
       <blue>0</blue>
     </color_nite>
   </alert_range>
   <text_block>
     <layer>1</layer>
     <font>Nissan</font>
-    <text>kiloWatts</text>
+    <text>km/h</text>
     <font_scale>0.200000</font_scale>
     <x_pos>0.000000</x_pos>
-    <y_pos>0.350000</y_pos>
+    <y_pos>0.401000</y_pos>
     <color_day>
       <red>12850</red>
       <green>12850</green>
@@ -151,10 +151,10 @@
   <text_block>
     <layer>2</layer>
     <font>Segment7</font>
-    <text>-888</text>
-    <font_scale>0.500000</font_scale>
-    <x_pos>0.025000</x_pos>
-    <y_pos>0.005000</y_pos>
+    <text>888</text>
+    <font_scale>0.700000</font_scale>
+    <x_pos>0.000000</x_pos>
+    <y_pos>0.000000</y_pos>
     <color_day>
       <red>12850</red>
       <green>12850</green>
