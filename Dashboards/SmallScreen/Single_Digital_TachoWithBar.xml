@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dashboard SYSTEM "mtxdashboard.dtd">
+<dashboard>
+  <dash_geometry>
+    <width>320</width>
+    <height>240</height>
+  </dash_geometry>
+  <gauge>
+    <width>750</width>
+    <height>750</height>
+    <x_offset>-215</x_offset>
+    <y_offset>-70</y_offset>
+    <gauge_xml_name>FullDigital/DigitalTacho-Gauge-Bar.xml</gauge_xml_name>
+    <datasource>RPM</datasource>
+  </gauge>
+</dashboard>
