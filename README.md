@@ -46,6 +46,7 @@ baud = 57600,8,n,1
 interval = 35
 model = Mazda
 vehicle_mass = 1300
+gear_judge_nums = 230, 145, 94, 75, 50
 dash1 = Analogue_Dash_1280_720.xml
 dash2 = Commander_1280_720.xml
 dash3 = Digital_Dash_1280_720.xml
@@ -64,6 +65,8 @@ csvfile = /home/pi/raspexi/log/raspexi.csv
 * model ==> Mazda, Nissan, Subaru, Toyota
 
 * vehicle_mass ==> Mass of the vehicle in kilograms (required for __`Power`__ datasource)
+
+* gear_judge_nums ==> Gear Judge numbers to estimate the current gear. In order 1st-5th or 1st-4th, calculated from Rpm/Kph. (required for __`Gear`__ datasource)
 
 * dash1, dash2, dash3, dash4 ==> Dashboard XML file
 
@@ -95,7 +98,11 @@ The following _Descriptions_ are for information which the Power FC will return 
 
 Description										|Datasource Name		|Mazda			|Nissan			|Subaru			|Toyota
 ------------------------------------------------|:---------------------:|:-------------:|:-------------:|:-------------:|:-------------:
-__NEW !__ _Instantaneous vehicle power (kW)_	|__`Power`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Instantaneous vehicle power (kW)_	|__`Power`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Vehicle Acceleration (+100km/h)(s)_	|__`Accel`__			|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Acceleration in G-force (G)_			|__`GForce`__			|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Force exerted in Newtons (N)_		|__`ForceN`__			|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Current gear number (#)_				|__`Gear`__				|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
 _Engine Speed (rpm)_							|__`RPM`__				|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__		
 _Absolute Intake Pressure (Kg/cm2)_				|__`Intakepress`__		|<big>__✓__		|				|				|<big>__✓*__
 _Pressure Sensor Voltage (mv)_					|__`PressureV`__		|<big>__✓__		|				|				|<big>__✓*__
@@ -137,11 +144,6 @@ _Result of Analog Equation #1_                 	|__`Analog1`__			|<big>__✓__		
 _Result of Analog Equation #2_                 	|__`Analog2`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 _Result of Analog Equation #3_                 	|__`Analog3`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
 _Result of Analog Equation #4_                 	|__`Analog4`__			|<big>__✓__		|<big>__✓__		|<big>__✓__		|<big>__✓__
-__Coming soon ...__   			              	|
-_Vehicle Acceleration (100km/h/s)_				|__`Accel`__			|<big>			|<big>			|<big>			|<big>
-_Force exerted in Newtons (N)_					|__`ForceN`__			|<big>			|<big>			|<big>			|<big>
-_Force exerted in G-force (G)_					|__`ForceG`__			|<big>			|<big>			|<big>			|<big>
-_Current gear number indicator (#)_				|__`Gear`__				|<big>			|<big>			|<big>			|<big>
 <big>__*__</big> Implemented but untested
 
 
@@ -245,6 +247,7 @@ History
 -------
 Revision	|Date (d/m/y)	|Notes
 :----------:|:-------------:|------
+__R7__		|9/04/2015		|<ul><li>Added _Vehicle Acceleration_, _Acceleration in G-force_, _Force exerted in Newtons_ & _Current gear number_ datasources (by JacobD)</li></ul>
 __R6__		|15/03/2015		|<ul><li>Added support for Nissan, Subaru and Toyota (by JacobD)</li><li>Added CSV log file error handling (by JacobD)</li><li>Added XML dashboard file incorrect '_datasource_' error handling (by JacobD)</li><li>Added linear equations to define the auxiliary relationships from the config file (by JacobD)</li><li>Added _Instantaneous vehicle power_ datasource for power gauges (by JacobD)</li></ul>
 __R5__		|07/07/2014		|<ul><li>Implementation of auxiliary inputs AUX1-AUX8 (by SonicRaT)</li></ul>
 __R4__		|07/05/2014		|<ul><li>Revising and refactoring for public release (Google Code)</li></ul>

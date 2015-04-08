@@ -50,7 +50,7 @@ static gchar *map[] = {"RPM", "Intakepress", "PressureV",
 					   "na2", 
                        "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 					   "Analog1", "Analog2", "Analog3", "Analog4",
-					   "Power"};
+					   "Power", "Accel", "GForce", "ForceN", "Gear" };
 
 // Nissan and Subaru map
 static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
@@ -60,7 +60,7 @@ static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
 						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 						 "Analog1", "Analog2", "Analog3", "Analog4",
-						 "Power" };
+						 "Power", "Accel", "GForce", "ForceN", "Gear" };
 
 // Toyota map
 static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
@@ -70,14 +70,15 @@ static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
 						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 						 "Analog1", "Analog2", "Analog3", "Analog4",
-						 "Power" };
+						 "Power", "Accel", "GForce", "ForceN", "Gear" };
 
 static gdouble rtv[MAP_ELEMENTS]; // Plus one is for the last unavailable item (e.g. na2, na1)
 
 // Global values for power calculation
 static gdouble previousTime_Sec[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 static gdouble previousSpeed_kph[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-static gint power_buf_currentIndex = 0;
+static gdouble previousRev_rpm[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+static gint buf_currentIndex = 0;
 
 /*!
 	\brief Wrapper function that does a nonblocking select()/read loop .
@@ -145,25 +146,49 @@ G_MODULE_EXPORT gboolean read_wrapper(gint fd, guint8 * buf, size_t count, gint 
 
 G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
 {
-	gdouble Mass = (gdouble) (gint)DATA_GET(global_data, "vehicle_mass");
+	gdouble Mass = (gdouble)(gint)DATA_GET(global_data, "vehicle_mass");
 	gint previous_Index = 0;
+	gint gear1 = 0, gear2 = 0, gear3 = 0, gear4 = 0, gear5 = 0;
+	if ((const gchar *)DATA_GET(global_data, "gear_judge_nums") != NULL)
+	{
+		int n = sscanf((const gchar *)DATA_GET(global_data, "gear_judge_nums"), "%d%*[^0-9]%d%*[^0-9]%d%*[^0-9]%d%*[^0-9]%d", &gear1, &gear2, &gear3, &gear4, &gear5);
+	}
 
-	if (power_buf_currentIndex != 19)
-		previous_Index = power_buf_currentIndex + 1;
+	if (buf_currentIndex != 19)
+		previous_Index = buf_currentIndex + 1;
 
-	//Calculate the extra info 
-	//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
+	//Perform some averaging/smoothing window to buffered data (size of window is currently hard coded to 20)
 	gdouble speedDiff_average = 0.0;
 	for (int i = 0; i <= 19; i++)
 	{
-		if ((i == 19) && (i != power_buf_currentIndex))
+		if ((i == 19) && (i != buf_currentIndex))
 			speedDiff_average += previousSpeed_kph[0] - previousSpeed_kph[i];
-		else if (i != power_buf_currentIndex)
-			speedDiff_average += previousSpeed_kph[i+1] - previousSpeed_kph[i];
+		else if (i != buf_currentIndex)
+			speedDiff_average += previousSpeed_kph[i + 1] - previousSpeed_kph[i];
 	}
 
-	rtv[34] = Mass * (speedDiff_average / 3.6) / (previousTime_Sec[power_buf_currentIndex] - previousTime_Sec[previous_Index]) * (previousSpeed_kph[power_buf_currentIndex] / 3.6) / 1000.0;
-	
+	gdouble rev_average = 0.0;
+	for (int i = 0; i <= 19; i++){ rev_average += previousRev_rpm[0]; }
+	rev_average /= 20.0;
+
+	gdouble speed_average = 0.0;
+	for (int i = 0; i <= 19; i++){ speed_average += previousSpeed_kph[0]; }
+	speed_average /= 20.0;
+
+
+	//Calculate the "extra info"
+	//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
+	gdouble Acceleration = (speedDiff_average / 3.6) / (previousTime_Sec[buf_currentIndex] - previousTime_Sec[previous_Index]);
+
+	rtv[34] = Mass * Acceleration * (previousSpeed_kph[buf_currentIndex] / 3.6) / 1000.0;
+	rtv[35] = 100000.0 / 3600.0 / Acceleration; //Acceleration - Time it would take to increase speed 100km/h
+	rtv[36] = Acceleration / 9.80665; //One gravitational force is defined as 9.80665 m/s/s acceleration
+	rtv[37] = Mass * Acceleration; //Force in Newtons (F=ma)
+
+	//Gear Judge
+	gint N = rev_average / (speed_average == 0.0 ? 0.01 : speed_average); //Gives a set value for the current gear number which is defined in the config file
+	rtv[38] = (N > (gear1*1.5)? 0.0 : (N > ((gear1 + gear2) / 2.0) ? 1.0 : (N > ((gear2 + gear3) / 2.0) ? 2.0 : (N > ((gear3 + gear4) / 2.0) ? 3.0 : (N > ((gear4 + gear5) / 2.0) ? 4.0 : (gear5 == 0 ? 0.0 : (N > (gear5 / 2.0) ? 5.0 : 0.0)))))));
+
 	return TRUE;
 }
 G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
@@ -347,12 +372,12 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		gdouble currentTime_uSec = curTime.tv_usec;
 		int milli = currentTime_uSec / 1000;
 
-		if (power_buf_currentIndex < 19)
-			power_buf_currentIndex++;
+		if (buf_currentIndex < 19)
+			buf_currentIndex++;
 		else
-			power_buf_currentIndex = 0;
+			buf_currentIndex = 0;
 
-		previousTime_Sec[power_buf_currentIndex] = curTime.tv_sec + currentTime_uSec / 1000000.0;
+		previousTime_Sec[buf_currentIndex] = curTime.tv_sec + currentTime_uSec / 1000000.0;
 
 		if (model == 1)
 		{
@@ -360,6 +385,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			info = (fc_adv_info_t *)&buf[2];
 
 			rtv[0]  = mul[0]  * info->RPM + add[0];
+			previousRev_rpm[buf_currentIndex] = rtv[0];
 			rtv[1]  = mul[1]  * info->Intakepress + add[1];
 			rtv[2]  = mul[2]  * info->PressureV + add[2];
 			rtv[3]  = mul[3]  * info->ThrottleV + add[3];
@@ -376,7 +402,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[14] = mul[14] * info->Knock + add[14];
 			rtv[15] = mul[15] * info->BatteryV + add[15];
 			rtv[16] = mul[16] * info->Speed + add[16];
-			previousSpeed_kph[power_buf_currentIndex] = rtv[16];
+			previousSpeed_kph[buf_currentIndex] = rtv[16];
 			rtv[17] = mul[17] * info->Iscvduty + add[17];
 			rtv[18] = mul[18] * info->O2volt + add[18];
 			rtv[19] = mul[19] * info->na1 + add[19];
@@ -389,6 +415,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			info = (fc_adv_info_t_2 *)&buf[2];
 
 			rtv[0] = mul[0] * info->RPM + add[0];
+			previousRev_rpm[buf_currentIndex] = rtv[0];
 			rtv[1] = mul[1] * info->EngLoad + add[1];
 			rtv[2] = mul[2] * info->MAF1V + add[2];
 			rtv[3] = mul[3] * info->MAF2V + add[3];
@@ -407,7 +434,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[12] = mul[12] * info->Knock + add[12];
 			rtv[13] = mul[13] * info->BatteryV + add[13];
 			rtv[14] = mul[14] * info->Speed + add[14];
-			previousSpeed_kph[power_buf_currentIndex] = rtv[14];
+			previousSpeed_kph[buf_currentIndex] = rtv[14];
 			rtv[15] = mul[15] * info->MAFactivity + add[15];
 			rtv[16] = mul[16] * info->O2volt + add[16];
 			rtv[17] = mul[17] * info->O2volt_2 + add[17];
@@ -422,6 +449,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			info = (fc_adv_info_t_3 *)&buf[2];
 
 			rtv[0] = mul[0] * info->RPM + add[0];
+			previousRev_rpm[buf_currentIndex] = rtv[0];
 			rtv[1] = mul[1] * info->Intakepress + add[1];
 			rtv[2] = mul[2] * info->PressureV + add[2];
 			rtv[3] = mul[3] * info->ThrottleV + add[3];
@@ -440,7 +468,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[12] = mul[12] * info->Knock + add[12];
 			rtv[13] = mul[13] * info->BatteryV + add[13];
 			rtv[14] = mul[14] * info->Speed + add[14];
-			previousSpeed_kph[power_buf_currentIndex] = rtv[14];
+			previousSpeed_kph[buf_currentIndex] = rtv[14];
 			rtv[15] = mul[15] * info->Iscvduty + add[15];
 			rtv[16] = mul[16] * info->O2volt + add[16];
 			rtv[17] = mul[17] * info->SuctionAirTemp + add[17];
@@ -459,13 +487,13 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 
 			char currentTime[84] = "";
 			sprintf(currentTime, "%s:%03d", buffer, milli);
-			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%f,%f,%f,%f,%f\n",
+			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
 					currentTime,
 					rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9], //Power FC advanced info
 					rtv[10], rtv[11], rtv[12], rtv[13], rtv[14], rtv[15], rtv[16], rtv[17], rtv[18], rtv[20], //Power FC advanced info
 					rtv[22], rtv[23], rtv[24], rtv[25], rtv[26], rtv[27], rtv[28], rtv[29], //Power FC auxilary info
 					rtv[30], rtv[31], rtv[32], rtv[33],  // Analog equation results
-					rtv[34]); // Extra info
+					rtv[34], rtv[35], rtv[36], rtv[37], rtv[38]); // Extra info
 			fflush(csvfile);
 		}
 	}

@@ -19,7 +19,7 @@
     <x_offset>450</x_offset>
     <y_offset>300</y_offset>
     <gauge_xml_name>Digital/ForceG.xml</gauge_xml_name>
-    <datasource>ForceG</datasource>
+    <datasource>GForce</datasource>
   </gauge>
   <gauge>
     <width>300</width>

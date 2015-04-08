@@ -102,6 +102,13 @@ int main (int argc, char **argv)
 			DATA_SET(global_data, "vehicle_mass", GINT_TO_POINTER(tmpi));
 			printf("vehicle_mass = %d\n", tmpi);
 		}
+		if (cfg_read_string(cfgfile, "default", "gear_judge_nums", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "gear_judge_nums", g_strdup(tmpbuf), g_free);
+			printf("gear_judge_nums = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+		else { DATA_SET_FULL(global_data, "gear_judge_nums", g_strdup("0 0 0 0"), g_free); }
 
 		// Dashboard config info
 		if (cfg_read_string(cfgfile, "default", "dash1", &tmpbuf))
