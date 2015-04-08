@@ -59,15 +59,15 @@
   <show_tattletale>0</show_tattletale>
   <tattletale_alpha>0.5</tattletale_alpha>
   <precision>0</precision>
-  <width>233</width>
-  <height>233</height>
+  <width>222</width>
+  <height>222</height>
   <main_start_angle>90</main_start_angle>
   <main_sweep_angle>270</main_sweep_angle>
   <rotation>1</rotation>
   <lbound>0</lbound>
   <ubound>200</ubound>
   <value_font>DS-Digital</value_font>
-  <value_font_scale>0.4099999</value_font_scale>
+  <value_font_scale>0.6000000</value_font_scale>
   <value_str_xpos>-0.009007</value_str_xpos>
   <value_str_ypos>0.0360357</value_str_ypos>
   <antialias>1</antialias>
@@ -75,7 +75,7 @@
   <text_block>
     <layer>0</layer>
     <font>Agency FB Bold Oblique</font>
-    <text>Fuel Temp</text>
+    <text>Fuel</text>
     <font_scale>0.206000</font_scale>
     <x_pos>0.000000</x_pos>
     <y_pos>-0.400000</y_pos>
