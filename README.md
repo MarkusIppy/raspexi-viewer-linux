@@ -46,7 +46,7 @@ baud = 57600,8,n,1
 interval = 35
 model = Mazda
 vehicle_mass = 1300
-gear_judge_nums = 230, 145, 94, 75, 50
+gear_judge_nums = 120, 70, 45, 35, 26
 dash1 = Analogue_Dash_1280_720.xml
 dash2 = Commander_1280_720.xml
 dash3 = Digital_Dash_1280_720.xml
@@ -66,7 +66,7 @@ csvfile = /home/pi/raspexi/log/raspexi.csv
 
 * vehicle_mass ==> Mass of the vehicle in kilograms (required for __`Power`__ datasource)
 
-* gear_judge_nums ==> Gear Judge numbers to estimate the current gear. In order 1st-5th or 1st-4th, calculated from Rpm/Kph. (required for __`Gear`__ datasource)
+* gear_judge_nums ==> Gear Judge numbers to estimate the current gear. In order 1st-5th or 1st-4th, calculated from Rpm/Kph. (Can be calculated from a log file) (required for __`Gear`__ datasource)
 
 * dash1, dash2, dash3, dash4 ==> Dashboard XML file
 
