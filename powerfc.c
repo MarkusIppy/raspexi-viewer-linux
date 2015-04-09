@@ -180,7 +180,7 @@ G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
 	//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
 	gdouble Acceleration = (speedDiff_average / 3.6) / (previousTime_Sec[buf_currentIndex] - previousTime_Sec[previous_Index]);
 
-	rtv[34] = Mass * Acceleration * (previousSpeed_kph[buf_currentIndex] / 3.6) / 1000.0;
+	rtv[34] = Mass * Acceleration * (previousSpeed_kph[buf_currentIndex] / 3.6) / 1000.0; //Power in kiloWatts
 	rtv[35] = 100000.0 / 3600.0 / Acceleration; //Acceleration - Time it would take to increase speed 100km/h
 	rtv[36] = Acceleration / 9.80665; //One gravitational force is defined as 9.80665 m/s/s acceleration
 	rtv[37] = Mass * Acceleration; //Force in Newtons (F=ma)

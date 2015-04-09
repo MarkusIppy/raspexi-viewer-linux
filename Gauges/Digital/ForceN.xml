@@ -75,7 +75,7 @@
   <text_block>
     <layer>0</layer>
     <font>Agency FB Bold Oblique</font>
-    <text>Force</text>
+    <text>Torque</text>
     <font_scale>0.206000</font_scale>
     <x_pos>0.000000</x_pos>
     <y_pos>-0.400000</y_pos>
@@ -93,7 +93,7 @@
   <text_block>
     <layer>0</layer>
     <font>Agency FB Bold Oblique</font>
-    <text>N</text>
+    <text>NM</text>
     <font_scale>0.150000</font_scale>
     <x_pos>0.000000</x_pos>
     <y_pos>0.411765</y_pos>
