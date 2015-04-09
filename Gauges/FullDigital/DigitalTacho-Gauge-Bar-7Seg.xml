@@ -99,14 +99,14 @@
     <x_pos>-0.018000</x_pos>
     <y_pos>-0.424000</y_pos>
     <color_day>
-      <red>12850</red>
-      <green>12850</green>
-      <blue>12850</blue>
+      <red>2570</red>
+      <green>2570</green>
+      <blue>2570</blue>
     </color_day>
     <color_nite>
-      <red>12850</red>
-      <green>12850</green>
-      <blue>12850</blue>
+      <red>2570</red>
+      <green>2570</green>
+      <blue>2570</blue>
     </color_nite>
   </text_block>
   <tick_group>
