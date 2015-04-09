@@ -47,6 +47,9 @@ interval = 35
 model = Mazda
 vehicle_mass = 1300
 gear_judge_nums = 120, 70, 45, 35, 26
+speed_correction = 1.03
+original_tyre = 195/55 R15
+current_tyre = 225/65 R17
 dash1 = Analogue_Dash_1280_720.xml
 dash2 = Commander_1280_720.xml
 dash3 = Digital_Dash_1280_720.xml
@@ -67,6 +70,10 @@ csvfile = /home/pi/raspexi/log/raspexi.csv
 * vehicle_mass ==> Mass of the vehicle in kilograms (required for __`Power`__ datasource)
 
 * gear_judge_nums ==> Gear Judge numbers to estimate the current gear. In order 1st-5th or 1st-4th, calculated from Rpm/Kph. (Can be calculated from a log file) (required for __`Gear`__ datasource)
+
+* speed_correction ==> A simple multiplier for correction of the speedometer. For instance, can be calculated from a GPS comparison. (Takes precedence over tyre size calculation) (__`Speed`__ datasource)
+
+* original_tyre, current_tyre ==> Original/Stock tyre size (speedo calibrated tyre size) and the current tyre size for speedometer correction. (__`Speed`__ datasource) 
 
 * dash1, dash2, dash3, dash4 ==> Dashboard XML file
 
@@ -99,35 +106,35 @@ The following _Descriptions_ are for information which the Power FC will return 
 Description										|Datasource Name		|Mazda			|Nissan			|Subaru			|Toyota
 ------------------------------------------------|:---------------------:|:-------------:|:-------------:|:-------------:|:-------------:
 __NEW !__ _Instantaneous vehicle power (kW)_	|__`Power`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
-__NEW !__ _Vehicle Acceleration (+100km/h)(s)_	|__`Accel`__			|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-__NEW !__ _Acceleration in G-force (G)_			|__`GForce`__			|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-__NEW !__ _Force exerted in Newtons (N)_		|__`ForceN`__			|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-__NEW !__ _Current gear number (#)_				|__`Gear`__				|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Vehicle Acceleration (+100km/h)(s)_	|__`Accel`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Acceleration in G-force (G)_			|__`GForce`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Force exerted in Newtons (N)_		|__`ForceN`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Current gear number (#)_				|__`Gear`__				|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 _Engine Speed (rpm)_							|__`RPM`__				|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__		
 _Absolute Intake Pressure (Kg/cm2)_				|__`Intakepress`__		|<big>__✓__		|				|				|<big>__✓*__
 _Pressure Sensor Voltage (mv)_					|__`PressureV`__		|<big>__✓__		|				|				|<big>__✓*__
-_Engine Load (N)_								|__`EngLoad`__			|				|<big>__✓*__	|<big>__✓*__	|
-_Mass Flow Sensor #1 (mv)_						|__`MAF1V`__			|				|<big>__✓*__	|<big>__✓*__	|
+_Engine Load (N)_								|__`EngLoad`__			|				|<big>__✓__		|<big>__✓*__	|
+_Mass Flow Sensor #1 (mv)_						|__`MAF1V`__			|				|<big>__✓__		|<big>__✓*__	|
 _Mass Flow Sensor #2 (mv)_						|__`MAF2V`__			|				|<big>__✓*__	|<big>__✓*__	|
-_Throttle Sensor Voltage (mv)_					|__`ThrottleV`__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Throttle Sensor Voltage (mv)_					|__`ThrottleV`__		|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 _Throttle Sensor #2 Voltage(mv)_				|__`ThrottleV_2`__		|				|				|				|<big>__✓*__
-_Primary Injector Pulse Width (mSec)_          	|__`Primaryinp`__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Fuel correction_                              	|__`Fuelc`__			|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Leading Ignition Angle (deg)_                 	|__`Leadingign`__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Trailing Ignition Angle (deg)_                	|__`Trailingign`__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Primary Injector Pulse Width (mSec)_          	|__`Primaryinp`__		|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+_Fuel correction_                              	|__`Fuelc`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+_Leading Ignition Angle (deg)_                 	|__`Leadingign`__		|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+_Trailing Ignition Angle (deg)_                	|__`Trailingign`__		|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 _Fuel Temperature (deg.C)_                     	|__`Fueltemp`__			|<big>__✓__		|				|				|
 _Metering Oil Pump Duty (%)_                    |__`Moilp`__			|<big>__✓__		|				|				|
 _Boost Duty (TP.%)_                             |__`Boosttp`__			|<big>__✓__		|				|				|				|<font color="red">These are</font>
 _Boost Duty (Wg,%)_                             |__`Boostwg`__			|<big>__✓__		|				|				|				|<font color="red">to be combined</font>
 _Boost Pressure (PSI)_							|__`BoostPres`__		|				|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<font color="red">in a future</font>
 _Boost Duty (%)_								|__`BoostDuty`__		|				|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<font color="red">release.</font>
-_Water Temperature (deg. C)_                    |__`Watertemp`__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Water Temperature (deg. C)_                    |__`Watertemp`__		|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 _Intake Air Temperature (deg C)_                |__`Intaketemp`__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Knocking Level_                                |__`Knock`__			|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Battery Voltage (V)_                           |__`BatteryV`__			|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
-_Vehicle Speed (Km/h)_                          |__`Speed`__			|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
+_Knocking Level_                                |__`Knock`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+_Battery Voltage (V)_                           |__`BatteryV`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+_Vehicle Speed (Km/h)_                          |__`Speed`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 _ISCV duty (%)_                                 |__`Iscvduty`__			|<big>__✓__		|				|				|<big>__✓*__
-_Mass Air Flow sensor activity ratio (%)_		|__`MAFactivity`__		|				|<big>__✓*__	|<big>__✓*__	|		
+_Mass Air Flow sensor activity ratio (%)_		|__`MAFactivity`__		|				|<big>__✓__		|<big>__✓*__	|		
 _O2 Sensor Voltage (mv)_                       	|__`O2volt`__			|<big>__✓__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
 _O2 Sensor #2 Voltage (mV)_						|__`O2volt_2`__			|				|<big>__✓*__	|<big>__✓*__	|		
 _Secondary Injector Pulse Width (mSec)_        	|__`Secinjpulse`__		|<big>__✓__		|				|				|
@@ -247,7 +254,7 @@ History
 -------
 Revision	|Date (d/m/y)	|Notes
 :----------:|:-------------:|------
-__R7__		|9/04/2015		|<ul><li>Added _Vehicle Acceleration_, _Acceleration in G-force_, _Force exerted in Newtons_ & _Current gear number_ datasources (by JacobD)</li></ul>
+__R7__		|10/04/2015		|<ul><li>Added _Vehicle Acceleration_, _Acceleration in G-force_, _Force exerted in Newtons_ & _Current gear number_ datasources (by JacobD)</li><li>Added speed correction - calculated from a simple multiplier or from tyre sizes from the config file (by JacobD)</li></ul>
 __R6__		|15/03/2015		|<ul><li>Added support for Nissan, Subaru and Toyota (by JacobD)</li><li>Added CSV log file error handling (by JacobD)</li><li>Added XML dashboard file incorrect '_datasource_' error handling (by JacobD)</li><li>Added linear equations to define the auxiliary relationships from the config file (by JacobD)</li><li>Added _Instantaneous vehicle power_ datasource for power gauges (by JacobD)</li></ul>
 __R5__		|07/07/2014		|<ul><li>Implementation of auxiliary inputs AUX1-AUX8 (by SonicRaT)</li></ul>
 __R4__		|07/05/2014		|<ul><li>Revising and refactoring for public release (Google Code)</li></ul>

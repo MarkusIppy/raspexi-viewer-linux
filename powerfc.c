@@ -331,6 +331,26 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 		memcpy(&add, &add_temp, sizeof(add_temp));
 	}
 
+	// Speed correction from config file
+	gdouble speed_correction = 1.0;
+	if ((const gchar *)DATA_GET(global_data, "speed_correction") != NULL)
+	{
+		int n = sscanf((const gchar *)DATA_GET(global_data, "speed_correction"), "%lf", &speed_correction);
+	}
+	else if (((const gchar *)DATA_GET(global_data, "original_tyre") != NULL) &&
+		((const gchar *)DATA_GET(global_data, "current_tyre") != NULL))
+	{
+		gint orig_width = 0, orig_ratio = 0, orig_dia = 0;
+		gint curr_width = 0, curr_ratio = 0, curr_dia = 0;
+		sscanf((const gchar *)DATA_GET(global_data, "original_tyre"), "%d%*[^0-9]%d%*[^0-9]%d", &orig_width, &orig_ratio, &orig_dia);
+		sscanf((const gchar *)DATA_GET(global_data, "current_tyre"), "%d%*[^0-9]%d%*[^0-9]%d", &curr_width, &curr_ratio, &curr_dia);
+
+		gdouble roll_circ_orig = ((gdouble)orig_dia * 0.0254 + 2.0 * ((gdouble)orig_ratio / 100.0) * ((gdouble)orig_width / 1000.0));
+		gdouble	roll_circ_curr = ((gdouble)curr_dia * 0.0254 + 2.0 * ((gdouble)curr_ratio / 100.0) * ((gdouble)curr_width / 1000.0));
+
+		speed_correction = roll_circ_curr / roll_circ_orig * 0.97;
+	}
+
 	Serial_Params *serial_params = NULL;;
 	serial_params = (Serial_Params *)DATA_GET(global_data,"serial_params");
 
@@ -402,6 +422,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[14] = mul[14] * info->Knock + add[14];
 			rtv[15] = mul[15] * info->BatteryV + add[15];
 			rtv[16] = mul[16] * info->Speed + add[16];
+			rtv[16] *= speed_correction;
 			previousSpeed_kph[buf_currentIndex] = rtv[16];
 			rtv[17] = mul[17] * info->Iscvduty + add[17];
 			rtv[18] = mul[18] * info->O2volt + add[18];
@@ -434,6 +455,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[12] = mul[12] * info->Knock + add[12];
 			rtv[13] = mul[13] * info->BatteryV + add[13];
 			rtv[14] = mul[14] * info->Speed + add[14];
+			rtv[14] *= speed_correction;
 			previousSpeed_kph[buf_currentIndex] = rtv[14];
 			rtv[15] = mul[15] * info->MAFactivity + add[15];
 			rtv[16] = mul[16] * info->O2volt + add[16];
@@ -468,6 +490,7 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			rtv[12] = mul[12] * info->Knock + add[12];
 			rtv[13] = mul[13] * info->BatteryV + add[13];
 			rtv[14] = mul[14] * info->Speed + add[14];
+			rtv[14] *= speed_correction;
 			previousSpeed_kph[buf_currentIndex] = rtv[14];
 			rtv[15] = mul[15] * info->Iscvduty + add[15];
 			rtv[16] = mul[16] * info->O2volt + add[16];

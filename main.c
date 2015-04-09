@@ -110,6 +110,26 @@ int main (int argc, char **argv)
 		}
 		else { DATA_SET_FULL(global_data, "gear_judge_nums", g_strdup("0 0 0 0"), g_free); }
 
+		// Speed correction info
+		if (cfg_read_string(cfgfile, "default", "speed_correction", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "speed_correction", g_strdup(tmpbuf), g_free);
+			printf("speed_correction = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+		if (cfg_read_string(cfgfile, "default", "original_tyre", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "original_tyre", g_strdup(tmpbuf), g_free);
+			printf("original_tyre = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+		if (cfg_read_string(cfgfile, "default", "current_tyre", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "current_tyre", g_strdup(tmpbuf), g_free);
+			printf("current_tyre = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+
 		// Dashboard config info
 		if (cfg_read_string(cfgfile, "default", "dash1", &tmpbuf))
 		{
