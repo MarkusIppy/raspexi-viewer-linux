@@ -148,10 +148,10 @@ G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
 {
 	gdouble Mass = (gdouble)(gint)DATA_GET(global_data, "vehicle_mass");
 	gint previous_Index = 0;
-	gint gear1 = 0, gear2 = 0, gear3 = 0, gear4 = 0, gear5 = 0;
+	gint gear1 = 0, gear2 = 0, gear3 = 0, gear4 = 0, gear5 = 0, gear6 = 0;
 	if ((const gchar *)DATA_GET(global_data, "gear_judge_nums") != NULL)
 	{
-		int n = sscanf((const gchar *)DATA_GET(global_data, "gear_judge_nums"), "%d%*[^0-9]%d%*[^0-9]%d%*[^0-9]%d%*[^0-9]%d", &gear1, &gear2, &gear3, &gear4, &gear5);
+		int n = sscanf((const gchar *)DATA_GET(global_data, "gear_judge_nums"), "%d%*[^0-9]%d%*[^0-9]%d%*[^0-9]%d%*[^0-9]%d%*[^0-9]%d", &gear1, &gear2, &gear3, &gear4, &gear5, &gear6);
 	}
 
 	if (buf_currentIndex != 19)
@@ -187,7 +187,7 @@ G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
 
 	//Gear Judge
 	gint N = rev_average / (speed_average == 0.0 ? 0.01 : speed_average); //Gives a set value for the current gear number which is defined in the config file
-	rtv[38] = (N > (gear1*1.5)? 0.0 : (N > ((gear1 + gear2) / 2.0) ? 1.0 : (N > ((gear2 + gear3) / 2.0) ? 2.0 : (N > ((gear3 + gear4) / 2.0) ? 3.0 : (N > ((gear4 + gear5) / 2.0) ? 4.0 : (gear5 == 0 ? 0.0 : (N > (gear5 / 2.0) ? 5.0 : 0.0)))))));
+	rtv[38] = (N > (gear1*1.5) ? 0.0 : (N > ((gear1 + gear2) / 2.0) ? 1.0 : (N > ((gear2 + gear3) / 2.0) ? 2.0 : (N > ((gear3 + gear4) / 2.0) ? 3.0 : (N > ((gear4 + gear5) / 2.0) ? 4.0 : (gear5 == 0 ? 0.0 : (N > ((gear5 + gear6) / 2.0) ? 5.0 : (gear6 == 0 ? 0.0 : (N > (gear6 / 2.0) ? 6.0 : 0.0)))))))));
 
 	return TRUE;
 }

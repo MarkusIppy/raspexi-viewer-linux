@@ -108,7 +108,6 @@ int main (int argc, char **argv)
 			printf("gear_judge_nums = %s\n", tmpbuf);
 			cleanup(tmpbuf);
 		}
-		else { DATA_SET_FULL(global_data, "gear_judge_nums", g_strdup("0 0 0 0"), g_free); }
 
 		// Speed correction info
 		if (cfg_read_string(cfgfile, "default", "speed_correction", &tmpbuf))

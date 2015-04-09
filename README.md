@@ -69,7 +69,7 @@ csvfile = /home/pi/raspexi/log/raspexi.csv
 
 * vehicle_mass ==> Mass of the vehicle in kilograms (required for __`Power`__ datasource)
 
-* gear_judge_nums ==> Gear Judge numbers to estimate the current gear. In order 1st-5th or 1st-4th, calculated from Rpm/Kph. (Can be calculated from a log file) (required for __`Gear`__ datasource)
+* gear_judge_nums ==> Gear Judge numbers to estimate the current gear. In order 1st-4th, 1st-5th or 1st-6th, calculated from Rpm/Kph. (Can be calculated from a log file) (required for __`Gear`__ datasource)
 
 * speed_correction ==> A simple multiplier for correction of the speedometer. For instance, can be calculated from a GPS comparison. (Takes precedence over tyre size calculation) (__`Speed`__ datasource)
 
