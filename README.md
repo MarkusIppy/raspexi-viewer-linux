@@ -105,10 +105,10 @@ The following _Descriptions_ are for information which the Power FC will return 
 
 Description										|Datasource Name		|Mazda			|Nissan			|Subaru			|Toyota
 ------------------------------------------------|:---------------------:|:-------------:|:-------------:|:-------------:|:-------------:
-__NEW !__ _Instantaneous vehicle power (kW)_	|__`Power`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
-__NEW !__ _Vehicle Acceleration (+100km/h)(s)_	|__`Accel`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
-__NEW !__ _Acceleration in G-force (G)_			|__`GForce`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
-__NEW !__ _Force exerted in Newtons (N)_		|__`ForceN`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Vehicle power (kW)_					|__`Power`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Acceleration (+100km/h)(s)_			|__`Accel`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Acceleration (G)_					|__`GForce`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+__NEW !__ _Force exerted (N)_					|__`ForceN`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 __NEW !__ _Current gear number (#)_				|__`Gear`__				|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 _Engine Speed (rpm)_							|__`RPM`__				|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__		
 _Absolute Intake Pressure (Kg/cm2)_				|__`Intakepress`__		|<big>__✓__		|				|				|<big>__✓*__
