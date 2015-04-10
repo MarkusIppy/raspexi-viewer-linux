@@ -1,4 +1,4 @@
-<img align="right" src="https://github.com/MarkusIppy/raspexi-viewer-linux/blob/master/images/raspexi-logo_v2.png?raw=true" width="366" height="91" />
+<img align="right" src="https://github.com/MarkusIppy/raspexi-viewer-linux/blob/master/images/raspexi-logo.png?raw=true" width="366" height="91" />
 #<big>__Raspexi__<br></br></big>
 <big>_A'PEXi Power FC Interface for Raspberry Pi_</big>
 
