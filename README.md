@@ -252,12 +252,12 @@ Development
 
 History
 -------
-Revision	|Date (d/m/y)	|Notes
-:----------:|:-------------:|------
-__R7__		|10/04/2015		|<ul><li>Added _Vehicle Acceleration_, _Acceleration in G-force_, _Force exerted in Newtons_ & _Current gear number_ datasources (by JacobD)</li><li>Added speed correction - calculated from a simple multiplier or from tyre sizes from the config file (by JacobD)</li></ul>
-__R6__		|15/03/2015		|<ul><li>Added support for Nissan, Subaru and Toyota (by JacobD)</li><li>Added CSV log file error handling (by JacobD)</li><li>Added XML dashboard file incorrect '_datasource_' error handling (by JacobD)</li><li>Added linear equations to define the auxiliary relationships from the config file (by JacobD)</li><li>Added _Instantaneous vehicle power_ datasource for power gauges (by JacobD)</li></ul>
-__R5__		|07/07/2014		|<ul><li>Implementation of auxiliary inputs AUX1-AUX8 (by SonicRaT)</li></ul>
-__R4__		|07/05/2014		|<ul><li>Revising and refactoring for public release (Google Code)</li></ul>
-__R3__		|18/04/2014 	|<ul><li>Implement multiple dash board (up to 4), can be switch by key 1/2/3/4</li><li>Full screen on start</li><li>Data save to CSV file</li></ul>
-__R2__		|05/04/2014		|<ul><li>Implement PowerFC RS-232 protocol (based on fclogger.py)</li><li>Add configuration file (raspexi.cfg)</li><li>Fix issue Gauges data location</li></ul>
-__R1__		|31/03/2014		|<ul><li>Initial release</li></ul>
+Version	|Revision	|Date (d/m/y)	|Notes
+:------:|:----------:|:-------------:|------
+__v1.3__	_R7_		|10/04/2015		|<ul><li>Added _Vehicle Acceleration_, _Acceleration in G-force_, _Force exerted in Newtons_ & _Current gear number_ datasources (by JacobD)</li><li>Added speed correction - calculated from a simple multiplier or from tyre sizes from the config file (by JacobD)</li></ul>
+__v1.2__	_R6_		|15/03/2015		|<ul><li>Added support for Nissan, Subaru and Toyota (by JacobD)</li><li>Added CSV log file error handling (by JacobD)</li><li>Added XML dashboard file incorrect '_datasource_' error handling (by JacobD)</li><li>Added linear equations to define the auxiliary relationships from the config file (by JacobD)</li><li>Added _Instantaneous vehicle power_ datasource for power gauges (by JacobD)</li></ul>
+__v1.1__	_R5_		|07/07/2014		|<ul><li>Implementation of auxiliary inputs AUX1-AUX8 (by SonicRaT)</li></ul>
+__v1.0__	_R4_		|07/05/2014		|<ul><li>Revising and refactoring for public release (Google Code)</li></ul>
+__v0.3__	_R3_		|18/04/2014 	|<ul><li>Implement multiple dash board (up to 4), can be switch by key 1/2/3/4</li><li>Full screen on start</li><li>Data save to CSV file</li></ul>
+__v0.2__	_R2_		|05/04/2014		|<ul><li>Implement PowerFC RS-232 protocol (based on fclogger.py)</li><li>Add configuration file (raspexi.cfg)</li><li>Fix issue Gauges data location</li></ul>
+__v0.1__	_R1_		|31/03/2014		|<ul><li>Initial release</li></ul>
