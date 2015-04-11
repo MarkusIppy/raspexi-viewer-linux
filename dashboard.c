@@ -99,6 +99,7 @@ G_MODULE_EXPORT GtkWidget * load_dashboard(const gchar *filename, gint index)
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window),_("Raspexi Viewer ("GIT_COMMIT")"));
 	gtk_window_set_decorated(GTK_WINDOW(window),FALSE);
+	gtk_widget_modify_bg(GTK_WIDGET(window), GTK_STATE_NORMAL, &black);
 
 	g_signal_connect (G_OBJECT (window), "configure_event",
 			G_CALLBACK (dash_configure_event), NULL);
@@ -107,7 +108,7 @@ G_MODULE_EXPORT GtkWidget * load_dashboard(const gchar *filename, gint index)
 	g_signal_connect (G_OBJECT (window), "destroy_event",
 			G_CALLBACK (dummy), NULL);
 	ebox = gtk_event_box_new();
-	gtk_container_add(GTK_CONTAINER(window),ebox);
+	gtk_container_add(GTK_CONTAINER(window), ebox);
 
 	gtk_widget_add_events(GTK_WIDGET(ebox),
 			GDK_BUTTON_PRESS_MASK |
