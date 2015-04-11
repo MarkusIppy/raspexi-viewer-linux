@@ -18,6 +18,7 @@
   dashclusters active at any one time.  This code needs refactoring/improvement
   \author David Andruczyk
   */
+
 /*
  * Copyright (C) 2014 Markus Ippy
  *
@@ -26,7 +27,7 @@
 /*! 
   \file raspexi/dashboard.c
   \brief Raspexi Viewer dashboard functions
-  \author Suriyan Laohaprapanon
+  \author Suriyan Laohaprapanon & Jacob Donley
  */
 
 #include <args.h>
@@ -108,6 +109,7 @@ G_MODULE_EXPORT GtkWidget * load_dashboard(const gchar *filename, gint index)
 	g_signal_connect (G_OBJECT (window), "destroy_event",
 			G_CALLBACK (dummy), NULL);
 	ebox = gtk_event_box_new();
+	gtk_widget_modify_bg(GTK_WIDGET(ebox), GTK_STATE_NORMAL, &black);
 	gtk_container_add(GTK_CONTAINER(window), ebox);
 
 	gtk_widget_add_events(GTK_WIDGET(ebox),

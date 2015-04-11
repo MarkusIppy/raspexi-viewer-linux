@@ -14,7 +14,7 @@
 /*! 
   \file raspexi/powerfc.c
   \brief Raspexi Viewer Power FC related functions
-  \author Suriyan Laohaprapanon
+  \author Suriyan Laohaprapanon & Jacob Donley
  */
 
 #include <glib.h>

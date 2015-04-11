@@ -14,7 +14,7 @@
 /*! 
   \file raspexi/main.c
   \brief Raspexi Viewer main application code
-  \author Suriyan Laohaprapanon
+  \author Suriyan Laohaprapanon & Jacob Donley
  */
 
 #include <dashboard.h>
