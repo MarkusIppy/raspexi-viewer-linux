@@ -90,4 +90,26 @@
       <blue>61937</blue>
     </color_nite>
   </text_block>
+  <polygon>
+    <color_day>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+    </color_day>
+    <color_nite>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+    </color_nite>
+    <layer>0</layer>
+    <filled>1</filled>
+    <line_width>0.000000</line_width>
+    <line_style>0</line_style>
+    <join_style>0</join_style>
+    <Circle>
+      <x>0.000000</x>
+      <y>0.000000</y>
+      <radius>1.100000</radius>
+    </Circle>
+  </polygon>
 </gauge>
