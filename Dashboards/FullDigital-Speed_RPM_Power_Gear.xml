@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dashboard SYSTEM "mtxdashboard.dtd">
+<dashboard>
+  <dash_geometry>
+    <width>320</width>
+    <height>240</height>
+  </dash_geometry>
+  <gauge>
+    <width>360</width>
+    <height>360</height>
+    <x_offset>30</x_offset>
+    <y_offset>-70</y_offset>
+    <gauge_xml_name>FullDigital/DigitalSpeed-Gauge-7Seg.xml</gauge_xml_name>
+    <datasource>Speed</datasource>
+  </gauge>
+  <gauge>
+    <width>140</width>
+    <height>140</height>
+    <x_offset>-25</x_offset>
+    <y_offset>132</y_offset>
+    <gauge_xml_name>FullDigital/DigitalGear-Gauge-7Seg.xml</gauge_xml_name>
+    <datasource>Gear</datasource>
+  </gauge>
+  <gauge>
+    <width>140</width>
+    <height>140</height>
+    <x_offset>-34</x_offset>
+    <y_offset>38</y_offset>
+    <gauge_xml_name>FullDigital/DigitalPower-Gauge-7Seg.xml</gauge_xml_name>
+    <datasource>Power</datasource>
+  </gauge>
+  <gauge>
+    <width>140</width>
+    <height>140</height>
+    <x_offset>-25</x_offset>
+    <y_offset>-50</y_offset>
+    <gauge_xml_name>FullDigital/DigitalTacho-Gauge-7Seg.xml</gauge_xml_name>
+    <datasource>RPM</datasource>
+  </gauge>
+</dashboard>

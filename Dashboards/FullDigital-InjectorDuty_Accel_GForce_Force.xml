@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dashboard SYSTEM "mtxdashboard.dtd">
+<dashboard>
+  <dash_geometry>
+    <width>320</width>
+    <height>240</height>
+  </dash_geometry>
+  <gauge>
+    <width>360</width>
+    <height>360</height>
+    <x_offset>30</x_offset>
+    <y_offset>-70</y_offset>
+    <gauge_xml_name>FullDigital/DigitalInjectorDuty-Gauge-7Seg.xml</gauge_xml_name>
+    <datasource>PrimaryInjD</datasource>
+  </gauge>
+  <gauge>
+    <width>140</width>
+    <height>140</height>
+    <x_offset>-30</x_offset>
+    <y_offset>52</y_offset>
+    <gauge_xml_name>FullDigital/DigitalAccelGForce-Gauge-7Seg.xml</gauge_xml_name>
+    <datasource>GForce</datasource>
+  </gauge>
+  <gauge>
+    <width>140</width>
+    <height>140</height>
+    <x_offset>-30</x_offset>
+    <y_offset>145</y_offset>
+    <gauge_xml_name>FullDigital/DigitalForce-Gauge-7Seg.xml</gauge_xml_name>
+    <datasource>Force</datasource>
+  </gauge>
+  <gauge>
+    <width>140</width>
+    <height>140</height>
+    <x_offset>-25</x_offset>
+    <y_offset>-43</y_offset>
+    <gauge_xml_name>FullDigital/DigitalAccel-Gauge-7Seg.xml</gauge_xml_name>
+    <datasource>Accel</datasource>
+  </gauge>
+</dashboard>
