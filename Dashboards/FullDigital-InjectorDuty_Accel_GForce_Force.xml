@@ -27,7 +27,7 @@
     <x_offset>-30</x_offset>
     <y_offset>145</y_offset>
     <gauge_xml_name>FullDigital/DigitalForce-Gauge-7Seg.xml</gauge_xml_name>
-    <datasource>Force</datasource>
+    <datasource>ForceN</datasource>
   </gauge>
   <gauge>
     <width>140</width>
