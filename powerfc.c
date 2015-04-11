@@ -50,7 +50,7 @@ static gchar *map[] = {"RPM", "Intakepress", "PressureV",
 					   "na2", 
                        "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 					   "Analog1", "Analog2", "Analog3", "Analog4",
-					   "Power", "Accel", "GForce", "ForceN", "Gear" };
+					   "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD" };
 
 // Nissan and Subaru map
 static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
@@ -60,7 +60,7 @@ static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
 						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 						 "Analog1", "Analog2", "Analog3", "Analog4",
-						 "Power", "Accel", "GForce", "ForceN", "Gear" };
+						 "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD" };
 
 // Toyota map
 static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
@@ -70,9 +70,9 @@ static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
 						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 						 "Analog1", "Analog2", "Analog3", "Analog4",
-						 "Power", "Accel", "GForce", "ForceN", "Gear" };
+						 "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD" };
 
-static gdouble rtv[MAP_ELEMENTS]; // Plus one is for the last unavailable item (e.g. na2, na1)
+static gdouble rtv[MAP_ELEMENTS];
 
 // Global values for power calculation
 static gdouble previousTime_Sec[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
@@ -168,11 +168,11 @@ G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
 	}
 
 	gdouble rev_average = 0.0;
-	for (int i = 0; i <= 19; i++){ rev_average += previousRev_rpm[0]; }
+	for (int i = 0; i <= 19; i++){ rev_average += previousRev_rpm[i]; }
 	rev_average /= 20.0;
 
 	gdouble speed_average = 0.0;
-	for (int i = 0; i <= 19; i++){ speed_average += previousSpeed_kph[0]; }
+	for (int i = 0; i <= 19; i++){ speed_average += previousSpeed_kph[i]; }
 	speed_average /= 20.0;
 
 
@@ -180,14 +180,19 @@ G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
 	//Power = Mass x Acceleration x Velocity = Mass x (CurrentVelocity - PreviousVelocity) / (CurrentTime - PreviousTime) x CurrentVelocity
 	gdouble Acceleration = (speedDiff_average / 3.6) / (previousTime_Sec[buf_currentIndex] - previousTime_Sec[previous_Index]);
 
-	rtv[34] = Mass * Acceleration * (previousSpeed_kph[buf_currentIndex] / 3.6) / 1000.0; //Power in kiloWatts
-	rtv[35] = 100000.0 / 3600.0 / Acceleration; //Acceleration - Time it would take to increase speed 100km/h
-	rtv[36] = Acceleration / 9.80665; //One gravitational force is defined as 9.80665 m/s/s acceleration
-	rtv[37] = Mass * Acceleration; //Force in Newtons (F=ma)
+	gint AAA = FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + ANALOG_INFO_MAX_ELEMENTS;
+
+	rtv[AAA + 0] = Mass * Acceleration * (previousSpeed_kph[buf_currentIndex] / 3.6) / 1000.0; //Power in kiloWatts
+	rtv[AAA + 1] = 100000.0 / 3600.0 / Acceleration; //Acceleration - Time it would take to increase speed 100km/h
+	rtv[AAA + 2] = Acceleration / 9.80665; //One gravitational force is defined as 9.80665 m/s/s acceleration
+	rtv[AAA + 3] = Mass * Acceleration; //Force in Newtons (F=ma)
 
 	//Gear Judge
 	gint N = rev_average / (speed_average == 0.0 ? 0.01 : speed_average); //Gives a set value for the current gear number which is defined in the config file
-	rtv[38] = (N > (gear1*1.5) ? 0.0 : (N > ((gear1 + gear2) / 2.0) ? 1.0 : (N > ((gear2 + gear3) / 2.0) ? 2.0 : (N > ((gear3 + gear4) / 2.0) ? 3.0 : (N > ((gear4 + gear5) / 2.0) ? 4.0 : (gear5 == 0 ? 0.0 : (N > ((gear5 + gear6) / 2.0) ? 5.0 : (gear6 == 0 ? 0.0 : (N > (gear6 / 2.0) ? 6.0 : 0.0)))))))));
+	rtv[AAA + 4] = (N > (gear1*1.5) ? 0.0 : (N > ((gear1 + gear2) / 2.0) ? 1.0 : (N > ((gear2 + gear3) / 2.0) ? 2.0 : (N > ((gear3 + gear4) / 2.0) ? 3.0 : (N > ((gear4 + gear5) / 2.0) ? 4.0 : (gear5 == 0 ? 0.0 : (N > ((gear5 + gear6) / 2.0) ? 5.0 : (gear6 == 0 ? 0.0 : (N > (gear6 / 2.0) ? 6.0 : 0.0)))))))));
+
+	// Primary Injector Duty Cycle (%)
+	rtv[AAA + 5] = rtv[4] * previousRev_rpm[buf_currentIndex] / 600.0 / 2.0; // Divided by two for four stroke engines
 
 	return TRUE;
 }
@@ -248,38 +253,43 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 	else {
 		fc_aux_info_t *info;
 		info = (fc_aux_info_t *)&buf[2];
-		rtv[22] = mul[0] * info->AUX1 + add[0];
-		rtv[23] = mul[1] * info->AUX2 + add[1];
-		rtv[24] = mul[2] * info->AUX3 + add[2];
-		rtv[25] = mul[3] * info->AUX4 + add[3];
-		rtv[26] = mul[4] * info->AUX5 + add[4];
-		rtv[27] = mul[5] * info->AUX6 + add[5];
-		rtv[28] = mul[6] * info->AUX7 + add[6];
-		rtv[29] = mul[7] * info->AUX8 + add[7];
+
+		gint A = FC_ADV_INFO_MAX_ELEMENTS;
+
+		rtv[A + 0] = mul[0] * info->AUX1 + add[0];
+		rtv[A + 1] = mul[1] * info->AUX2 + add[1];
+		rtv[A + 2] = mul[2] * info->AUX3 + add[2];
+		rtv[A + 3] = mul[3] * info->AUX4 + add[3];
+		rtv[A + 4] = mul[4] * info->AUX5 + add[4];
+		rtv[A + 5] = mul[5] * info->AUX6 + add[5];
+		rtv[A + 6] = mul[6] * info->AUX7 + add[6];
+		rtv[A + 7] = mul[7] * info->AUX8 + add[7];
 
 
 		//Upon receiving the Auxilary analog values perform the calculations as implemented in the config file
 		gdouble val1 = 0.0, val2 = 0.0, val3 = 0.0, val4 = 0.0;
 
+		gint AA = FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS;
+
 		if ((const gchar *)DATA_GET(global_data, "analog_eq1") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq1"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[30] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
+			rtv[AA + 0] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq2") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq2"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[31] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
+			rtv[AA + 1] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq3") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq3"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[32] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
+			rtv[AA + 2] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq4") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq4"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[33] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
+			rtv[AA + 3] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
 		}
 
 	}
@@ -404,17 +414,17 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			fc_adv_info_t *info;
 			info = (fc_adv_info_t *)&buf[2];
 
-			rtv[0]  = mul[0]  * info->RPM + add[0];
+			rtv[0] = mul[0] * info->RPM + add[0];
 			previousRev_rpm[buf_currentIndex] = rtv[0];
-			rtv[1]  = mul[1]  * info->Intakepress + add[1];
-			rtv[2]  = mul[2]  * info->PressureV + add[2];
-			rtv[3]  = mul[3]  * info->ThrottleV + add[3];
-			rtv[4]  = mul[4]  * info->Primaryinp + add[4];
-			rtv[5]  = mul[5]  * info->Fuelc + add[5];
-			rtv[6]  = mul[6]  * info->Leadingign + add[6];
-			rtv[7]  = mul[7]  * info->Trailingign + add[7];
-			rtv[8]  = mul[8]  * info->Fueltemp + add[8];
-			rtv[9]  = mul[9]  * info->Moilp + add[9];
+			rtv[1] = mul[1] * info->Intakepress + add[1];
+			rtv[2] = mul[2] * info->PressureV + add[2];
+			rtv[3] = mul[3] * info->ThrottleV + add[3];
+			rtv[4] = mul[4] * info->Primaryinp + add[4];
+			rtv[5] = mul[5] * info->Fuelc + add[5];
+			rtv[6] = mul[6] * info->Leadingign + add[6];
+			rtv[7] = mul[7] * info->Trailingign + add[7];
+			rtv[8] = mul[8] * info->Fueltemp + add[8];
+			rtv[9] = mul[9] * info->Moilp + add[9];
 			rtv[10] = mul[10] * info->Boosttp + add[10];
 			rtv[11] = mul[11] * info->Boostwg + add[11];
 			rtv[12] = mul[12] * info->Watertemp + add[12];
@@ -503,20 +513,25 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 
 		FILE *csvfile;
 
-		csvfile = (FILE *)DATA_GET(global_data,"csvfile");
-		if (csvfile != NULL) {	
-			char buffer [80];
+		csvfile = (FILE *)DATA_GET(global_data, "csvfile");
+		if (csvfile != NULL) {
+			char buffer[80];
 			strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", localtime(&curTime.tv_sec));
 
 			char currentTime[84] = "";
 			sprintf(currentTime, "%s:%03d", buffer, milli);
-			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
-					currentTime,
-					rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9], //Power FC advanced info
-					rtv[10], rtv[11], rtv[12], rtv[13], rtv[14], rtv[15], rtv[16], rtv[17], rtv[18], rtv[20], //Power FC advanced info
-					rtv[22], rtv[23], rtv[24], rtv[25], rtv[26], rtv[27], rtv[28], rtv[29], //Power FC auxilary info
-					rtv[30], rtv[31], rtv[32], rtv[33],  // Analog equation results
-					rtv[34], rtv[35], rtv[36], rtv[37], rtv[38]); // Extra info
+
+			gint A = FC_ADV_INFO_MAX_ELEMENTS;
+			gint AA = A + FC_AUX_INFO_MAX_ELEMENTS;
+			gint AAA = AA + ANALOG_INFO_MAX_ELEMENTS;
+
+			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
+				currentTime,
+				rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9],					//Power FC advanced info
+				rtv[10], rtv[11], rtv[12], rtv[13], rtv[14], rtv[15], rtv[16], rtv[17], rtv[18], rtv[20],		//Power FC advanced info
+				rtv[A + 0], rtv[A + 1], rtv[A + 2], rtv[A + 3], rtv[A + 4], rtv[A + 5], rtv[A + 6], rtv[A + 7], //Power FC auxilary info
+				rtv[AA + 0], rtv[AA + 1], rtv[AA + 2], rtv[AA + 3],												// Analog equation results
+				rtv[AAA + 0], rtv[AAA + 1], rtv[AAA + 2], rtv[AAA + 3], rtv[AAA + 4], rtv[AAA + 5]);			// Extra info
 			fflush(csvfile);
 		}
 	}

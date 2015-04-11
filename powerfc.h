@@ -143,11 +143,12 @@ extern "C" {
 							"Analog3," \
 							"Analog4,"
 
-#define CSV_HEADER_EXTRA 	"Power (kW)," \
-							"Vehicle Acceleration (0-100km/h)(s)," \
-							"Vehicle Acceleration (G)," \
-							"Force exerted by vehicle (N)," \
-							"Current gear number (#),"
+#define CSV_HEADER_EXTRA 	"Power (kW),"							/*-Power			*/  \
+							"Vehicle Acceleration (0-100km/h)(s),"	/*-Accel			*/  \
+							"Vehicle Acceleration (G),"				/*-GForce			*/  \
+							"Force exerted by vehicle (N),"			/*-ForceN			*/  \
+							"Current gear number (#),"				/*-Gear				*/  \
+							"Primary Injector Duty Cycle (%), "		/*-PrimaryInjD		*/
 
 /*
 *Structure for Advanced information Group FD3S : 
@@ -257,11 +258,11 @@ typedef struct {
 /*
 * Maximum number of elements in the above structs
 */
-#define FC_ADV_INFO_MAX_ELEMENTS	21
+#define FC_ADV_INFO_MAX_ELEMENTS	21 + 1  // Plus one is for the last unavailable item (e.g. na2, na1)
 #define FC_AUX_INFO_MAX_ELEMENTS	8
 #define ANALOG_INFO_MAX_ELEMENTS	4
-#define EXTRA_INFO_MAX_ELEMENTS		5
-#define MAP_ELEMENTS				FC_ADV_INFO_MAX_ELEMENTS + 1 + FC_AUX_INFO_MAX_ELEMENTS + ANALOG_INFO_MAX_ELEMENTS + EXTRA_INFO_MAX_ELEMENTS
+#define EXTRA_INFO_MAX_ELEMENTS		6
+#define MAP_ELEMENTS				FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + ANALOG_INFO_MAX_ELEMENTS + EXTRA_INFO_MAX_ELEMENTS
 
 /*
 *Advanced Information : 
