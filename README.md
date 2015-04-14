@@ -111,6 +111,7 @@ __NEW !__ _Acceleration (G)_					|__`GForce`__			|<big>__✓*__	|<big>__✓__		|
 __NEW !__ _Force exerted (N)_					|__`ForceN`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 __NEW !__ _Current gear number (#)_				|__`Gear`__				|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 __NEW !__ _Primary injector duty cycle (%)_		|__`PrimaryInjD`__		|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+__NEW !__ _0-100km/h Timer (Sec)_				|__`AccelTimer`__		|<big>__✓*__	|<big>__✓*__	|<big>__✓*__	|<big>__✓*__
 _Engine Speed (rpm)_							|__`RPM`__				|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__		
 _Absolute Intake Pressure (Kg/cm2)_				|__`Intakepress`__		|<big>__✓__		|				|				|<big>__✓*__
 _Pressure Sensor Voltage (mv)_					|__`PressureV`__		|<big>__✓__		|				|				|<big>__✓*__
@@ -255,7 +256,7 @@ History
 -------
 Version	|Revision	|Date (d/m/y)	|Notes
 :------:|:----------:|:-------------:|------
-__TBA__ |	_TBA_	|TBA				|<ul><li>Added _Primary injector duty cycle_ datasource (JacobD)</li><li>Fixed issue where some dashboards had faint pixels/outlines around gauges (JacobD)</li><li>Minimised issue where screen would flash white when toggling between dashboards (JacobD)</li><li>Added gauges & dashboards</li></ul>
+__TBA__ |	_TBA_	|TBA				|<ul><li>Added _Primary injector duty cycle_ & _0-100km/h Timer_ datasources (JacobD)</li><li>Fixed issue where some dashboards had faint pixels/outlines around gauges (JacobD)</li><li>Minimised issue where screen would flash white when toggling between dashboards (JacobD)</li><li>Added gauges & dashboards</li></ul>
 __v1.3__ |	_R7_		|10/04/2015		|<ul><li>Added _Vehicle Acceleration_, _Acceleration in G-force_, _Force exerted in Newtons_ & _Current gear number_ datasources (JacobD)</li><li>Added speed correction - calculated from a simple multiplier or from tyre sizes from the config file (JacobD)</li></ul>
 __v1.2__ |	_R6_		|15/03/2015		|<ul><li>Added support for Nissan, Subaru and Toyota (by JacobD)</li><li>Added CSV log file error handling (JacobD)</li><li>Added XML dashboard file incorrect '_datasource_' error handling (JacobD)</li><li>Added linear equations to define the auxiliary relationships from the config file (JacobD)</li><li>Added _Instantaneous vehicle power_ datasource for power gauges (JacobD)</li></ul>
 __v1.1__ |	_R5_		|07/07/2014		|<ul><li>Implementation of auxiliary inputs AUX1-AUX8 (SonicRaT)</li></ul>

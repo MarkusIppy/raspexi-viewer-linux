@@ -50,7 +50,7 @@ static gchar *map[] = {"RPM", "Intakepress", "PressureV",
 					   "na2", 
                        "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 					   "Analog1", "Analog2", "Analog3", "Analog4",
-					   "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD" };
+					   "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD", "AccelTimer" };
 
 // Nissan and Subaru map
 static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
@@ -60,7 +60,7 @@ static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
 						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 						 "Analog1", "Analog2", "Analog3", "Analog4",
-						 "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD" };
+						 "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD", "AccelTimer" };
 
 // Toyota map
 static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
@@ -70,7 +70,7 @@ static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
 						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 						 "Analog1", "Analog2", "Analog3", "Analog4",
-						 "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD" };
+						 "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD", "AccelTimer" };
 
 static gdouble rtv[MAP_ELEMENTS];
 
@@ -79,6 +79,7 @@ static gdouble previousTime_Sec[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.
 static gdouble previousSpeed_kph[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 static gdouble previousRev_rpm[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 static gint buf_currentIndex = 0;
+static gboolean Accel_timer_flag = false;
 
 /*!
 	\brief Wrapper function that does a nonblocking select()/read loop .
@@ -155,7 +156,7 @@ G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
 	}
 
 	if (buf_currentIndex != 19)
-		previous_Index = buf_currentIndex + 1;
+		previous_Index = buf_currentIndex + 1; //Other end of buffer (not strictly the index one before)
 
 	//Perform some averaging/smoothing window to buffered data (size of window is currently hard coded to 20)
 	gdouble speedDiff_average = 0.0;
@@ -193,6 +194,25 @@ G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
 
 	// Primary Injector Duty Cycle (%)
 	rtv[AAA + 5] = rtv[4] * previousRev_rpm[buf_currentIndex] / 600.0 / 2.0; // Divided by two for four stroke engines
+
+	// Acceleration Timer
+	if (previousSpeed_kph[buf_currentIndex] == 0)
+	{
+		rtv[AAA + 6] = 0.0;
+		Accel_timer_flag = true;
+	}
+	else if ((previousSpeed_kph[buf_currentIndex] >= 100) && Accel_timer_flag)
+	{
+		Accel_timer_flag = false;
+	}
+	else if ((previousSpeed_kph[buf_currentIndex] > 0) && Accel_timer_flag)
+	{
+		if (buf_currentIndex != 0)
+			rtv[AAA + 6] += previousTime_Sec[buf_currentIndex] - previousTime_Sec[buf_currentIndex - 1]; //Add time difference
+		else
+			rtv[AAA + 6] += previousTime_Sec[buf_currentIndex] - previousTime_Sec[19]; //Add time difference
+	}
+
 
 	return TRUE;
 }
@@ -525,13 +545,13 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			gint AA = A + FC_AUX_INFO_MAX_ELEMENTS;
 			gint AAA = AA + ANALOG_INFO_MAX_ELEMENTS;
 
-			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
+			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
 				currentTime,
 				rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9],					//Power FC advanced info
 				rtv[10], rtv[11], rtv[12], rtv[13], rtv[14], rtv[15], rtv[16], rtv[17], rtv[18], rtv[20],		//Power FC advanced info
 				rtv[A + 0], rtv[A + 1], rtv[A + 2], rtv[A + 3], rtv[A + 4], rtv[A + 5], rtv[A + 6], rtv[A + 7], //Power FC auxilary info
 				rtv[AA + 0], rtv[AA + 1], rtv[AA + 2], rtv[AA + 3],												// Analog equation results
-				rtv[AAA + 0], rtv[AAA + 1], rtv[AAA + 2], rtv[AAA + 3], rtv[AAA + 4], rtv[AAA + 5]);			// Extra info
+				rtv[AAA + 0], rtv[AAA + 1], rtv[AAA + 2], rtv[AAA + 3], rtv[AAA + 4], rtv[AAA + 5], rtv[AAA + 6]);			// Extra info
 			fflush(csvfile);
 		}
 	}

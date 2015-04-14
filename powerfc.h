@@ -148,7 +148,8 @@ extern "C" {
 							"Vehicle Acceleration (G),"				/*-GForce			*/  \
 							"Force exerted by vehicle (N),"			/*-ForceN			*/  \
 							"Current gear number (#),"				/*-Gear				*/  \
-							"Primary Injector Duty Cycle (%), "		/*-PrimaryInjD		*/
+							"Primary Injector Duty Cycle (%), "		/*-PrimaryInjD		*/  \
+							"0-100km/h Timer (Sec), "				/*-AccelTimer		*/
 
 /*
 *Structure for Advanced information Group FD3S : 
@@ -261,7 +262,7 @@ typedef struct {
 #define FC_ADV_INFO_MAX_ELEMENTS	21 + 1  // Plus one is for the last unavailable item (e.g. na2, na1)
 #define FC_AUX_INFO_MAX_ELEMENTS	8
 #define ANALOG_INFO_MAX_ELEMENTS	4
-#define EXTRA_INFO_MAX_ELEMENTS		6
+#define EXTRA_INFO_MAX_ELEMENTS		7
 #define MAP_ELEMENTS				FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + ANALOG_INFO_MAX_ELEMENTS + EXTRA_INFO_MAX_ELEMENTS
 
 /*
