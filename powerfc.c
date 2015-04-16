@@ -79,7 +79,7 @@ static gdouble previousTime_Sec[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.
 static gdouble previousSpeed_kph[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 static gdouble previousRev_rpm[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 static gint buf_currentIndex = 0;
-static gboolean Accel_timer_flag = false;
+static gboolean Accel_timer_flag = FALSE;
 
 /*!
 	\brief Wrapper function that does a nonblocking select()/read loop .
@@ -199,11 +199,11 @@ G_MODULE_EXPORT gboolean powerfc_process_extra(gpointer data)
 	if (previousSpeed_kph[buf_currentIndex] == 0)
 	{
 		rtv[AAA + 6] = 0.0;
-		Accel_timer_flag = true;
+		Accel_timer_flag = TRUE;
 	}
 	else if ((previousSpeed_kph[buf_currentIndex] >= 100) && Accel_timer_flag)
 	{
-		Accel_timer_flag = false;
+		Accel_timer_flag = FALSE;
 	}
 	else if ((previousSpeed_kph[buf_currentIndex] > 0) && Accel_timer_flag)
 	{
