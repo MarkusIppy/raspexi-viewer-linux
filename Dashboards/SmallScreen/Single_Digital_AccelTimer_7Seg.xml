@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dashboard SYSTEM "mtxdashboard.dtd">
+<dashboard>
+  <dash_geometry>
+    <width>320</width>
+    <height>240</height>
+  </dash_geometry>
+  <gauge>
+    <width>500</width>
+    <height>500</height>
+    <x_offset>-90</x_offset>
+    <y_offset>-130</y_offset>
+    <gauge_xml_name>FullDigital/DigitalAccel-Gauge-7Seg.xml</gauge_xml_name>
+    <datasource>AccelTimer</datasource>
+  </gauge>
+</dashboard>
