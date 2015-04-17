@@ -71,9 +71,9 @@ csvfile = /home/pi/raspexi/log/raspexi.csv
 
 * gear_judge_nums ==> Gear Judge numbers to estimate the current gear. In order 1st-4th, 1st-5th or 1st-6th, calculated from Rpm/Kph. (Can be calculated from a log file) (required for __`Gear`__ datasource)
 
-* speed_correction ==> A simple multiplier for correction of the speedometer. For instance, can be calculated from a GPS comparison. (Takes precedence over tyre size calculation) (__`Speed`__ datasource)
+* speed_correction ==> A simple multiplier for correction of the speedometer. For instance, can be calculated from a GPS comparison. (Takes precedence over tyre size calculation) (adjusts __`Speed`__ datasource)
 
-* original_tyre, current_tyre ==> Original/Stock tyre size (speedo calibrated tyre size) and the current tyre size for speedometer correction. (__`Speed`__ datasource) 
+* original_tyre, current_tyre ==> Original/Stock tyre size (speedo calibrated tyre size) and the current tyre size for speedometer correction. (adjusts __`Speed`__ datasource) 
 
 * dash1, dash2, dash3, dash4 ==> Dashboard XML file
 

@@ -38,6 +38,17 @@ gconstpointer *global_data = NULL;
 
 int main (int argc, char **argv)
 {
+	char *artfilename = "raspexi.ascii";
+	FILE *afptr = NULL;
+	if ((afptr = fopen(artfilename, "r")) == NULL)
+		fprintf(stderr, "error opening %s\n", artfilename);
+	else{
+		char read_string[128];
+		while (fgets(read_string, sizeof(read_string), afptr) != NULL)
+			printf("%s", read_string);
+		fclose(afptr);
+	}
+
 	Serial_Params *serial_params = NULL;
 	GtkWidget *window = NULL;
 	GtkWidget *gauge = NULL;
