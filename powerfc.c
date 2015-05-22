@@ -545,7 +545,13 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			gint AA = A + FC_AUX_INFO_MAX_ELEMENTS;
 			gint AAA = AA + ANALOG_INFO_MAX_ELEMENTS;
 
-			fprintf(csvfile, "%s,%5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
+			fprintf(csvfile,
+			   "%s,\
+			    %5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,\
+				%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,\
+				%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,\
+				%f,%f,%f,%f,\
+				%f,%f,%f,%f,%f,%f,%f\n",
 				currentTime,
 				rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9],					//Power FC advanced info
 				rtv[10], rtv[11], rtv[12], rtv[13], rtv[14], rtv[15], rtv[16], rtv[17], rtv[18], rtv[20],		//Power FC advanced info
