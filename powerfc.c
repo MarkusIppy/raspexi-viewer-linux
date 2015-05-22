@@ -294,22 +294,22 @@ G_MODULE_EXPORT gboolean powerfc_process_auxiliary(gpointer data)
 		if ((const gchar *)DATA_GET(global_data, "analog_eq1") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq1"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[AA + 0] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
+			rtv[AA + 0] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS - 1] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS - 1])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq2") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq2"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[AA + 1] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
+			rtv[AA + 1] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS - 1] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS - 1])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq3") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq3"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[AA + 2] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
+			rtv[AA + 2] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS - 1] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS - 1])) + (n == 3 ? val3 : val4);
 		}
 		if ((const gchar *)DATA_GET(global_data, "analog_eq4") != NULL)
 		{
 			int n = sscanf((const gchar *)DATA_GET(global_data, "analog_eq4"), "%lf%*[^0-9]%lf%*[^0-9]%lf%*[^0-9]%lf", &val1, &val2, &val3, &val4);
-			rtv[AA + 3] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS])) + (n == 3 ? val3 : val4);
+			rtv[AA + 3] = val1 * (rtv[(int)val2 + FC_ADV_INFO_MAX_ELEMENTS - 1] - (n == 3 ? 0 : rtv[(int)val3 + FC_ADV_INFO_MAX_ELEMENTS - 1])) + (n == 3 ? val3 : val4);
 		}
 
 	}
