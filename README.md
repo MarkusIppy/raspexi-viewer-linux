@@ -23,6 +23,8 @@ Rasberry Pi with Raspbian OS. Tested versions:<br>
 * 2014-01-07-wheezy-raspbian
 * 2013-09-25-wheezy-raspbian
 * 2013-05-25-wheezy-raspbian
+* 
+WIFI dongle for use with GoPro
 
 Works on Raspberry Pi 1 and 2.
 
