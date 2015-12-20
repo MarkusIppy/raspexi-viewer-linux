@@ -83,14 +83,14 @@ csvfile = /home/pi/raspexi/log/raspexi.csv
 
 * analog_eq1, analog_eq2, analog_eq3, analog_eq4 ==> Analog equations for auxiliary input relations. (See section _'Analog Auxiliary Input Relationship Equations'_ for more details)
 
-*gopro_ip ==> Ip adress of your GoPro (seems to be always 10.5.5.9 )
+* gopro_ip ==> Ip adress of your GoPro (seems to be always 10.5.5.9 )
 
-*gopro_pass ==> Your GoPRo WIFI password 
+* gopro_pass ==> Your GoPRo WIFI password 
 
-*gopro_wifi_type ==> camera,  bacpac 
+* gopro_wifi_type ==> camera,  bacpac 
 ( Camera is used for GoPro 3 and 3+ with build in WFIF , use bacpac for Hero 2 with WIFI backpack ) 
 
-*camera_record ==> mapped keypoard button to stop and start recording (
+*camera_record ==> r (mapped keypoard button to stop and start recording ) 
 
 * csvfile ==> CSV log output file
 
@@ -118,7 +118,7 @@ The following _Descriptions_ are for information which the Power FC will return 
 
 Description										|Datasource Name		|Mazda			|Nissan			|Subaru			|Toyota
 ------------------------------------------------|:---------------------:|:-------------:|:-------------:|:-------------:|:-------------:
-__NEW !__ _GoPro recording status_					|__`Rec`__			|<big>__✓__		|<big>__✓__		|<big>__✓*_	|<big>__✓*__
+__NEW !__ _GoPro recording status_					|__`Rec`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 __NEW !__ _Vehicle power (kW)_					|__`Power`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 __NEW !__ _Acceleration (+100km/h)(s)_			|__`Accel`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 __NEW !__ _Acceleration (G)_					|__`GForce`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
