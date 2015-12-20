@@ -51,6 +51,9 @@
 #include <powerfc.h>
 #include <helpers.h>
 
+#include <pthread.h>
+#include <curl/curl.h>
+
 GdkColor black = { 0, 0, 0, 0};
 
 extern gconstpointer *global_data;
@@ -58,6 +61,7 @@ extern gconstpointer *global_data;
 /* Function prototype */
 gboolean leave(GtkWidget *widget, gpointer data);
 void toggle_visible(gint i);
+void toggle_record(GtkWidget *widget, gpointer data);
 
 /*!
   \brief load_dashboard() loads the specified dashboard configuration file
@@ -677,12 +681,23 @@ G_MODULE_EXPORT gboolean dash_motion_event(GtkWidget *widget, GdkEventMotion *ev
 G_MODULE_EXPORT gboolean dash_key_event(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	gboolean retval = FALSE;
+	gchar *key_name;
+	const gchar *key_rec;
+
 	ENTER();
-	printf("Dash Key press: %d\n", event->keyval);
+	key_name = gdk_keyval_name(event->keyval);
+	printf("Dash Key press: %d, (%s)\n", event->keyval, key_name);
 	if (event->type == GDK_KEY_RELEASE)
 	{
 		EXIT();
 		return FALSE;
+	}
+
+	key_rec = (const gchar *)DATA_GET(global_data,"camera_record");
+	if (g_ascii_strcasecmp(key_name, key_rec) == 0)
+	{
+		toggle_record(widget, NULL);
+		retval = TRUE;
 	}
 
 	switch (event->keyval)
@@ -1375,6 +1390,7 @@ G_MODULE_EXPORT gboolean update_dashboards(gpointer data)
 	{
 		powerfc_process_extra(NULL);
 		powerfc_process_auxiliary(NULL);
+		powerfc_process_misc(NULL);
 		powerfc_process_advanced(NULL);
 	}
 	g_hash_table_foreach((GHashTable *)DATA_GET(global_data, "dash_hash"), update_dash_gauge, NULL);
@@ -1411,4 +1427,95 @@ gboolean leave(GtkWidget *widget, gpointer data)
 	exit(0);
 	EXIT();
 	return TRUE;
+}
+
+static void *gopro_http_thread(void *arg)
+{
+	CURL *curl;
+	CURLcode r;
+	const gchar *ip = NULL;
+	const gchar *pass = NULL;
+	const gchar *type = NULL;
+	const gchar *cmd = NULL;
+	gchar *url = NULL;
+	gboolean state = (gboolean)arg;
+
+	curl = curl_easy_init();
+	if (curl)
+	{
+		ip = (const gchar *)DATA_GET(global_data, "gopro_ip");
+		pass = (const gchar *)DATA_GET(global_data, "gopro_pass");
+		type = (const gchar *)DATA_GET(global_data, "gopro_wifi_type");
+
+		cmd = state ? "01" : "00";
+
+		url = g_strdup_printf("http://%s/%s/SH?t=%s&p=%%%s", ip, type, pass, cmd);
+		fprintf(stderr, "HTTP request: %s\n", (const gchar *)url);
+		curl_easy_setopt(curl, CURLOPT_URL, url);
+		curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 10L);
+		/* Perform the request, res will get the return code */ 
+		r = curl_easy_perform(curl);
+		/* Check for errors */ 
+		if (r != CURLE_OK)
+		{
+			fprintf(stderr, "curl_easy_perform() failed: %s\n",
+				curl_easy_strerror(r));
+		}
+		else {
+			glong http_code = 0;
+			curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+			fprintf(stderr, "http code = %ld\n", http_code);
+			if (http_code == 200 && r != CURLE_ABORTED_BY_CALLBACK)
+			{
+			    //Succeeded
+				DATA_SET(global_data, "record", GINT_TO_POINTER(state));
+			}
+		}
+		/* always cleanup */ 
+		curl_easy_cleanup(curl);
+	}
+
+	g_free(url);
+
+	return NULL;
+}
+
+gint gopro_record(gboolean state)
+{
+	pthread_t tid;
+	gint error;
+
+	error = pthread_create(&tid,
+	                       NULL, /* default attributes please */ 
+	                       gopro_http_thread,
+	                       (void *)state);
+	if (0 != error)
+	{
+		fprintf(stderr, "Couldn't create GoPro HTTP command errno %d\n", error);
+	}
+	else
+	{
+		fprintf(stderr, "GoPro command: %d\n", (gint)state);
+	}
+
+	return error;
+}
+
+/*!
+  \brief Toggles GoPro camera record
+  \param widget is the pointer to dashboard widget
+  \param data is unused
+  */
+G_MODULE_EXPORT void toggle_record(GtkWidget *widget, gpointer data)
+{
+	ENTER();
+
+	if (!(GBOOLEAN)DATA_GET(global_data, "record"))
+	{
+		gopro_record(TRUE);
+	} else {
+		gopro_record(FALSE);
+	}
+	EXIT();
+	return;
 }

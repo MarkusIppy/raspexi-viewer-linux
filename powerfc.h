@@ -151,6 +151,8 @@ extern "C" {
 							"Primary Injector Duty Cycle (%), "		/*-PrimaryInjD		*/  \
 							"0-100km/h Timer (Sec), "				/*-AccelTimer		*/
 
+#define CSV_HEADER_MISC		"Rec"							/*- GoPro Record status */
+
 /*
 *Structure for Advanced information Group FD3S : 
 */
@@ -263,7 +265,8 @@ typedef struct {
 #define FC_AUX_INFO_MAX_ELEMENTS	8
 #define ANALOG_INFO_MAX_ELEMENTS	4
 #define EXTRA_INFO_MAX_ELEMENTS		7
-#define MAP_ELEMENTS				FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + ANALOG_INFO_MAX_ELEMENTS + EXTRA_INFO_MAX_ELEMENTS
+#define MISC_INFO_MAX_ELEMENTS		1		// Miscellaneous
+#define MAP_ELEMENTS				FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + ANALOG_INFO_MAX_ELEMENTS + EXTRA_INFO_MAX_ELEMENTS + MISC_INFO_MAX_ELEMENTS
 
 /*
 *Advanced Information : 
@@ -309,6 +312,7 @@ gdouble powerfc_get_current_value(gchar *);
 gboolean powerfc_process_advanced(gpointer);
 gboolean powerfc_process_auxiliary(gpointer);
 gboolean powerfc_process_extra(gpointer);
+gboolean powerfc_process_misc(gpointer);
 
 FILE *powerfc_open_csvfile(gchar *);
 #endif

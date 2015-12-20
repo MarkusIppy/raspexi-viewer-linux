@@ -50,7 +50,8 @@ static gchar *map[] = {"RPM", "Intakepress", "PressureV",
 					   "na2", 
                        "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 					   "Analog1", "Analog2", "Analog3", "Analog4",
-					   "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD", "AccelTimer" };
+					   "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD", "AccelTimer",
+					   "Rec" };
 
 // Nissan and Subaru map
 static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
@@ -60,7 +61,8 @@ static gchar *map2[] = { "RPM", "EngLoad", "MAF1V",
 						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 						 "Analog1", "Analog2", "Analog3", "Analog4",
-						 "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD", "AccelTimer" };
+						 "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD", "AccelTimer",
+						 "Rec" };
 
 // Toyota map
 static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
@@ -70,7 +72,8 @@ static gchar *map3[] = { "RPM", "Intakepress", "PressureV",
 						 "na1", "", "",
 						 "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8",
 						 "Analog1", "Analog2", "Analog3", "Analog4",
-						 "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD", "AccelTimer" };
+						 "Power", "Accel", "GForce", "ForceN", "Gear", "PrimaryInjD", "AccelTimer",
+						 "Rec" };
 
 static gdouble rtv[MAP_ELEMENTS];
 
@@ -138,6 +141,20 @@ G_MODULE_EXPORT gboolean read_wrapper(gint fd, guint8 * buf, size_t count, gint 
 	return TRUE;
 }
 
+/*!
+	\brief updates the value of misc info
+	\param data is unused
+	\returns TRUE unless app is closing down
+*/
+
+G_MODULE_EXPORT gboolean powerfc_process_misc(gpointer data)
+{
+	gint base = FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + ANALOG_INFO_MAX_ELEMENTS + EXTRA_INFO_MAX_ELEMENTS;
+
+	rtv[base + 0] = (GBOOLEAN)DATA_GET(global_data, "record");
+
+	return TRUE;
+}
 
 /*!
 	\brief updates the values of all gauges on all dashboards in use
@@ -544,20 +561,22 @@ G_MODULE_EXPORT gboolean powerfc_process_advanced(gpointer data)
 			gint A = FC_ADV_INFO_MAX_ELEMENTS;
 			gint AA = A + FC_AUX_INFO_MAX_ELEMENTS;
 			gint AAA = AA + ANALOG_INFO_MAX_ELEMENTS;
-
+			gint AAAA = AAA + EXTRA_INFO_MAX_ELEMENTS;
 			fprintf(csvfile,
 			   "%s,\
 			    %5.0f,%2.4f,%5.0f,%5.0f,%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%3.4f,\
 				%3.4f,%3.4f,%3.0f,%3.0f,%3.0f,%2.4f,%5.0f,%4.4f,%2.4f,%1.4f,\
 				%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,\
 				%f,%f,%f,%f,\
-				%f,%f,%f,%f,%f,%f,%f\n",
+				%f,%f,%f,%f,%f,%f,%f,%d\n",
 				currentTime,
 				rtv[0], rtv[1], rtv[2], rtv[3], rtv[4], rtv[5], rtv[6], rtv[7], rtv[8], rtv[9],					//Power FC advanced info
 				rtv[10], rtv[11], rtv[12], rtv[13], rtv[14], rtv[15], rtv[16], rtv[17], rtv[18], rtv[20],		//Power FC advanced info
 				rtv[A + 0], rtv[A + 1], rtv[A + 2], rtv[A + 3], rtv[A + 4], rtv[A + 5], rtv[A + 6], rtv[A + 7], //Power FC auxilary info
 				rtv[AA + 0], rtv[AA + 1], rtv[AA + 2], rtv[AA + 3],												// Analog equation results
-				rtv[AAA + 0], rtv[AAA + 1], rtv[AAA + 2], rtv[AAA + 3], rtv[AAA + 4], rtv[AAA + 5], rtv[AAA + 6]);			// Extra info
+				rtv[AAA + 0], rtv[AAA + 1], rtv[AAA + 2], rtv[AAA + 3], rtv[AAA + 4], rtv[AAA + 5], rtv[AAA + 6],			// Extra info
+				(gint)rtv[AAAA + 0]	// GoPro 
+				);
 			fflush(csvfile);
 		}
 	}
@@ -635,18 +654,21 @@ G_MODULE_EXPORT FILE *powerfc_open_csvfile(gchar *filename)
 				CSV_HEADER_AUX
 				CSV_HEADER_ANALOG
 				CSV_HEADER_EXTRA
+				CSV_HEADER_MISC
 				"\n");
 			else if (model == 2)
 				fprintf(csvfile, CSV_HEADER_2
 				CSV_HEADER_AUX
 				CSV_HEADER_ANALOG
 				CSV_HEADER_EXTRA
+				CSV_HEADER_MISC
 				"\n");
 			else if (model == 3)
 				fprintf(csvfile, CSV_HEADER_3
 				CSV_HEADER_AUX
 				CSV_HEADER_ANALOG
 				CSV_HEADER_EXTRA
+				CSV_HEADER_MISC
 				"\n");
 			fflush(csvfile);
 		}
