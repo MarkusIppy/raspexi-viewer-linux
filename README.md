@@ -24,6 +24,7 @@ Rasberry Pi with Raspbian OS. Tested versions:<br>
 * 2013-09-25-wheezy-raspbian
 * 2013-05-25-wheezy-raspbian
 * 
+
 WIFI dongle for use with GoPro
 
 Works on Raspberry Pi 1 and 2.
@@ -120,7 +121,7 @@ The following _Descriptions_ are for information which the Power FC will return 
 
 Description										|Datasource Name		|Mazda			|Nissan			|Subaru			|Toyota
 ------------------------------------------------|:---------------------:|:-------------:|:-------------:|:-------------:|:-------------:
-__NEW !__ _GoPro recording status_					|__`Rec`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
+__NEW !__ _GoPro recording status (0/1)_					|__`Rec`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 __NEW !__ _Vehicle power (kW)_					|__`Power`__			|<big>__✓__		|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 __NEW !__ _Acceleration (+100km/h)(s)_			|__`Accel`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
 __NEW !__ _Acceleration (G)_					|__`GForce`__			|<big>__✓*__	|<big>__✓__		|<big>__✓*__	|<big>__✓*__
@@ -271,10 +272,10 @@ Development
 9. To use GoPro use one of the methods below to establish a Adhoc WIFI between GoPro and Raspberry Pi
 
 ```
-GUI: https://www.raspberrypi.org/documentation/configuration/wireless/
+[__GUI__](https://www.raspberrypi.org/documentation/configuration/wireless/)
 ```
 ```
-CLI: https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
+[__CLI__](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
 ```
 
 History
