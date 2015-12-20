@@ -268,8 +268,12 @@ Development
 
 9. To use GoPro use one of the methods below to establish a Adhoc WIFI between GoPro and Raspberry Pi
 
+```
 GUI: https://www.raspberrypi.org/documentation/configuration/wireless/
+```
+```
 CLI: https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
+```
 
 History
 -------
