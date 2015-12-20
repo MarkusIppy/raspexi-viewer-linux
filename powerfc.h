@@ -71,15 +71,15 @@ extern "C" {
 		"Leading Ignition Angle (deg)," 					/*-Leadingign		*/ \
 		"Trailing Ignition Angle (deg),"					/*-Trailingign		*/ \
 		"Fuel Temperature (deg.C),"							/*-Fueltemp			*/ \
-		"Metering Oil Pump Duty (%),"						/*-Moilp			*/ \
-		"Boost Duty (TP %),"								/*-Boosttp			*/ \
-		"Boost Duty (Wg %),"								/*-Boostwg			*/ \
+		"Metering Oil Pump Duty (%%),"						/*-Moilp			*/ \
+		"Boost Duty (TP %%),"								/*-Boosttp			*/ \
+		"Boost Duty (Wg %%),"								/*-Boostwg			*/ \
 		"Water Temperature (deg. C),"						/*-Watertemp		*/ \
 		"Intake Air Temperature (deg C),"					/*-Intaketemp		*/ \
 		"Knocking Level," 									/*-Knock			*/ \
 		"Battery Voltage (V),"								/*-BatteryV			*/ \
 		"Vehicle Speed (Km/h),"								/*-Speed			*/ \
-		"ISCV duty (%),"									/*-Iscvduty			*/ \
+		"ISCV duty (%%),"									/*-Iscvduty			*/ \
 		"O2 Sensor Voltage (V)," 							/*-O2volt			*/ \
 		"Secondary Injector Pulse Width (mSec)," 	  		/*-Secinjpulse		*/	
  
@@ -95,13 +95,13 @@ extern "C" {
 		"Ignition Timing (deg),"		 					/*-Leadingign		*/ \
 		"Ignition Dwell Angle (deg),"						/*-Trailingign		*/ \
 		"Boost Pressure (PSI),"								/*-BoostPres		*/ \
-		"Boost Duty (%),"									/*-BoostDuty		*/ \
+		"Boost Duty (%%),"									/*-BoostDuty		*/ \
 		"Water Temperature (deg. C),"						/*-Watertemp		*/ \
 		"Intake Air Temperature (deg C),"					/*-Intaketemp		*/ \
 		"Knocking Level,"									/*-Knock			*/ \
 		"Battery Voltage (V),"								/*-BatteryV			*/ \
 		"Vehicle Speed (Km/h),"								/*-Speed			*/ \
-		"Mass Air Flow sensor activity ratio (%),"			/*-MAFactivity		*/ \
+		"Mass Air Flow sensor activity ratio (%%),"			/*-MAFactivity		*/ \
 		"O2 Sensor #1 Voltage (V),"							/*-O2volt			*/ \
 		"O2 Sensor #2 Voltage (V),"							/*-O2volt_2			*/ \
 		"Throttle Sensor Voltage (mv),,"  					/*-ThrottleV		*/
@@ -118,13 +118,13 @@ extern "C" {
 		"Leading Ignition Angle (deg)," 					/*-Leadingign		*/ \
 		"Trailing Ignition Angle (deg),"					/*-Trailingign		*/ \
 		"Boost Pressure (PSI),"								/*-BoostPres		*/ \
-		"Boost Duty (%),"									/*-BoostDuty		*/ \
+		"Boost Duty (%%),"									/*-BoostDuty		*/ \
 		"Water Temperature (deg. C),"						/*-Watertemp		*/ \
 		"Intake Air Temperature (deg C),"					/*-Intaketemp		*/ \
 		"Knocking Level,"									/*-Knock			*/ \
 		"Battery Voltage (V),"								/*-BatteryV			*/ \
 		"Vehicle Speed (Km/h),"								/*-Speed			*/ \
-		"ISCV duty (%),"									/*-Iscvduty			*/ \
+		"ISCV duty (%%),"									/*-Iscvduty			*/ \
 		"O2 Sensor Voltage (V),"							/*-O2volt			*/ \
 		"Suction In Air Temperature (mV),"					/*-SuctionAirTemp	*/ \
 		"Throttle Sensor #2 Voltage(mv),,"  				/*-ThrottleV_2		*/
@@ -148,8 +148,10 @@ extern "C" {
 							"Vehicle Acceleration (G),"				/*-GForce			*/  \
 							"Force exerted by vehicle (N),"			/*-ForceN			*/  \
 							"Current gear number (#),"				/*-Gear				*/  \
-							"Primary Injector Duty Cycle (%), "		/*-PrimaryInjD		*/  \
-							"0-100km/h Timer (Sec), "				/*-AccelTimer		*/
+							"Primary Injector Duty Cycle (%%),"		/*-PrimaryInjD		*/  \
+							"0-100km/h Timer (Sec),"				/*-AccelTimer		*/
+
+#define CSV_HEADER_MISC		"Rec"							/*- GoPro Record status */
 
 /*
 *Structure for Advanced information Group FD3S : 
@@ -263,7 +265,8 @@ typedef struct {
 #define FC_AUX_INFO_MAX_ELEMENTS	8
 #define ANALOG_INFO_MAX_ELEMENTS	4
 #define EXTRA_INFO_MAX_ELEMENTS		7
-#define MAP_ELEMENTS				FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + ANALOG_INFO_MAX_ELEMENTS + EXTRA_INFO_MAX_ELEMENTS
+#define MISC_INFO_MAX_ELEMENTS		1		// Miscellaneous
+#define MAP_ELEMENTS				FC_ADV_INFO_MAX_ELEMENTS + FC_AUX_INFO_MAX_ELEMENTS + ANALOG_INFO_MAX_ELEMENTS + EXTRA_INFO_MAX_ELEMENTS + MISC_INFO_MAX_ELEMENTS
 
 /*
 *Advanced Information : 
@@ -309,6 +312,7 @@ gdouble powerfc_get_current_value(gchar *);
 gboolean powerfc_process_advanced(gpointer);
 gboolean powerfc_process_auxiliary(gpointer);
 gboolean powerfc_process_extra(gpointer);
+gboolean powerfc_process_misc(gpointer);
 
 FILE *powerfc_open_csvfile(gchar *);
 #endif

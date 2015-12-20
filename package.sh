@@ -25,6 +25,7 @@ cp -f README.md dist/
 cp -f LICENSE dist/
 cp -f AUTHORS dist/
 cp -f raspexi.cfg dist/
+cp -f raspexi.ascii dist/
 cp -f run.sh dist/
 cp -Lf ../mtxcommon/.libs/libmtxcommon.so.0 dist/libs
 cp -Lf ../widgets/.libs/libmtxgauge.so.0 dist/libs
