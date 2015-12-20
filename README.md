@@ -273,7 +273,7 @@ Development
 
   There are various ways of configuring your WIFI :
 You can configure simply via [__GUI__](https://www.raspberrypi.org/documentation/configuration/wireless/) or via [__CLI__](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
-
+[__WICD CURSES__](http://www.raspyfi.com/wi-fi-on-raspberry-pi-a-simple-guide/)
 
 History
 -------
