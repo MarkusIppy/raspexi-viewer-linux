@@ -31,6 +31,8 @@
 #include <powerfc.h>
 #include <helpers.h>
 
+#include <curl/curl.h>
+
 /* Function prototype */
 gboolean update_dash_wrapper(gpointer );
 
@@ -210,6 +212,35 @@ int main (int argc, char **argv)
 			printf("csvfile = %s\n", tmpbuf);
 			cleanup(tmpbuf);
 		}
+
+		// GoPro configuration
+		DATA_SET(global_data, "record", GINT_TO_POINTER(FALSE));
+
+		if (cfg_read_string(cfgfile, "default", "gopro_ip", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "gopro_ip", g_strdup(tmpbuf), g_free);
+			printf("gopro_ip = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+		if (cfg_read_string(cfgfile, "default", "gopro_pass", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "gopro_pass", g_strdup(tmpbuf), g_free);
+			printf("gopro_pass = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+		if (cfg_read_string(cfgfile, "default", "gopro_wifi_type", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "gopro_wifi_type", g_strdup(tmpbuf), g_free);
+			printf("gopro_wifi_type = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+		if (cfg_read_string(cfgfile, "default", "camera_record", &tmpbuf))
+		{
+			DATA_SET_FULL(global_data, "camera_record", g_strdup(tmpbuf), g_free);
+			printf("camera_record = %s\n", tmpbuf);
+			cleanup(tmpbuf);
+		}
+		printf("Configuration loaded\n");
 	}
 	else{
 		printf("Cannot open configuration file.\n");
@@ -219,6 +250,9 @@ int main (int argc, char **argv)
 	open_serial((gchar *)DATA_GET(global_data,"port"), FALSE);
 
 	setup_serial_params();
+
+	/* Must initialize libcurl before any threads are started */ 
+	curl_global_init(CURL_GLOBAL_ALL);
 
 	/* Initialize global vars */
 	init();

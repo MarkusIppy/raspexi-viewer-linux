@@ -33,7 +33,7 @@ raspexi_DEPENDENCIES = @WIN32_RESOURCES@  ../widgets/libmtxgauge.la ../mtxcommon
 ../mtxcommon/libmtxcommon.la:
 	cd ../mtxcommon && make
 
-raspexi_LDADD = @GTK_LIBS@ @GTKGL_LIBS@ @LIBGLADE_LIBS@ -lfl ../mtxcommon/libmtxcommon.la ../widgets/libmtxgauge.la  @EXTRA_LIBS@ @WIN32_RESOURCES@ @PROF_FLAGS@
+raspexi_LDADD = @GTK_LIBS@ @GTKGL_LIBS@ @LIBGLADE_LIBS@ -lfl -lcurl ../mtxcommon/libmtxcommon.la ../widgets/libmtxgauge.la  @EXTRA_LIBS@ @WIN32_RESOURCES@ @PROF_FLAGS@
 
 raspexi_LDFLAGS = $(LTLIBINTL)
 
