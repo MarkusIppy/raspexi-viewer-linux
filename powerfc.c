@@ -592,7 +592,7 @@ G_MODULE_EXPORT gdouble powerfc_get_current_value(gchar *source)
 {
 	gint i = 0;
 	gint model = 1;
-	gchar *model_str = (const gchar *)DATA_GET(global_data, "model");
+	const gchar *model_str = (const gchar *)DATA_GET(global_data, "model");
 
 	if (g_strcmp0(model_str, "Mazda") == 0)
 		model = 1;
