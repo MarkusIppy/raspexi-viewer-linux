@@ -235,7 +235,18 @@ Development
    AC_OUTPUT
   ```
 
-5. Execute `autogen.sh` to generate build configuration.
+5. This step is only needed if you whish to install MegaTunix to use the gauge and dash designer 
+  Edit the file MegaTunix/src/main.c  and comment out line 80 -86 by adding "//" in front of each line. This disables the    OpenGl error messages when launching MegaTunix
+  ```
+    /* Check if OpenGL is supported. */                                         
+    if (gdk_gl_query() == FALSE) {
+        g_print("OpenGL not supported\n");
+        return 0;
+    }
+    else
+        gl_ability = TRUE;
+  ```
+6. Execute `autogen.sh` to generate build configuration.
 
   ```
   $ sudo ./autogen.sh CPPFLAGS="-UDATA_DIR -DDATA_DIR=\\\"./\\\""
@@ -247,7 +258,7 @@ Development
   
    If you would like to install MegaTunix so that you can create your own dashboards and gauges on the Raspberry Pi then run `sudo make install` and `sudo ldconfig`.
   
-6. Build Raspexi
+7. Build Raspexi
 
   ```
   $ cd ~/MegaTunix/raspexi
@@ -255,7 +266,7 @@ Development
   $ sudo ./compile.sh
   ```
   
-7. Install associated fonts from Raspexi's GaugeFonts directory
+8. Install associated fonts from Raspexi's GaugeFonts directory
   
   ```
   $ cd ~/MegaTunix/raspexi
@@ -263,14 +274,14 @@ Development
   $ sudo ./install_fonts.sh
   ```
     
-8. To build a binary package for deployment:
+9. To build a binary package for deployment:
   ```
   $ sudo ./package.sh
   ```
   The binary package `raspexi-yyyymmdd.tar.gz` will then be created.
 
 
-9. To use GoPro use one of the methods below to establish a Adhoc WIFI between GoPro and Raspberry Pi
+10. To use GoPro use one of the methods below to establish a Adhoc WIFI between GoPro and Raspberry Pi
 
   There are various ways of configuring your WIFI :
 You can configure simply via [__GUI__](https://www.raspberrypi.org/documentation/configuration/wireless/), [__CLI__](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or
