@@ -19,6 +19,7 @@ Installation
 #### Pre-Requisite
 
 Rasberry Pi with Raspbian OS. Tested versions:<br>
+* 2015-11-21-raspbian-jessie
 * 2015-02-18-wheezy-raspbian
 * 2014-01-07-wheezy-raspbian
 * 2013-09-25-wheezy-raspbian
@@ -109,7 +110,7 @@ You can run this release with the following command:
 
 ```
 $ cd /home/pi/raspexi
-$ ./run.sh
+$ sudo ./run.sh
 ```
 
 
@@ -204,7 +205,7 @@ Development
 2. Run the following to download __MegaTunix__ and install its dependencies (it may take a while to download and install these (>10mins)):
    ```
    $ cd ~/
-   $ sudo apt-get install pkg-config libtool intltool libgtkgl2.0-dev libgtkglext1-dev g++ gcc flex bison glade libglade2-dev make git-core gdb automake1.9
+   $ sudo apt-get install pkg-config libcurl4-openssl-dev libtool libtool-bin intltool libgtkgl2.0-dev libgtkglext1-dev g++ gcc flex bison glade libglade2-dev make git-core gdb automake1.9
    $ git clone git://github.com/djandruczyk/MegaTunix.git MegaTunix
    ```
    A good step by step installation guide for MegaTunix can be found <a href="http://www.msextra.com/forums/viewtopic.php?t=23548">__here__</a>.
@@ -214,7 +215,7 @@ Development
 
   ```
   $ cd ~/MegaTunix
-  $ git clone https://github.com/MarkusIppy/raspexi-viewer-linux raspexi
+  $ sudo git clone https://github.com/MarkusIppy/raspexi-viewer-linux raspexi
   ```
 
 4. Add the exact line `raspexi/Makefile` to MegaTunix AutoConf configuration file (`configure.ac`)
@@ -237,7 +238,7 @@ Development
 5. Execute `autogen.sh` to generate build configuration.
 
   ```
-  $ ./autogen.sh CPPFLAGS="-UDATA_DIR -DDATA_DIR=\\\"./\\\""
+  $ sudo ./autogen.sh CPPFLAGS="-UDATA_DIR -DDATA_DIR=\\\"./\\\""
   ```
     
   Command line option `CPPFLAGS="-UDATA_DIR -DDATA_DIR=\\\"./\\\""`
@@ -251,7 +252,7 @@ Development
   ```
   $ cd ~/MegaTunix/raspexi
   $ sudo chmod +x compile.sh
-  $ ./compile.sh
+  $ sudo ./compile.sh
   ```
   
 7. Install associated fonts from Raspexi's GaugeFonts directory
@@ -259,12 +260,12 @@ Development
   ```
   $ cd ~/MegaTunix/raspexi
   $ sudo chmod +x install_fonts.sh
-  $ ./install_fonts.sh
+  $ sudo ./install_fonts.sh
   ```
     
 8. To build a binary package for deployment:
   ```
-  $ ./package.sh
+  $ sudo ./package.sh
   ```
   The binary package `raspexi-yyyymmdd.tar.gz` will then be created.
 
