@@ -205,7 +205,7 @@ Development
 2. Run the following to download __MegaTunix__ and install its dependencies (it may take a while to download and install these (>10mins)):
    ```
    $ cd ~/
-   $ sudo apt-get install pkg-config libcurl4-openssl-dev libtool libtool-bin intltool libgtkgl2.0-dev libgtkglext1-dev g++ gcc flex bison glade libglade2-dev make git-core gdb automake1.9
+   $ sudo apt-get install pkg-config libcurl4-openssl-dev libtool libtool-bin intltool libgtkgl2.0-dev libgtkglext1-dev g++ gcc flex bison glade libglade2-dev make git-core gdb automake1.9 libcurl4-openssl-dev
    $ git clone git://github.com/djandruczyk/MegaTunix.git MegaTunix
    ```
    A good step by step installation guide for MegaTunix can be found <a href="http://www.msextra.com/forums/viewtopic.php?t=23548">__here__</a>.
