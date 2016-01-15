@@ -30,11 +30,11 @@ WIFI dongle for use with GoPro
 
 Works on Raspberry Pi 1 and 2.
 
-#### Tested and c Vehicles :
-Mazda RX7 FD3S (13B-REW)                    <big>__✓__
-Mazda RX7 S5 Engine with AP Engineering ECU <big>__✓__
-Nissan Skyline R33 GTS-T (RB25)             <big>__✓__
-Nissan Skyline R34 GT-T  (RB25)             <big>__✓__ 
+#### Tested Vehicles :
+* Mazda RX7 FD3S (13B-REW)                    <big>__✓__
+* Mazda RX7 S5 Engine with AP Engineering ECU <big>__✓__
+* Nissan Skyline R33 GTS-T (RB25)             <big>__✓__
+* Nissan Skyline R34 GT-T  (RB25)             <big>__✓__ 
 
 #### Install
 Extract the archive `raspexi-yyyymmdd.tar.gz` to `/home/pi`:
