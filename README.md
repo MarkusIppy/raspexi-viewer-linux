@@ -19,12 +19,12 @@ Installation
 #### Pre-Requisite
 
 Rasberry Pi with Raspbian OS. Tested versions:<br>
-* 2015-11-21-raspbian-jessie
+* 2015-11-21-raspbian-jessie works on PI 1 and PI 2
 * 2015-02-18-wheezy-raspbian
 * 2014-01-07-wheezy-raspbian
 * 2013-09-25-wheezy-raspbian
 * 2013-05-25-wheezy-raspbian
-* 
+ 
 
 WIFI dongle for use with GoPro
 
