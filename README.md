@@ -35,6 +35,8 @@ Works on Raspberry Pi 1 and 2.
 * Mazda RX7 S5 Engine with AP Engineering ECU <big>__✓__
 * Nissan Skyline R33 GTS-T (RB25)             <big>__✓__
 * Nissan Skyline R34 GT-T  (RB25)             <big>__✓__ 
+* Subaru Impreza WRX GF8  (EJ205G)            <big>__✓__ 
+
 
 #### Install
 Extract the archive `raspexi-yyyymmdd.tar.gz` to `/home/pi`:
