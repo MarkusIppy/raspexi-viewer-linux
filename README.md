@@ -19,7 +19,7 @@ Installation
 #### Pre-Requisite
 
 Rasberry Pi with Raspbian OS. Tested versions:<br>
-* 2015-11-21-raspbian-jessie works on PI 1 and PI 2
+* 2015-11-21-raspbian-jessie works on PI 1 , PI 2 and PI 3
 * 2015-02-18-wheezy-raspbian
 * 2014-01-07-wheezy-raspbian
 * 2013-09-25-wheezy-raspbian
@@ -30,12 +30,13 @@ WIFI dongle for use with GoPro
 
 Works on Raspberry Pi 1 and 2.
 
-#### Tested Vehicles :
-* Mazda RX7 FD3S (13B-REW)                    <big>__✓__
-* Mazda RX7 S5 Engine with AP Engineering ECU <big>__✓__
-* Nissan Skyline R33 GTS-T (RB25)             <big>__✓__
-* Nissan Skyline R34 GT-T  (RB25)             <big>__✓__ 
-* Subaru Impreza WRX GF8  (EJ205G)            <big>__✓__ 
+#### Tested Vehicles :                          Engine:
+* Mazda RX7 FD3S                                (13B-REW)          <big>__✓__
+* Mazda RX7 S5 Engine with AP Engineering ECU   (13B)              <big>__✓__
+* Nissan Silvia  S15 D-Jetro                    (SR20DET)          <big>__✓__
+* Nissan Skyline R33 GTS-T                      (RB25)             <big>__✓__
+* Nissan Skyline R34 GT-T                       (RB25)             <big>__✓__ 
+* Subaru Impreza WRX GF8                        (EJ205G)           <big>__✓__ 
 
 
 #### Install
