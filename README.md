@@ -308,3 +308,77 @@ __v1.0__ |	_R4_		|07/05/2014		|<ul><li>Revising and refactoring for public relea
 __v0.3__ |	_R3_		|18/04/2014 	|<ul><li>Implement multiple dash board (up to 4), can be switch by key 1/2/3/4</li><li>Full screen on start</li><li>Data save to CSV file</li></ul>
 __v0.2__ |	_R2_		|05/04/2014		|<ul><li>Implement PowerFC RS-232 protocol (based on fclogger.py)</li><li>Add configuration file (raspexi.cfg)</li><li>Fix issue Gauges data location</li></ul>
 __v0.1__ |	_R1_		|31/03/2014		|<ul><li>Initial release</li></ul>
+
+11. Automatically start raspexi at boot (without starting X Desktop)
+
+First make shure your pi is set to boot to Console (CLI)
+
+```
+$ sudo apt-get install matchbox
+$ sudo apt-get install x11-xserver-utils
+$ sudo apt-get install unclutter
+```
+
+Create a file called startraspexi
+
+```
+$ sudo nano /home/pi/startraspexi
+```
+TODO : Copy my script
+
+
+Edit  rc.local 
+
+```
+$ sudo nano /etc/rc.local
+```
+
+Scroll to the bottom and add the following above exit 0:
+```
+sudo xinit /home/pi/startraspexi
+```
+
+reboot your pi , and watch raspexi starting auomatically
+
+```
+$ sudo reboot
+```
+
+12.Launch a custom video at boot with OMXPLayer
+
+```
+$ sudo nano /etc/systemd/system/bootsplash.service
+```
+
+Copy the following content into the file and save it ( this example assumes you have a video called "Raspexi.mp4" in the folder: "/home/pi/"  :
+```
+[Unit]
+Description=BootSplash
+DefaultDependencies=no
+After=local-fs.target
+Before=basic.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/omxplayer /home/pi/Raspexi.mp4
+
+[Install]
+WantedBy=getty.target
+```
+
+
+Test if the script works:
+```
+$ sudo systemctl start /etc/systemd/system/bootsplash.service
+```
+If the video is playing , then enable the script:
+```
+$ sudo systemctl enable /etc/systemd/system/bootsplash.service
+```
+Reboot your pi and you should see your video at boot 
+```
+$ sudo reboot
+```
+
+
+ 
