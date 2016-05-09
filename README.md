@@ -299,10 +299,25 @@ You can configure simply via [__GUI__](https://www.raspberrypi.org/documentation
 [__WICD CURSES__](http://www.raspyfi.com/wi-fi-on-raspberry-pi-a-simple-guide/)
 
 
-11. Automatically start raspexi at boot (without starting X Desktop)
+11. Automatically start raspexi at boot without starting X Desktop (only works on linx distros which uses systemd eg Jessie)
+ 
+First make shure your pi is set to boot to Console (you can set this in raspberry pi configuration) 
 
-First make shure your pi is set to boot to Console (CLI)
+Now we need to get get the pi to boot with a blank screen instead of all the messages.
+change console=tty1 to console=tty3 to redirect all the text to a different console 
+change loglevel to 3 and hide the raspberry logo by adding logo.nologo
+last but not least add the option -quiet .
 
+```
+$ sudo nano /boot/cmdline.txt
+```
+Here a example of my cmdline.txt
+
+```
+dwc_otg.lpm_enable=0 console=serial0,115200 console=tty3 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline fsck.repair=yes loglevel=3 rootwait logo.nologo -quiet 
+```
+
+Now we install Matchbox ( window manager ),unclutter to hide the mouse pointer and x11 xserver-utils
 ```
 $ sudo apt-get install matchbox
 $ sudo apt-get install x11-xserver-utils
@@ -314,39 +329,76 @@ Create a file called startraspexi
 ```
 $ sudo nano /home/pi/startraspexi
 ```
+Insert the following text into startraspexi
+
 ```
 #!/bin/sh
-xset -dpms
-xset s off
-unclutter &
+xset -dpms     # disable DPMS (Energy Star) features.
+xset s off       # disable screen saver
+xset s noblank # don't blank the video device
+unclutter -root -idle 0.1 &
 matchbox-window-manager &
 /home/pi/raspexi/run.sh
 ```
-
-Edit  rc.local 
+Make startraspexi executable
 
 ```
-$ sudo nano /etc/rc.local
+sudo chmod +x /home/pi/startraspexi
 ```
 
-Scroll to the bottom and add the following above exit 0:
+Create a sercive to launch the startraspexi script at boot 
+
 ```
-sudo xinit /home/pi/startraspexi
+$ sudo nano /etc/systemd/system/raspexi.service
+
 ```
 
-reboot your pi , and watch raspexi starting auomatically
+Insert the following text into raspexi.service
 
+```
+[Unit]
+
+Description=Raspexi
+
+[Service]
+
+Type=simple
+
+ExecStart=/usr/bin/xinit /home/pi/startraspexi
+
+[Install]
+
+WantedBy=multi-user.target
+
+```
+
+Test if the script works:
+```
+$ sudo systemctl start /etc/systemd/system/raspexi.service
+```
+If Raspexi is launching , quit it by pressing 'q' on the keyboard:
+
+Now enable the script 
+
+```
+$ sudo systemctl enable /etc/systemd/system/raspexi.service
+```
+
+Reboot your pi and you should see Raspexi starting at boot 
+ 
 ```
 $ sudo reboot
 ```
 
-12.Launch a custom video at boot with OMXPlayer
+
+12.Launch a custom video at boot with OMXPlayer (only works on linx distros which uses systemd eg Jessie)
 
 ```
 $ sudo nano /etc/systemd/system/bootsplash.service
 ```
 
 Copy the following content into the file and save it ( this example assumes you have a video called "Raspexi.mp4" in the folder: "/home/pi/"  :
+
 ```
 [Unit]
 Description=BootSplash
@@ -355,11 +407,12 @@ After=local-fs.target
 Before=basic.target
 
 [Service]
-Type=oneshot
-ExecStart=/usr/bin/omxplayer /home/pi/Raspexi.mp4
+Type=simple
+ExecStart=/usr/bin/omxplayer -b /home/pi/Raspexi.mp4
 
 [Install]
 WantedBy=getty.target
+
 ```
 
 
@@ -388,5 +441,3 @@ __v1.0__ |	_R4_		|07/05/2014		|<ul><li>Revising and refactoring for public relea
 __v0.3__ |	_R3_		|18/04/2014 	|<ul><li>Implement multiple dash board (up to 4), can be switch by key 1/2/3/4</li><li>Full screen on start</li><li>Data save to CSV file</li></ul>
 __v0.2__ |	_R2_		|05/04/2014		|<ul><li>Implement PowerFC RS-232 protocol (based on fclogger.py)</li><li>Add configuration file (raspexi.cfg)</li><li>Fix issue Gauges data location</li></ul>
 __v0.1__ |	_R1_		|31/03/2014		|<ul><li>Initial release</li></ul>
-
- 
