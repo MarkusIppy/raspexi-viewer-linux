@@ -19,6 +19,8 @@ Installation
 #### Pre-Requisite
 
 Rasberry Pi with Raspbian OS. Tested versions:<br>
+
+* 2016-03-18-raspbian-jessie works on PI 1 , PI 2 and PI 3
 * 2015-11-21-raspbian-jessie works on PI 1 , PI 2 and PI 3
 * 2015-02-18-wheezy-raspbian
 * 2014-01-07-wheezy-raspbian
@@ -28,7 +30,7 @@ Rasberry Pi with Raspbian OS. Tested versions:<br>
 
 WIFI dongle for use with GoPro
 
-Works on Raspberry Pi 1 and 2.
+Works on Raspberry Pi 1/2/3 (you can use built in WIFI for Pi3)
 
 #### Tested Vehicles :                          Engine:
 * Mazda RX7 FD3S                                (13B-REW)          <big>__✓__
