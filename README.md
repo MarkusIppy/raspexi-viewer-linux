@@ -20,6 +20,8 @@ Installation
 
 Rasberry Pi with Raspbian OS. Tested versions:<br>
 
+
+* 2016-05-10-raspbian-jessie works on PI 1 , PI 2 and PI 3
 * 2016-03-18-raspbian-jessie works on PI 1 , PI 2 and PI 3
 * 2015-11-21-raspbian-jessie works on PI 1 , PI 2 and PI 3
 * 2015-02-18-wheezy-raspbian
