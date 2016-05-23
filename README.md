@@ -211,15 +211,15 @@ Once you have saved the custom Gauges and Dashboards in the XML file format you 
 
 Development
 -----------
-1. Download or clone the original MegaTunix source code using:
+1. Download or clone the original forked MegaTunix source code using:
   ```
-  $ git clone https://github.com/djandruczyk/MegaTunix
+  $ git clone https://github.com/MarkusIppy/MegaTunix
   ```
 2. Run the following to download __MegaTunix__ and install its dependencies (it may take a while to download and install these (>10mins)):
    ```
    $ cd ~/
    $ sudo apt-get install pkg-config libcurl4-openssl-dev libtool libtool-bin intltool libgtkgl2.0-dev libgtkglext1-dev g++ gcc flex bison glade libglade2-dev make git-core gdb automake1.9
-   $ git clone git://github.com/djandruczyk/MegaTunix.git MegaTunix
+   $ git clone https://github.com/MarkusIppy/MegaTunix MegaTunix
    ```
    A good step by step installation guide for MegaTunix can be found <a href="http://www.msextra.com/forums/viewtopic.php?t=23548">__here__</a>.
   (See [`README.md`](https://github.com/djandruczyk/MegaTunix/blob/master/README.md) in MegaTunix for more detail)
@@ -232,7 +232,7 @@ Development
   ```
 
 4. Add the exact line `raspexi/Makefile` to MegaTunix AutoConf configuration file (`configure.ac`)
-  or apply the following patch.
+  or apply the following patch (only needed if you use the original megatunix source instead of our fork ) 
 
   ```
   diff --git a/configure.ac b/configure.ac
@@ -243,12 +243,12 @@ Development
    MegaTunix64_dbg.iss
    Doxyfile
    WIN_NOTES.txt
-  +raspexi/Makefile
+   raspexi/Makefile
    ])
    AC_OUTPUT
   ```
 
-5. This step is only needed if you whish to install MegaTunix to use the gauge and dash designer 
+5. This step is only needed if you whish to install MegaTunix to use the gauge and dash designer on older rasbian distros .
   Edit the file MegaTunix/src/main.c  and comment out line 80 -86 by adding "//" in front of each line. This disables the    OpenGl error messages when launching MegaTunix
   ```
     /* Check if OpenGL is supported. */                                         
