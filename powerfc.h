@@ -250,7 +250,7 @@ typedef struct {
 	unsigned char AUX7;
 	unsigned char AUX8;
 } fc_aux_info_t;
-
+0
 typedef struct {
 	unsigned char Analog1;
 	unsigned char Analog2;
@@ -260,7 +260,7 @@ typedef struct {
 
 /*
 * Maximum number of elements in the above structs
-*/
+.*/
 #define FC_ADV_INFO_MAX_ELEMENTS	21 + 1  // Plus one is for the last unavailable item (e.g. na2, na1)
 #define FC_AUX_INFO_MAX_ELEMENTS	8
 #define ANALOG_INFO_MAX_ELEMENTS	4
@@ -298,8 +298,8 @@ typedef struct {
 #define FC_ADV_INFO_MUL		{1, 0.0001, 1, 1, 1.0/256, 1.0/256,  1,  1,  1, 212.0/256, 0.4, 0.4,  1,  1, 1, 0.1, 1, 0.1, 0.02, 1, 1.0/256, 1}
 #define FC_ADV_INFO_ADD		{0,-1.0332, 0, 0,       0,       0,-25,-25,-80,         0,   0,   0,-80,-80, 0,   0, 0,   0,    0, 0,       0, 0}
 //Nissan and Subaru
-#define FC_ADV_INFO_MUL_2	{1, 1, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 0.005,  1,  1, 1, 0.1, 1, 0.1, 0.02, 0.02, 1, 1}
-#define FC_ADV_INFO_ADD_2	{0, 0, 0, 0,       0,       0, 0, 0, 0,     0,-80,-80, 0,   0, 0,   0,    0,    0, 0, 0}
+#define FC_ADV_INFO_MUL_2	{1, 1, 1, 1, 1.0/256, 1.0/256, 1, 1, 1.0/0.00256, 0.005,  1,  1, 1, 0.1, 1, 0.1, 0.02, 0.02, 1, 1}
+#define FC_ADV_INFO_ADD_2	{0, 0, 0, 0,       0,       0, 0, 0, 0,	     0,-80,-80, 0,   0, 0,   0,    0,    0, 0, 0}
 //Toyota
 #define FC_ADV_INFO_MUL_3	{1, 0.0001, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 0.005,  1,  1, 1, 0.1, 1, 0.1, 0.02,  1, 1, 1}
 #define FC_ADV_INFO_ADD_3	{0,-1.0332, 0, 0,       0,       0, 0, 0, 0,     0,-80,-80, 0,   0, 0,   0,    0,-80, 0, 0}
