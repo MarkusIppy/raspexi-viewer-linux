@@ -1,7 +1,7 @@
 
-Raspexi is no longer maintained and hs been replaced by 
-https://github.com/BastianGschrey/PowerTune
 
+#### Raspexi is no longer maintained and has been replaced with its successor PowerTune   
+https://github.com/BastianGschrey/PowerTune
 
 <img align="right" src="https://github.com/MarkusIppy/raspexi-viewer-linux/blob/master/images/raspexi-logo.png?raw=true" width="366" height="91" />
 #<big>__Raspexi__<br></br></big>
